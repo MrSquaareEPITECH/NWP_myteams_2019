@@ -14,7 +14,9 @@ myteams_server
 *.gcno
 
 # Resources
-res/
+res/**
+!res/DATABASE-*.md
+!res/RFC-*.md
 
 # Jetbrains
 compile_commands.json

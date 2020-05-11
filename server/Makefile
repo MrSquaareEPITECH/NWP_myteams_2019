@@ -19,14 +19,40 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+LDLIBS				=		-luuid
+
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=
+PROJ_SRC			=		channel/channel.c				\
+							channel/channel_list.c			\
+							channel/channel_list_xml.c		\
+							channel/channel_xml.c			\
+							client/client.c					\
+							client/client_list.c			\
+							comment/comment.c				\
+							comment/comment_list.c			\
+							comment/comment_list_xml.c		\
+							comment/comment_xml.c			\
+							message/message.c				\
+							message/message_list.c			\
+							private/private.c				\
+							private/private_list.c			\
+							server/server.c					\
+							team/team.c						\
+							team/team_list_xml.c			\
+							team/team_list.c				\
+							team/team_xml.c					\
+							thread/thread.c					\
+							thread/thread_list.c			\
+							thread/thread_list_xml.c		\
+							thread/thread_xml.c				\
+							user/user.c						\
+							user/user_list.c				\
 
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra -Werror
+CFLAGS				+=		-W -Wall -Wextra # TODO: -Werror
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
