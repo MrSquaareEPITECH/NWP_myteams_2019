@@ -19,35 +19,48 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
-LDLIBS				=		-luuid
+LDLIBS				=		-luuid -lpcre
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		channel/channel.c				\
-							channel/channel_list.c			\
-							channel/channel_list_xml.c		\
-							channel/channel_xml.c			\
-							client/client.c					\
-							client/client_list.c			\
-							comment/comment.c				\
-							comment/comment_list.c			\
-							comment/comment_list_xml.c		\
-							comment/comment_xml.c			\
-							message/message.c				\
-							message/message_list.c			\
-							private/private.c				\
-							private/private_list.c			\
-							server/server.c					\
-							team/team.c						\
-							team/team_list_xml.c			\
-							team/team_list.c				\
-							team/team_xml.c					\
-							thread/thread.c					\
-							thread/thread_list.c			\
-							thread/thread_list_xml.c		\
-							thread/thread_xml.c				\
-							user/user.c						\
-							user/user_list.c				\
+PROJ_SRC			=		channel/channel.c					\
+							channel/channel_list.c				\
+							channel/channel_list_xml.c			\
+							channel/channel_xml.c				\
+							client/client.c						\
+							client/client_list.c				\
+							comment/comment.c					\
+							comment/comment_list.c				\
+							comment/comment_list_xml.c			\
+							comment/comment_xml.c				\
+							list/list.c							\
+							message/message.c					\
+							message/message_list.c				\
+							message/message_list_xml.c			\
+							message/message_xml.c				\
+							pcre/pcre.c							\
+							private/private.c					\
+							private/private_list.c				\
+							private/private_list_xml.c			\
+							private/private_xml.c				\
+							server/server.c						\
+							subscriber/subscriber.c				\
+							subscriber/subscriber_list.c		\
+							subscriber/subscriber_list_xml.c	\
+							subscriber/subscriber_xml.c			\
+							team/team.c							\
+							team/team_list_xml.c				\
+							team/team_list.c					\
+							team/team_xml.c						\
+							thread/thread.c						\
+							thread/thread_list.c				\
+							thread/thread_list_xml.c			\
+							thread/thread_xml.c					\
+							user/user.c							\
+							user/user_list.c					\
+							user/user_list_xml.c				\
+							user/user_xml.c						\
+							xml/xml.c							\
 
 TEST_SRC			=
 

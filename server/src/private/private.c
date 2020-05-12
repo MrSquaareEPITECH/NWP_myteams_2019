@@ -20,7 +20,7 @@ private_t *private_create(const char *uuid)
     memset(this->uuid, 0, sizeof(this->uuid));
     strncpy(this->uuid, uuid, UUID_LENGTH);
 
-    this->messages = NULL;
+    this->messages = message_list_create();
 
     return (this);
 }

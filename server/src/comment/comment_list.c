@@ -51,7 +51,7 @@ void comment_list_delete(comment_list_t *this)
         return;
 
     for (comment_node_t *node = this->begin; node;) {
-        comment_node_t* current = node;
+        comment_node_t *current = node;
         node = node->next;
         comment_delete(current->comment);
         free(current);

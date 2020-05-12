@@ -51,7 +51,7 @@ void client_list_delete(client_list_t *this)
         return;
 
     for (client_node_t *node = this->begin; node;) {
-        client_node_t* current = node;
+        client_node_t *current = node;
         node = node->next;
         client_delete(current->client);
         free(current);

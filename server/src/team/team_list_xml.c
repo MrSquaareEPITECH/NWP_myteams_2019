@@ -16,6 +16,9 @@
 
 team_list_t *team_list_xml_import(const char *xml)
 {
+    (void)(xml);
+
+    return (NULL);
 }
 
 char *team_list_xml_export(const team_list_t *team_list)

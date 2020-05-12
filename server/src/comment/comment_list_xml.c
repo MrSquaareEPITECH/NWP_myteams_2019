@@ -16,6 +16,9 @@
 
 comment_list_t *comment_list_xml_import(const char *xml)
 {
+    (void)(xml);
+
+    return (NULL);
 }
 
 char *comment_list_xml_export(const comment_list_t *comment_list)

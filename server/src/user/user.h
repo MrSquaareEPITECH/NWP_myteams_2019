@@ -21,6 +21,7 @@ struct user_s {
 };
 
 user_t *user_create(const char *name);
+int user_compare_name(user_t *this, const char *name);
 void user_delete(user_t *this);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_USER_USER_H

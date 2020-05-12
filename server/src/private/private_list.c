@@ -62,7 +62,7 @@ void private_list_delete(private_list_t *this)
         return;
 
     for (private_node_t *node = this->begin; node;) {
-        private_node_t* current = node;
+        private_node_t *current = node;
         node = node->next;
         private_delete(current->private);
         free(current);

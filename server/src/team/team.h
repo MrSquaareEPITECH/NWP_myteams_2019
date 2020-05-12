@@ -10,7 +10,7 @@
 
 #include "channel/channel_list.h"
 #include "def/length.h"
-#include "user/user_list.h"
+#include "subscriber/subscriber_list.h"
 
 typedef struct team_s team_t;
 
@@ -20,7 +20,7 @@ struct team_s {
     char description[MAX_DESCRIPTION_LENGTH + 1];
 
     channel_list_t *channels;
-    user_list_t *users;
+    subscriber_list_t *subscribers;
 };
 
 team_t *team_create(const char *name, const char *description);

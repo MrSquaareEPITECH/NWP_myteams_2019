@@ -51,7 +51,7 @@ void message_list_delete(message_list_t *this)
         return;
 
     for (message_node_t *node = this->begin; node;) {
-        message_node_t* current = node;
+        message_node_t *current = node;
         node = node->next;
         message_delete(current->message);
         free(current);

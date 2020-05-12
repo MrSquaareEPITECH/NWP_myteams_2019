@@ -29,6 +29,7 @@ team_t *team_create(const char *name, const char *description)
     strncpy(this->description, description, MAX_DESCRIPTION_LENGTH);
 
     this->channels = channel_list_create();
+    this->subscribers = subscriber_list_create();
 
     return (this);
 }
@@ -39,6 +40,7 @@ void team_delete(team_t *this)
         return;
 
     channel_list_delete(this->channels);
+    subscriber_list_delete(this->subscribers);
 
     free(this);
 }

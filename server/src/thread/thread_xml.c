@@ -16,6 +16,9 @@
 
 thread_t *thread_xml_import(const char *xml)
 {
+    (void)(xml);
+
+    return (NULL);
 }
 
 char *thread_xml_export(const thread_t *thread)

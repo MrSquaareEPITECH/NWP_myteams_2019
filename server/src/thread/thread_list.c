@@ -62,7 +62,7 @@ void thread_list_delete(thread_list_t *this)
         return;
 
     for (thread_node_t *node = this->begin; node;) {
-        thread_node_t* current = node;
+        thread_node_t *current = node;
         node = node->next;
         thread_delete(current->thread);
         free(current);

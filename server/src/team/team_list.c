@@ -62,7 +62,7 @@ void team_list_delete(team_list_t *this)
         return;
 
     for (team_node_t *node = this->begin; node;) {
-        team_node_t* current = node;
+        team_node_t *current = node;
         node = node->next;
         team_delete(current->team);
         free(current);

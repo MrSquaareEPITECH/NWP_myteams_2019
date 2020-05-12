@@ -10,14 +10,15 @@
 #include "channel_xml.h"
 
 #include <stdio.h>
-#include <regex.h>
 
 #include "def/code.h"
 #include "thread/thread_list_xml.h"
 
 channel_t *channel_xml_import(const char *xml)
 {
+    (void)(xml);
 
+    return (NULL);
 }
 
 char *channel_xml_export(const channel_t *channel)

@@ -62,7 +62,7 @@ void channel_list_delete(channel_list_t *this)
         return;
 
     for (channel_node_t *node = this->begin; node;) {
-        channel_node_t* current = node;
+        channel_node_t *current = node;
         node = node->next;
         channel_delete(current->channel);
         free(current);

@@ -2,42 +2,42 @@
 ** EPITECH PROJECT, 2020
 ** NWP_myteams_2019
 ** File description:
-** channel_list_xml.c
+** private_list_xml.c
 */
 
 #define _GNU_SOURCE
 
-#include "channel_list_xml.h"
+#include "private_list_xml.h"
 
 #include <stdio.h>
 
-#include "channel_xml.h"
 #include "def/code.h"
+#include "private_xml.h"
 
-channel_list_t *channel_list_xml_import(const char *xml)
+private_list_t *private_list_xml_import(const char *xml)
 {
     (void)(xml);
 
     return (NULL);
 }
 
-char *channel_list_xml_export(const channel_list_t *channel_list)
+char *private_list_xml_export(const private_list_t *private_list)
 {
     char *xml = NULL;
 
-    if (asprintf(&xml, "<channels>\n") == CODE_INVALID)
+    if (asprintf(&xml, "<privates>\n") == CODE_INVALID)
         return (NULL);
 
-    for (channel_node_t *node = channel_list->begin; node; node = node->next)
+    for (private_node_t *node = private_list->begin; node; node = node->next)
         if (asprintf(&xml,
                 "%s"
                 "%s\n",
-                xml, channel_xml_export(node->channel)) == CODE_INVALID)
+                xml, private_xml_export(node->private)) == CODE_INVALID)
             return (NULL);
 
     if (asprintf(&xml,
             "%s"
-            "</channels>",
+            "</privates>",
             xml) == CODE_INVALID)
         return (NULL);
 
