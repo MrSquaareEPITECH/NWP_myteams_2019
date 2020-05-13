@@ -7,26 +7,32 @@
 
 #include "my.h"
 
-// int client_loop(int fd_serve, int fd_client)
+// int get_command(client_t *cli)
 // {
-//     char buffer[1024] = {0};
-
-//     read(fd_serve, buffer, 1024);
+//     memset(cli->buffer, 0, SIZE_OF_BUFFER);
+//     read(cli->port, cli->buffer, SIZE_OF_BUFFER);
 //     if (my_strcmp(buffer, "Hello world\n") == 0) {
-//         write(fd_serve, "close\n", 6);
+//         fprintf(fd_serve, "close\n");
 //         close(fd_client);
 //         return (0);
 //     }
 // }
 
-int set_client(client_t *cli, int port)
+void main_loop(client_t *cli)
+{
+    while (loop) {
+//        get_command();
+    }
+}
+
+int set_client(client_t *cli)
 {
 	cli->fd_client = socket(AF_INET, SOCK_STREAM, 0);
     if (cli->fd_client < 0) {
         perror("Socket: ");
         return (ERROR_FUNCTION);
     }
-	cli->sin.sin_port = htons(port);
+	cli->sin.sin_port = htons(cli->port);
 	cli->sin.sin_family = AF_INET;
     if (inet_pton(AF_INET, "127.0.0.1" , &cli->sin.sin_addr.s_addr) < 0) {
         perror("Connect: ");
@@ -43,9 +49,9 @@ void connect_client(int port)
 {
     client_t *cli = malloc(sizeof(client_t));
 
-    set_client(cli, port);
-//    write(port, "close\n", 6);
-//    client_loop(port, fd_client);
+    cli->port = port;
+    set_client(cli);
+    main_loop(cli);
 }
 
 int main(int ac, char **av)

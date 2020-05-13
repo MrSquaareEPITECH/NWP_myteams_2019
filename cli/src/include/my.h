@@ -18,11 +18,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define SIZE_OF_BUFFER (1024)
 #define ERROR_FUNCTION (-1)
 #define SUCCESS (0)
 
 typedef struct client_s {
+    int port;
 	int fd_client;
+    char buffer[1024];
 	struct sockaddr_in sin;
 	socklen_t len;
 } client_t;
