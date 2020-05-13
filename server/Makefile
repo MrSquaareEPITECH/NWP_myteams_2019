@@ -19,7 +19,9 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
-LDLIBS				=		-luuid -lpcre
+CFLAGS				=		-I /usr/include/libxml2
+
+LDLIBS				=		-luuid -lpcre -lexpat -lxml2
 
 MAIN_SRC			=		main.c
 
@@ -61,6 +63,8 @@ PROJ_SRC			=		channel/channel.c					\
 							user/user_list_xml.c				\
 							user/user_xml.c						\
 							xml/xml.c							\
+							xml/xml_expat.c						\
+							xml/xml_libxml2.c					\
 
 TEST_SRC			=
 
