@@ -30,12 +30,26 @@ private_t *private_xml_import(xml_element_t *element)
     return (private);
 }
 
+private_t *private_xml_libxml2_import(xmlNodePtr node)
+{
+    private_t *private = malloc(sizeof(private_t));
+
+    memset(private->uuid, 0, UUID_LENGTH + 1);
+    strncpy(private->uuid, node->properties->children->content, UUID_LENGTH);
+
+    for (xmlNodePtr child = node->children; child; child = child->next)
+        if (xmlStrcmp(child->name, "messages") == 0)
+            private->messages = message_list_xml_libxml2_import(child);
+
+    return (private);
+}
+
 char *private_xml_export(const private_t *private)
 {
     char *xml = NULL;
     char *messages_xml = message_list_xml_export(private->messages);
 
-    if (asprintf(&xml, "<private id=\"%s\">\n%s\n</private>", private->uuid,
+    if (asprintf(&xml, "\t\t\t<private id=\"%s\">\n%s\n\t\t\t</private>", private->uuid,
             messages_xml) == CODE_INVALID)
         return (NULL);
 

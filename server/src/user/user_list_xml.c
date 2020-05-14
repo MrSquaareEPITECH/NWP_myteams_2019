@@ -38,6 +38,22 @@ user_list_t *user_list_xml_import(xml_element_t *element)
     return (list);
 }
 
+user_list_t *user_list_xml_libxml2_import(xmlNodePtr node)
+{
+    user_list_t *list = user_list_create();
+
+    for (xmlNodePtr children = node->children; children;
+         children = children->next) {
+        if (xmlStrcmp(children->name, "user") == 0) {
+            user_t *user = user_xml_libxml2_import(children);
+
+            list->push(list, user);
+        }
+    }
+
+    return (list);
+}
+
 char *user_list_xml_export(const user_list_t *user_list)
 {
     char *xml = NULL;

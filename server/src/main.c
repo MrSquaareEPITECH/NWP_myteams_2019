@@ -69,9 +69,20 @@ int main(void)
 
     printf("EQUAL ? : %d\n", !strcmp(users_xml, users_loaded_xml));
 
+    xmlDocPtr doc = xmlReadMemory(users_xml, (int)(strlen(users_xml)), NULL, NULL, 0);
+    xmlNodePtr root = xmlDocGetRootElement(doc);
+    user_list_t *users_loaded2 = user_list_xml_libxml2_import(root);
+    xmlFreeDoc(doc);
+
+    char *users_loaded_xml2 = user_list_xml_export(users_loaded2);
+
+    printf("EQUAL ? : %d\n", !strcmp(users_xml, users_loaded_xml2));
+
     free(users_xml);
     free(users_loaded_xml);
+    free(users_loaded_xml2);
     team_list_delete(teams);
     user_list_delete(users);
     user_list_delete(users_loaded);
+    user_list_delete(users_loaded2);
 }

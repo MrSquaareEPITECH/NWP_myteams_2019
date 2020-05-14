@@ -55,11 +55,48 @@ message_list_t *message_list_xml_import(xml_element_t *element)
     return (list);
 }
 
+message_list_t *message_list_xml_libxml2_import(xmlNodePtr node)
+{
+    message_list_t *list = message_list_create();
+    char **messages = strsplit(node->children->content, "\n");
+
+    for (int i = 0; messages[i]; ++i) {
+        message_t *message = malloc(sizeof(message_t));
+
+        memset(message->body, 0, sizeof(message->body));
+
+        int *matches = pcre_match(
+            messages[i], (int)(strlen(messages[i])), "\"(\\d+)\" \"(.*)\"", 2);
+
+        if (matches[3] <= matches[2] || matches[5] <= matches[4])
+            continue;
+
+        char *timestamp = strndup(&(messages[i][matches[2]]), matches[3] - matches[2]);
+
+        message->timestamp = strtol(timestamp, NULL, 10);
+
+        char *body = strndup(&(messages[i][matches[4]]), matches[5] - matches[4]);
+
+        strncpy(message->body, body, MAX_BODY_LENGTH);
+
+        free(body);
+        free(timestamp);
+        free(matches);
+        free(messages[i]);
+
+        list->push(list, message);
+    }
+
+    free(messages);
+
+    return (list);
+}
+
 char *message_list_xml_export(const message_list_t *message_list)
 {
     char *xml = NULL;
 
-    if (asprintf(&xml, "<messages>\n") == CODE_INVALID)
+    if (asprintf(&xml, "\t\t\t\t<messages>\n") == CODE_INVALID)
         return (NULL);
 
     for (message_node_t *node = message_list->begin; node; node = node->next) {
@@ -75,7 +112,7 @@ char *message_list_xml_export(const message_list_t *message_list)
 
     char *tmp = xml;
 
-    if (asprintf(&xml, "%s</messages>", xml) == CODE_INVALID)
+    if (asprintf(&xml, "%s\t\t\t\t</messages>", xml) == CODE_INVALID)
         return (NULL);
 
     free(tmp);

@@ -37,11 +37,26 @@ private_list_t *private_list_xml_import(xml_element_t *element)
     return (list);
 }
 
+private_list_t *private_list_xml_libxml2_import(xmlNodePtr node)
+{
+    private_list_t *list = private_list_create();
+
+    for (xmlNodePtr child = node->children; child; child = child->next) {
+        if (xmlStrcmp(child->name, "private") == 0) {
+            private_t *private = private_xml_libxml2_import(child);
+
+            list->push(list, private);
+        }
+    }
+
+    return (list);
+}
+
 char *private_list_xml_export(const private_list_t *private_list)
 {
     char *xml = NULL;
 
-    if (asprintf(&xml, "<privates>\n") == CODE_INVALID)
+    if (asprintf(&xml, "\t\t<privates>\n") == CODE_INVALID)
         return (NULL);
 
     for (private_node_t *node = private_list->begin; node; node = node->next) {
@@ -57,7 +72,7 @@ char *private_list_xml_export(const private_list_t *private_list)
 
     char *tmp = xml;
 
-    if (asprintf(&xml, "%s</privates>", xml) == CODE_INVALID)
+    if (asprintf(&xml, "%s\t\t</privates>", xml) == CODE_INVALID)
         return (NULL);
 
     free(tmp);

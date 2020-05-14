@@ -10,15 +10,15 @@ Version 1.0
 <threads>
 <thread id="%THREAD_UUID%" timestamp="%THREAD_TIMESTAMP%" name="%THREAD_NAME%" description="%THREAD_DESCRIPTION%">
 "%TIMESTAMP%" "%BODY%"
-...
+<!-- ... -->
 "%TIMESTAMP%" "%BODY%"
 </thread>
 </threads>
 </channel>
 </channels>
 <subscribers>
-"%USER_NAME%"
-...
+"%USER_ID%"
+<!-- ... -->
 "%USER_NAME%"
 </subscribers>
 </team>
@@ -29,11 +29,11 @@ Version 1.0
 
 ```xml
 <users>
-<user id="%USER_NAME%">
+<user id="%USER_ID%" name="%USER_NAME%">
 <privates>
-<private id="%USER_NAME">
+<private id="%USER_ID">
 "%TIMESTAMP%" "%BODY%"
-...
+<!-- ... -->
 "%TIMESTAMP%" "%BODY%"
 </private>
 </privates>

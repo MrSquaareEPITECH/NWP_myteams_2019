@@ -24,7 +24,7 @@ char *message_xml_export(const message_t *message)
 {
     char *xml = NULL;
 
-    if (asprintf(&xml, "\"%ld\" \"%s\"", message->timestamp, message->body) ==
+    if (asprintf(&xml, "\t\t\t\t\t\"%ld\" \"%s\"", message->timestamp, message->body) ==
         CODE_INVALID)
         return (NULL);
 

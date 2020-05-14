@@ -32,14 +32,30 @@ user_t *user_xml_import(xml_element_t *element)
     return (user);
 }
 
+user_t *user_xml_libxml2_import(xmlNodePtr node)
+{
+    user_t *user = malloc(sizeof(user_t));
+
+    memset(user->uuid, 0, UUID_LENGTH + 1);
+    strncpy(user->uuid, node->properties->children->content, UUID_LENGTH);
+    memset(user->name, 0, MAX_NAME_LENGTH + 1);
+    strncpy(user->name, node->properties->next->children->content, MAX_NAME_LENGTH);
+
+    for (xmlNodePtr child = node->children; child; child = child->next)
+        if (xmlStrcmp(child->name, "privates") == 0)
+            user->privates = private_list_xml_libxml2_import(child);
+
+    return (user);
+}
+
 char *user_xml_export(const user_t *user)
 {
     char *xml = NULL;
     char *privates_xml = private_list_xml_export(user->privates);
 
     if (asprintf(&xml,
-            "<user id=\"%s\" name=\"%s\">\n"
-            "%s\n</user>",
+            "\t<user id=\"%s\" name=\"%s\">\n"
+            "%s\n\t</user>",
             user->uuid, user->name, privates_xml) == CODE_INVALID)
         return (NULL);
 
