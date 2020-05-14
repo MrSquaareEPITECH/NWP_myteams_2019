@@ -9,8 +9,9 @@
 #define NWP_MYTEAMS_2019_SERVER_SRC_PRIVATE_PRIVATE_XML_H
 
 #include "private.h"
+#include "xml/xml.h"
 
-private_t *private_xml_import(const char *xml);
+private_t *private_xml_import(xml_element_t *element);
 char *private_xml_export(const private_t *private);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_PRIVATE_PRIVATE_XML_H

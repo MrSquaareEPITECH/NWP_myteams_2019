@@ -10,6 +10,7 @@
 #include "comment_list_xml.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "comment_xml.h"
 #include "def/code.h"
@@ -28,18 +29,23 @@ char *comment_list_xml_export(const comment_list_t *comment_list)
     if (asprintf(&xml, "<comments>\n") == CODE_INVALID)
         return (NULL);
 
-    for (comment_node_t *node = comment_list->begin; node; node = node->next)
-        if (asprintf(&xml,
-                "%s"
-                "%s\n",
-                xml, comment_xml_export(node->comment)) == CODE_INVALID)
+    for (comment_node_t *node = comment_list->begin; node; node = node->next) {
+        char *tmp = xml;
+        char *comment_xml = comment_xml_export(node->comment);
+
+        if (asprintf(&xml, "%s%s\n", xml, comment_xml) == CODE_INVALID)
             return (NULL);
 
-    if (asprintf(&xml,
-            "%s"
-            "</comments>",
-            xml) == CODE_INVALID)
+        free(comment_xml);
+        free(tmp);
+    }
+
+    char *tmp = xml;
+
+    if (asprintf(&xml, "%s</comments>", xml) == CODE_INVALID)
         return (NULL);
+
+    free(tmp);
 
     return (xml);
 }

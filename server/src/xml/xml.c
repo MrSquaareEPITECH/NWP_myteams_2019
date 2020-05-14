@@ -47,6 +47,8 @@ static int xml_element_attributes(xml_element_t *element, const char *attr)
         element->attributes[i] = attribute;
     }
 
+    free(matches);
+
     return (0);
 }
 
@@ -67,8 +69,12 @@ static int xml_element_content(xml_element_t *element, const char *xml)
     if (end > &xml[matches[1]])
         element->content = strndup(&xml[matches[1]], end - &xml[matches[1]]);
 
-    free(reg);
+    element->bounds[0] = matches[0];
+    element->bounds[1] = (end + strlen(find)) - xml;
+
+    free(matches);
     free(find);
+    free(reg);
 
     return (0);
 }
@@ -76,6 +82,10 @@ static int xml_element_content(xml_element_t *element, const char *xml)
 xml_element_t *xml_element_create(const char *xml)
 {
     xml_element_t *element = malloc(sizeof(xml_element_t));
+
+    element->name = NULL;
+    element->content = NULL;
+    memset(element->bounds, 0, sizeof(int) * 2);
 
     if (element == NULL)
         return (NULL);
@@ -89,7 +99,7 @@ xml_element_t *xml_element_create(const char *xml)
     if (matches[3] > matches[2])
         element->name = strndup(&xml[matches[2]], matches[3] - matches[2]);
 
-    const char *attributes_raw = NULL;
+    char *attributes_raw = NULL;
 
     if (matches[5] > matches[4])
         attributes_raw = strndup(&xml[matches[4]], matches[5] - matches[4]);
@@ -98,6 +108,9 @@ xml_element_t *xml_element_create(const char *xml)
         return (NULL);
     if (xml_element_content(element, xml))
         return (NULL);
+
+    free(attributes_raw);
+    free(matches);
 
     return element;
 }
@@ -109,8 +122,11 @@ void xml_element_delete(xml_element_t *element)
 
     free(element->name);
 
-    for (int i = 0; element->attributes[i]; ++i)
+    for (int i = 0; element->attributes[i]; ++i) {
+        free(element->attributes[i]->name);
+        free(element->attributes[i]->value);
         free(element->attributes[i]);
+    }
     free(element->attributes);
 
     free(element->content);

@@ -30,8 +30,6 @@
 #define thread(obj) ((thread_t *)(obj))
 #define user(obj) ((user_t *)(obj))
 
-// TODO: 4351
-
 typedef struct list_s list_t;
 typedef struct node_s node_t;
 

@@ -17,8 +17,8 @@ subscriber_t *subscriber_create(const char *uuid)
     if (this == NULL)
         return (NULL);
 
-    memset(this->uuid, 0, UUID_LENGTH);
-    strncpy(this->uuid, uuid, UUID_LENGTH - 1);
+    memset(this->uuid, 0, sizeof(this->uuid));
+    strncpy(this->uuid, uuid, UUID_LENGTH);
 
     return (this);
 }

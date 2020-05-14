@@ -6,11 +6,14 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "team/team_list.h"
 #include "team/team_list_xml.h"
 #include "user/user_list.h"
 #include "user/user_list_xml.h"
+#include "xml/xml.h"
 
 int main(void)
 {
@@ -52,13 +55,23 @@ int main(void)
     users->push(users, user2);
     users->push(users, user3);
 
-    char *xml1 = team_list_xml_export(teams);
+    char *users_xml = user_list_xml_export(users);
 
-    printf("%s\n", xml1);
+    printf("%s\n", users_xml);
 
-    char *xml2 = user_list_xml_export(users);
+    xml_element_t *users_element = xml_element_create(users_xml);
+    user_list_t *users_loaded = user_list_xml_import(users_element);
+    xml_element_delete(users_element);
 
-    printf("%s\n", xml2);
+    char *users_loaded_xml = user_list_xml_export(users_loaded);
 
+    fprintf(stderr, "%s\n", users_loaded_xml);
+
+    printf("EQUAL ? : %d\n", !strcmp(users_xml, users_loaded_xml));
+
+    free(users_xml);
+    free(users_loaded_xml);
     team_list_delete(teams);
+    user_list_delete(users);
+    user_list_delete(users_loaded);
 }

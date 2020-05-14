@@ -13,9 +13,9 @@
 
 #include "def/code.h"
 
-message_t *message_xml_import(const char *xml)
+message_t *message_xml_import(xml_element_t *element)
 {
-    (void)(xml);
+    (void)(element);
 
     return (NULL);
 }

@@ -58,11 +58,14 @@ int *pcre_match_loop(
     int size = max_grp * ((max_cap_grp + 1) * 3);
     int *matchesLoop = malloc(sizeof(int) * size);
 
+    memset(matchesLoop, 0, sizeof(int) * size);
+
     int *matches = NULL;
     int offset = 0;
     int iLoop = 0;
 
     do {
+        free(matches);
         matches = pcre_match_exec(regex, extra, str, len, offset, max_cap_grp);
         int real_cap = 0;
 
@@ -74,6 +77,8 @@ int *pcre_match_loop(
         offset = matches[1];
         iLoop += real_cap * 2;
     } while (matches[1] > matches[0]);
+
+    free(matches);
 
     pcre_free_study(extra);
     pcre_free(regex);

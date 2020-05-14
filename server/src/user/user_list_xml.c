@@ -10,15 +10,32 @@
 #include "user_list_xml.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "def/code.h"
 #include "user_xml.h"
+#include "xml/xml.h"
 
-user_list_t *user_list_xml_import(const char *xml)
+user_list_t *user_list_xml_import(xml_element_t *element)
 {
-    (void)(xml);
+    user_list_t *list = user_list_create();
+    char *content = element->content;
+    xml_element_t *user_element = NULL;
 
-    return (NULL);
+    for (user_element = xml_element_create(element->content);
+         user_element->name;) {
+        user_t *user = user_xml_import(user_element);
+
+        list->push(list, user);
+
+        content = &content[user_element->bounds[1]];
+        xml_element_delete(user_element);
+        user_element = xml_element_create(content);
+    }
+
+    xml_element_delete(user_element);
+
+    return (list);
 }
 
 char *user_list_xml_export(const user_list_t *user_list)
@@ -28,18 +45,23 @@ char *user_list_xml_export(const user_list_t *user_list)
     if (asprintf(&xml, "<users>\n") == CODE_INVALID)
         return (NULL);
 
-    for (user_node_t *node = user_list->begin; node; node = node->next)
-        if (asprintf(&xml,
-                "%s"
-                "%s\n",
-                xml, user_xml_export(node->user)) == CODE_INVALID)
+    for (user_node_t *node = user_list->begin; node; node = node->next) {
+        char *tmp = xml;
+        char *user_xml = user_xml_export(node->user);
+
+        if (asprintf(&xml, "%s%s\n", xml, user_xml) == CODE_INVALID)
             return (NULL);
 
-    if (asprintf(&xml,
-            "%s"
-            "</users>",
-            xml) == CODE_INVALID)
+        free(user_xml);
+        free(tmp);
+    }
+
+    char *tmp = xml;
+
+    if (asprintf(&xml, "%s</users>", xml) == CODE_INVALID)
         return (NULL);
+
+    free(tmp);
 
     return (xml);
 }

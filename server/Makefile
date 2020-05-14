@@ -36,6 +36,7 @@ PROJ_SRC			=		channel/channel.c					\
 							comment/comment_list_xml.c			\
 							comment/comment_xml.c				\
 							list/list.c							\
+							list/list_xml.c						\
 							message/message.c					\
 							message/message_list.c				\
 							message/message_list_xml.c			\
@@ -62,6 +63,7 @@ PROJ_SRC			=		channel/channel.c					\
 							user/user_list.c					\
 							user/user_list_xml.c				\
 							user/user_xml.c						\
+							util/string.c						\
 							xml/xml.c							\
 							xml/xml_expat.c						\
 							xml/xml_libxml2.c					\

@@ -10,28 +10,40 @@
 #include "user_xml.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #include "def/code.h"
 #include "private/private_list_xml.h"
 
-user_t *user_xml_import(const char *xml)
+user_t *user_xml_import(xml_element_t *element)
 {
-    (void)(xml);
+    user_t *user = malloc(sizeof(user_t));
 
-    return (NULL);
+    memset(user->uuid, 0, UUID_LENGTH + 1);
+    strncpy(user->uuid, element->attributes[0]->value, UUID_LENGTH);
+    memset(user->name, 0, MAX_NAME_LENGTH + 1);
+    strncpy(user->name, element->attributes[1]->value, MAX_NAME_LENGTH);
+
+    xml_element_t *privates_element = xml_element_create(element->content);
+    user->privates = private_list_xml_import(privates_element);
+    xml_element_delete(privates_element);
+
+    return (user);
 }
 
 char *user_xml_export(const user_t *user)
 {
     char *xml = NULL;
+    char *privates_xml = private_list_xml_export(user->privates);
 
     if (asprintf(&xml,
             "<user id=\"%s\" name=\"%s\">\n"
-            "%s\n"
-            "</user>",
-            user->uuid, user->name,
-            private_list_xml_export(user->privates)) == CODE_INVALID)
+            "%s\n</user>",
+            user->uuid, user->name, privates_xml) == CODE_INVALID)
         return (NULL);
+
+    free(privates_xml);
 
     return (xml);
 }

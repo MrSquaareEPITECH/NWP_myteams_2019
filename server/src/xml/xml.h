@@ -20,6 +20,7 @@ struct xml_element_s {
     char *name;
     xml_attribute_t **attributes;
     char *content;
+    long bounds[2];
 };
 
 xml_element_t *xml_element_create(const char *xml);

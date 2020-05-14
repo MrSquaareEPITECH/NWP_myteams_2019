@@ -10,6 +10,7 @@
 #include "subscriber_list_xml.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "def/code.h"
 #include "subscriber_xml.h"
@@ -29,18 +30,23 @@ char *subscriber_list_xml_export(const subscriber_list_t *subscriber_list)
         return (NULL);
 
     for (subscriber_node_t *node = subscriber_list->begin; node;
-         node = node->next)
-        if (asprintf(&xml,
-                "%s"
-                "%s\n",
-                xml, subscriber_xml_export(node->subscriber)) == CODE_INVALID)
+         node = node->next) {
+        char *tmp = xml;
+        char *subscriber_xml = subscriber_xml_export(node->subscriber);
+
+        if (asprintf(&xml, "%s%s\n", xml, subscriber_xml) == CODE_INVALID)
             return (NULL);
 
-    if (asprintf(&xml,
-            "%s"
-            "</subscribers>",
-            xml) == CODE_INVALID)
+        free(subscriber_xml);
+        free(tmp);
+    }
+
+    char *tmp = xml;
+
+    if (asprintf(&xml, "%s</subscribers>", xml) == CODE_INVALID)
         return (NULL);
+
+    free(tmp);
 
     return (xml);
 }

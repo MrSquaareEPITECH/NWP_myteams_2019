@@ -10,6 +10,7 @@
 #include "thread_xml.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "comment/comment_list_xml.h"
 #include "def/code.h"
@@ -24,15 +25,16 @@ thread_t *thread_xml_import(const char *xml)
 char *thread_xml_export(const thread_t *thread)
 {
     char *xml = NULL;
+    char *comments_xml = comment_list_xml_export(thread->comments);
 
     if (asprintf(&xml,
             "<thread id=\"%s\" timestamp=\"%ld\" name=\"%s\" "
-            "description=\"%s\">\n"
-            "%s\n"
-            "</thread>",
+            "description=\"%s\">\n%s\n</thread>",
             thread->uuid, thread->timestamp, thread->name, thread->description,
-            comment_list_xml_export(thread->comments)) == CODE_INVALID)
+            comments_xml) == CODE_INVALID)
         return (NULL);
+
+    free(comments_xml);
 
     return (xml);
 }

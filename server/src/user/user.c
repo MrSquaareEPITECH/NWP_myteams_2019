@@ -23,8 +23,8 @@ user_t *user_create(const char *name)
     memset(this->uuid, 0, sizeof(this->uuid));
     uuid_generate(uuid);
     uuid_unparse(uuid, this->uuid);
-    memset(this->name, 0, MAX_NAME_LENGTH);
-    strncpy(this->name, name, MAX_NAME_LENGTH - 1);
+    memset(this->name, 0, sizeof(this->name));
+    strncpy(this->name, name, MAX_NAME_LENGTH);
 
     this->privates = private_list_create();
 
