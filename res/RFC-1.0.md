@@ -23,18 +23,18 @@ Version: 1.0
     - `CHANNEL LIST "<team_uuid>"`
 
 ### Comment
-- Create
-    - `COMMENT CREATE "<team_uuid>" "<channel_uuid>" "<thread_uuid>" "<body>"`
 - List
     - `COMMENT LIST "<team_uuid>" "<channel_uuid>" "<thread_uuid>"`
+- Create
+    - `COMMENT SEND "<team_uuid>" "<channel_uuid>" "<thread_uuid>" "<body>"`
 
-### Private
+### Message
 - Exists
-    - `PRIVATE EXISTS "<user_uuid>"`
+    - `MESSAGE EXISTS "<user_uuid>"`
 - List
-    - `PRIVATE LIST "<user_uuid>"`
+    - `MESSAGE LIST "<user_uuid>"`
 - Send
-    - `PRIVATE SEND "<user_uuid>" "<message>"`
+    - `MESSAGE SEND "<user_uuid>" "<message>"`
 
 ### Team
 - Create
@@ -106,9 +106,6 @@ Version: 1.0
     - `CHANNEL LIST KO ["<message>"]`: Error
 
 ### Comment
-- Create
-    - `COMMENT CREATE OK ["<message>"]`: Success
-    - `COMMENT CREATE KO ["<message>"]`: Error
 - List
     - Success
     ```text
@@ -120,25 +117,28 @@ Version: 1.0
     COMMENT LIST END
     ```
     - `COMMENT LIST KO ["<message>"]`: Error
+- Send
+    - `COMMENT SEND OK ["<message>"]`: Success
+    - `COMMENT SEND KO ["<message>"]`: Error
 
-### Private
+### Message
 - Exists
-    - `PRIVATE EXISTS OK ["<message>"]`: Success
-    - `PRIVATE EXISTS KO ["<message>"]`: Error
+    - `MESSAGE EXISTS OK ["<message>"]`: Success
+    - `MESSAGE EXISTS KO ["<message>"]`: Error
 - List
     - Success
     ```text
-    PRIVATE LIST OK ["<message>"]
-    PRIVATE LIST START
+    MESSAGE LIST OK ["<message>"]
+    MESSAGE LIST START
     "<timestamp>" "<body>"
     ...
     "<timestamp>" "<body>"
-    PRIVATE LIST END
+    MESSAGE LIST END
     ```
-    - `PRIVATE LIST KO ["<message>"]`: Error
+    - `MESSAGE LIST KO ["<message>"]`: Error
 - Send
-    - `PRIVATE SEND OK ["<message>"]`: Success
-    - `PRIVATE SEND KO ["<message>"]`: Error
+    - `MESSAGE SEND OK ["<message>"]`: Success
+    - `MESSAGE SEND KO ["<message>"]`: Error
 
 ### Team
 - Create
@@ -241,3 +241,31 @@ Version: 1.0
 - Unsubscribe
     - `USER UNSUBSCRIBE OK ["<message>"]`: Success
     - `USER UNSUBSCRIBE KO ["<message>"]`: Error
+
+## EVENTS
+
+### Channel
+- Create
+    - `CHANNEL CREATED "<uuid>" "<name>" "<description>"`
+
+### Comment
+- Send
+    - `COMMENT SENT "<user_uuid>" "<team_uuid>" "<uuid>" "<body>"`
+
+### Message
+- Send
+    - `MESSAGE SENT "<user_uuid>" "<body>"`
+
+### Team
+- Create
+    - `TEAM CREATED "<uuid>" "<name>" "<description>"`
+
+### Team
+- Create
+    - `THREAD CREATED "<user_uuid>" "<uuid>" "<timestamp>" "<name>" "<description>"`
+
+### User
+- Login
+    - `USER LOGGEDIN "<uuid>" "<name>"`
+- Logout
+    - `USER LOGGEDIN "<uuid>" "<name>"`
