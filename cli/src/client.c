@@ -7,22 +7,13 @@
 
 #include "my.h"
 
-// int get_command(client_t *cli)
-// {
-//     memset(cli->buffer, 0, SIZE_OF_BUFFER);
-//     read(cli->port, cli->buffer, SIZE_OF_BUFFER);
-//     if (my_strcmp(buffer, "Hello world\n") == 0) {
-//         fprintf(fd_serve, "close\n");
-//         close(fd_client);
-//         return (0);
-//     }
-// }
-
-void main_loop(client_t *cli)
+void set_utilities(client_t *client, utilities_t *utils)
 {
-    while (loop) {
-//        get_command();
-    }
+    utils->tv.tv_usec = 10000;
+    FD_ZERO(&utils->a_read);
+    FD_ZERO(&utils->a_write);
+    FD_SET(client->fd_client, &utils->a_write);
+    FD_SET(client->fd_client, &utils->a_read);
 }
 
 int set_client(client_t *cli)
@@ -45,13 +36,32 @@ int set_client(client_t *cli)
     return (SUCCESS);
 }
 
+int main_loop(client_t *cli, utilities_t *utils)
+{
+    int loop = 0;
+
+    while (loop) {
+        utils->set_read = utils->a_read;
+        utils->set_write = utils->a_write;
+        if (select(FD_SETSIZE, &utils->set_read, NULL, NULL, &utils->tv) < 0) {
+            perror("select");
+            return (ERROR_FUNCTION);
+        }
+        if (FD_ISSET(cli->fd_client, &utils->set_read))
+            get_command(cli);
+    }
+    return (SUCCESS);
+}
+
 void connect_client(int port)
 {
     client_t *cli = malloc(sizeof(client_t));
+    utilities_t utils;
 
     cli->port = port;
     set_client(cli);
-    main_loop(cli);
+    set_utilities(cli, &utils);
+    main_loop(cli, &utils);
 }
 
 int main(int ac, char **av)
