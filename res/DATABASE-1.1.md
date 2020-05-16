@@ -9,9 +9,11 @@ Version 1.1
             <channel id="%CHANNEL_UUID%" name="%CHANNEL_NAME%" description="%CHANNEL_DESCRIPTION%">
                 <threads>
                     <thread id="%THREAD_UUID%" timestamp="%THREAD_TIMESTAMP%" name="%THREAD_NAME%" description="%THREAD_DESCRIPTION%">
-                        <comment timestamp="%TIMESTAMP%">"%BODY%"</comment>
-                        <!-- ... -->
-                        <comment timestamp="%TIMESTAMP%">"%BODY%"</comment>
+                        <comments>
+                            <comment timestamp="%TIMESTAMP%">"%BODY%"</comment>
+                            <!-- ... -->
+                            <comment timestamp="%TIMESTAMP%">"%BODY%"</comment>
+                        </comments>
                     </thread>
                 </threads>
             </channel>
@@ -32,9 +34,11 @@ Version 1.1
     <user id="%USER_ID%" name="%USER_NAME%">
         <privates>
             <private id="%USER_ID">
-                <message timestamp="%TIMESTAMP%">"%BODY%"</message>
-                <!-- ... -->
-                <message timestamp="%TIMESTAMP%">"%BODY%"</message>
+                <messages>
+                    <message timestamp="%TIMESTAMP%">"%BODY%"</message>
+                    <!-- ... -->
+                    <message timestamp="%TIMESTAMP%">"%BODY%"</message>
+                </messages>
             </private>
         </privates>
     </user>
