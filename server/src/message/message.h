@@ -20,6 +20,6 @@ struct message_s {
 };
 
 message_t *message_create(const char *body);
-void message_delete(message_t *this);
+void message_delete(message_t *message);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_MESSAGE_MESSAGE_H

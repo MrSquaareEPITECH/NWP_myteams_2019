@@ -12,19 +12,19 @@
 
 comment_t *comment_create(const char *body)
 {
-    comment_t *this = malloc(sizeof(comment_t));
+    comment_t *comment = malloc(sizeof(comment_t));
 
-    if (this == NULL)
+    if (comment == NULL)
         return (NULL);
-    this->timestamp = time(NULL);
-    memset(this->body, 0, sizeof(this->body));
-    strncpy(this->body, body, MAX_BODY_LENGTH);
-    return (this);
+    comment->timestamp = time(NULL);
+    memset(comment->body, 0, sizeof(comment->body));
+    strncpy(comment->body, body, MAX_BODY_LENGTH);
+    return (comment);
 }
 
-void comment_delete(comment_t *this)
+void comment_delete(comment_t *comment)
 {
-    if (this == NULL)
+    if (comment == NULL)
         return;
-    free(this);
+    free(comment);
 }

@@ -12,13 +12,13 @@
 
 subscriber_t *subscriber_create(const char *uuid)
 {
-    subscriber_t *this = malloc(sizeof(subscriber_t));
+    subscriber_t *subscriber = malloc(sizeof(subscriber_t));
 
-    if (this == NULL)
+    if (subscriber == NULL)
         return (NULL);
-    memset(this->uuid, 0, sizeof(this->uuid));
-    strncpy(this->uuid, uuid, UUID_LENGTH);
-    return (this);
+    memset(subscriber->uuid, 0, sizeof(subscriber->uuid));
+    strncpy(subscriber->uuid, uuid, UUID_LENGTH);
+    return (subscriber);
 }
 
 void subscriber_delete(subscriber_t *subscriber)

@@ -15,26 +15,26 @@
 
 user_t *user_create(const char *name)
 {
-    user_t *this = malloc(sizeof(user_t));
+    user_t *user = malloc(sizeof(user_t));
 
-    if (this == NULL)
+    if (user == NULL)
         return (NULL);
 
     unsigned char uuid[16];
 
-    memset(this->uuid, 0, sizeof(this->uuid));
+    memset(user->uuid, 0, sizeof(user->uuid));
     uuid_generate(uuid);
-    uuid_unparse(uuid, this->uuid);
-    memset(this->name, 0, sizeof(this->name));
-    strncpy(this->name, name, MAX_NAME_LENGTH);
-    this->privates = list_create();
-    return (this);
+    uuid_unparse(uuid, user->uuid);
+    memset(user->name, 0, sizeof(user->name));
+    strncpy(user->name, name, MAX_NAME_LENGTH);
+    user->privates = list_create();
+    return (user);
 }
 
-void user_delete(user_t *this)
+void user_delete(user_t *user)
 {
-    if (this == NULL)
+    if (user == NULL)
         return;
-    list_delete(this->privates, delete_c(private_delete));
-    free(this);
+    list_delete(user->privates, delete_c(private_delete));
+    free(user);
 }

@@ -15,28 +15,28 @@
 
 channel_t *channel_create(const char *name, const char *description)
 {
-    channel_t *this = malloc(sizeof(channel_t));
+    channel_t *channel = malloc(sizeof(channel_t));
 
-    if (this == NULL)
+    if (channel == NULL)
         return (NULL);
 
     unsigned char uuid[16];
 
-    memset(this->uuid, 0, sizeof(this->uuid));
+    memset(channel->uuid, 0, sizeof(channel->uuid));
     uuid_generate(uuid);
-    uuid_unparse(uuid, this->uuid);
-    memset(this->name, 0, sizeof(this->name));
-    strncpy(this->name, name, MAX_NAME_LENGTH);
-    memset(this->description, 0, sizeof(this->description));
-    strncpy(this->description, description, MAX_DESCRIPTION_LENGTH);
-    this->threads = list_create();
-    return (this);
+    uuid_unparse(uuid, channel->uuid);
+    memset(channel->name, 0, sizeof(channel->name));
+    strncpy(channel->name, name, MAX_NAME_LENGTH);
+    memset(channel->description, 0, sizeof(channel->description));
+    strncpy(channel->description, description, MAX_DESCRIPTION_LENGTH);
+    channel->threads = list_create();
+    return (channel);
 }
 
-void channel_delete(channel_t *this)
+void channel_delete(channel_t *channel)
 {
-    if (this == NULL)
+    if (channel == NULL)
         return;
-    list_delete(this->threads, delete_c(thread_delete));
-    free(this);
+    list_delete(channel->threads, delete_c(thread_delete));
+    free(channel);
 }

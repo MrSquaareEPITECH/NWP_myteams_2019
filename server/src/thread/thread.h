@@ -25,6 +25,6 @@ struct thread_s {
 };
 
 thread_t *thread_create(const char *name, const char *body);
-void thread_delete(thread_t *this);
+void thread_delete(thread_t *thread);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H

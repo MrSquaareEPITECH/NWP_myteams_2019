@@ -20,6 +20,6 @@ struct comment_s {
 };
 
 comment_t *comment_create(const char *body);
-void comment_delete(comment_t *this);
+void comment_delete(comment_t *comment);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_COMMENT_COMMENT_H

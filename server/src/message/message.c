@@ -12,19 +12,19 @@
 
 message_t *message_create(const char *body)
 {
-    message_t *this = malloc(sizeof(message_t));
+    message_t *message = malloc(sizeof(message_t));
 
-    if (this == NULL)
+    if (message == NULL)
         return (NULL);
-    this->timestamp = time(NULL);
-    memset(this->body, 0, sizeof(this->body));
-    strncpy(this->body, body, MAX_BODY_LENGTH);
-    return (this);
+    message->timestamp = time(NULL);
+    memset(message->body, 0, sizeof(message->body));
+    strncpy(message->body, body, MAX_BODY_LENGTH);
+    return (message);
 }
 
-void message_delete(message_t *this)
+void message_delete(message_t *message)
 {
-    if (this == NULL)
+    if (message == NULL)
         return;
-    free(this);
+    free(message);
 }

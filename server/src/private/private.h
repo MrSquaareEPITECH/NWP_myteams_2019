@@ -20,6 +20,6 @@ struct private_s {
 };
 
 private_t *private_create(const char *uuid);
-void private_delete(private_t *this);
+void private_delete(private_t *private);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_PRIVATE_PRIVATE_H

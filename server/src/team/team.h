@@ -23,6 +23,6 @@ struct team_s {
 };
 
 team_t *team_create(const char *name, const char *description);
-void team_delete(team_t *this);
+void team_delete(team_t *team);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_TEAM_TEAM_H

@@ -15,29 +15,29 @@
 
 thread_t *thread_create(const char *name, const char *body)
 {
-    thread_t *this = malloc(sizeof(thread_t));
+    thread_t *thread = malloc(sizeof(thread_t));
 
-    if (this == NULL)
+    if (thread == NULL)
         return (NULL);
 
     unsigned char uuid[16];
 
-    memset(this->uuid, 0, sizeof(this->uuid));
+    memset(thread->uuid, 0, sizeof(thread->uuid));
     uuid_generate(uuid);
-    uuid_unparse(uuid, this->uuid);
-    this->timestamp = time(NULL);
-    memset(this->name, 0, sizeof(this->name));
-    strncpy(this->name, name, MAX_NAME_LENGTH);
-    memset(this->body, 0, sizeof(this->body));
-    strncpy(this->body, body, MAX_BODY_LENGTH);
-    this->comments = list_create();
-    return (this);
+    uuid_unparse(uuid, thread->uuid);
+    thread->timestamp = time(NULL);
+    memset(thread->name, 0, sizeof(thread->name));
+    strncpy(thread->name, name, MAX_NAME_LENGTH);
+    memset(thread->body, 0, sizeof(thread->body));
+    strncpy(thread->body, body, MAX_BODY_LENGTH);
+    thread->comments = list_create();
+    return (thread);
 }
 
-void thread_delete(thread_t *this)
+void thread_delete(thread_t *thread)
 {
-    if (this == NULL)
+    if (thread == NULL)
         return;
-    list_delete(this->comments, delete_c(comment_delete));
-    free(this);
+    list_delete(thread->comments, delete_c(comment_delete));
+    free(thread);
 }
