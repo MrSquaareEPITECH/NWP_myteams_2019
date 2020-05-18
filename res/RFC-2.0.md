@@ -31,7 +31,7 @@ Version: 2.0
 - List (1)
     - `/list`
 
-1) Depends on: `/use "<team_uuid>" "<channel_uuid> "<thread_uuid>`
+1) Depends on: `/use "<team_uuid>" "<channel_uuid> "<thread_uuid>"`
 
 ### Message
 - List (1)
@@ -89,7 +89,11 @@ Version: 2.0
 
 ### Channel
 - Create
-    - `CHANNEL CREATE OK ["<message>"]`: Success
+    - Success
+    ```text
+    CHANNEL CREATE OK ["<message>"]
+    "<uuid>" "<name>" "<description>"
+    ```
     - `CHANNEL CREATE KO ["<message>"]`: Error
 - Exists
     - `CHANNEL EXISTS OK ["<message>"]`: Success
@@ -98,7 +102,7 @@ Version: 2.0
     - Success
     ```text
     CHANNEL INFO OK ["<message>"]
-    CHANNEL INFO "<uuid>" "<name>" "<description>"
+    "<uuid>" "<name>" "<description>"
     ```
     - `CHANNEL INFO KO ["<message>"]`: Error
 - List
@@ -150,7 +154,11 @@ Version: 2.0
 
 ### Team
 - Create
-    - `TEAM CREATE OK ["<message>"]`: Success
+    - Success
+    ```text
+    TEAM CREATE OK ["<message>"]
+    "<uuid>" "<name>" "<description>"
+    ```
     - `TEAM CREATE KO ["<message>"]`: Error
 - Exists
     - `TEAM EXISTS OK ["<message>"]`: Success
@@ -159,7 +167,7 @@ Version: 2.0
     - Success
     ```text
     TEAM INFO OK ["<message>"]
-    TEAM INFO "<name>" "<description>" "<uuid>"
+    "<uuid>" "<name>" "<description>"
     ```
     - `TEAM INFO KO ["<message>"]`: Error
 - List
@@ -167,9 +175,9 @@ Version: 2.0
     ```text
     TEAM LIST OK ["<message>"]
     TEAM LIST START
-    "<name>" "<description>" "<uuid>"
+    "<uuid>" "<name>" "<description>"
     ...
-    "<name>" "<description>" "<uuid>"
+    "<uuid>" "<name>" "<description>"
     TEAM LIST END
     ```
     - `TEAM LIST KO ["<message>"]`: Error
@@ -187,7 +195,11 @@ Version: 2.0
 
 ### Thread
 - Create
-    - `THREAD CREATE OK ["<message>"]`: Success
+    - Success
+    ```text
+    THREAD CREATE OK ["<message>"]
+    "<uuid>" "<timestamp>" "<name>" "<body>"
+    ```
     - `THREAD CREATE KO ["<message>"]`: Error
 - Exists
     - `THREAD EXISTS OK ["<message>"]`: Success
@@ -196,7 +208,7 @@ Version: 2.0
     - Success
     ```text
     THREAD INFO OK ["<message>"]
-    THREAD INFO "<uuid>" "<timestamp>" "<name>" "<description>"
+    "<uuid>" "<timestamp>" "<name>" "<body>"
     ```
     - `TEAM INFO KO ["<message>"]`: Error
 - List
@@ -204,9 +216,9 @@ Version: 2.0
     ```text
     THREAD LIST OK ["<message>"]
     THREAD LIST START
-    "<uuid>" "<timestamp>" "<name>" "<description>"
+    "<uuid>" "<timestamp>" "<name>" "<body>"
     ...
-    "<uuid>" "<timestamp>" "<name>" "<description>"
+    "<uuid>" "<timestamp>" "<name>" "<body>"
     THREAD LIST END
     ```
     - `THREAD LIST KO ["<message>"]`: Error
@@ -215,6 +227,13 @@ Version: 2.0
 - Exists
     - `USER EXISTS OK ["<message>"]`: Success
     - `USER EXISTS KO ["<message>"]`: Error
+- Info
+    - Success
+    ```text
+    USER INFO OK ["<message>"]
+    "<uuid>" "<name>"
+    ```
+    - `USER INFO KO ["<message>"]`: Error
 - List
     - Success
     ```text
@@ -233,7 +252,11 @@ Version: 2.0
     - `USER LOGOUT OK ["<message>"]`: Success
     - `USER LOGOUT KO ["<message>"]`: Error
 - Subscribe
-    - `USER SUBSCRIBE OK ["<message>"]`: Success
+    - Success
+    ```text
+    USER SUBSCRIBE OK ["<message>"]
+    "<uuid>" "<team_uuid>"
+    ```
     - `USER SUBSCRIBE KO ["<message>"]`: Error
 - Subscriptions
     - Success
@@ -247,7 +270,11 @@ Version: 2.0
     ```
     - `USER SUBSCRIPTIONS KO ["<message>"]`: Error
 - Unsubscribe
-    - `USER UNSUBSCRIBE OK ["<message>"]`: Success
+    - Success
+    ```text
+    USER UNSUBSCRIBE OK ["<message>"]
+    "<uuid>" "<team_uuid>"
+    ```
     - `USER UNSUBSCRIBE KO ["<message>"]`: Error
 
 ## EVENTS
@@ -266,7 +293,7 @@ Version: 2.0
 
 ### Team
 - Create
-    - `TEAM CREATED "<uuid>" "<name>" "<description>"`
+    - `TEAM CREATED "<uuid>" "<name>" "<body>"`
 
 ### Team
 - Create
@@ -276,4 +303,4 @@ Version: 2.0
 - Login
     - `USER LOGGEDIN "<uuid>" "<name>"`
 - Logout
-    - `USER LOGGEDIN "<uuid>" "<name>"`
+    - `USER LOGGEDOUT "<uuid>" "<name>"`
