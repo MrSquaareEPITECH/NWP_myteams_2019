@@ -9,6 +9,8 @@
 
 int get_command(client_t *cli)
 {
-    write(cli->port, cli->buffer, SIZE_OF_BUFFER);
+    memset(cli->buffer, 0, SIZE_OF_BUFFER);
+    recv(cli->fd_client, cli->buffer, SIZE_OF_BUFFER, MSG_DONTWAIT);
+    write(cli->fd_client, cli->buffer, SIZE_OF_BUFFER);
     return (SUCCESS);
 }

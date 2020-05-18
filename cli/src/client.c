@@ -31,19 +31,12 @@ int main_loop(client_t *cli)
 {
     int ret = 0;
 
-    memset(cli->buffer, 0, SIZE_OF_BUFFER);
-    int flags = fcntl(cli->fd_client, F_GETFL, 0);
-    if (fcntl(cli->fd_client, F_SETFL, O_NONBLOCK) < 0) {
-        perror("fcntl : ");
-        return (ERROR_FUNCTION);
-    }
-    while (1) {
-        ret = read(cli->fd_client, cli->buffer, SIZE_OF_BUFFER);
-        if (ret > 0) {
-            write(cli->fd_client, cli->buffer, SIZE_OF_BUFFER);
-            memset(cli->buffer, 0, SIZE_OF_BUFFER);
-            ret = 0;
-            break;
+    while (loop) {
+        utils->set_read = utils->a_read;
+        utils->set_write = utils->a_write;
+        if (select(FD_SETSIZE, &utils->set_read, NULL, NULL, &utils->tv) < 0) {
+            perror("select : ");
+            return (ERROR_FUNCTION);
         }
     }
     return (SUCCESS);
