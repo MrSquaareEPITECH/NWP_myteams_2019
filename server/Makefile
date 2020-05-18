@@ -21,7 +21,15 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=
+PROJ_SRC			=		channel/channel.c				\
+							comment/comment.c				\
+							list/list.c						\
+							message/message.c				\
+							private/private.c				\
+							subscriber/subscriber.c			\
+							team/team.c						\
+							thread/thread.c					\
+							user/user.c						\
 
 TEST_SRC			=
 
