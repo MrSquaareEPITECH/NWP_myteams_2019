@@ -1,0 +1,9 @@
+# Resources
+res/
+
+# Jetbrains
+compile_commands.json
+.idea/
+
+# Visual Studio Code
+.vscode/
