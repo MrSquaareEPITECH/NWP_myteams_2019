@@ -6,3 +6,38 @@
 */
 
 #include "thread.h"
+
+#include <stdlib.h>
+#include <string.h>
+#include <uuid/uuid.h>
+
+#include "comment/comment.h"
+
+thread_t *thread_create(const char *name, const char *body)
+{
+    thread_t *thread = malloc(sizeof(thread_t));
+
+    if (thread == NULL)
+        return (NULL);
+
+    unsigned char uuid[16];
+
+    memset(thread->uuid, 0, sizeof(thread->uuid));
+    uuid_generate(uuid);
+    uuid_unparse(uuid, thread->uuid);
+    thread->timestamp = time(NULL);
+    memset(thread->name, 0, sizeof(thread->name));
+    strncpy(thread->name, name, MAX_NAME_LENGTH);
+    memset(thread->body, 0, sizeof(thread->body));
+    strncpy(thread->body, body, MAX_BODY_LENGTH);
+    thread->comments = list_create();
+    return (thread);
+}
+
+void thread_delete(thread_t *thread)
+{
+    if (thread == NULL)
+        return;
+    list_delete(thread->comments, delete_c(comment_delete));
+    free(thread);
+}

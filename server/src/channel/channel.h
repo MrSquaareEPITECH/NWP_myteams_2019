@@ -22,6 +22,6 @@ struct channel_s {
 };
 
 channel_t *channel_create(const char *name, const char *description);
-void channel_delete(channel_t *this);
+void channel_delete(channel_t *channel);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_CHANNEL_CHANNEL_H

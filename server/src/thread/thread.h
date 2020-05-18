@@ -24,7 +24,7 @@ struct thread_s {
     list_t *comments;
 };
 
-thread_t *thread_create(const char *name, const char *description);
-void thread_delete(thread_t *this);
+thread_t *thread_create(const char *name, const char *body);
+void thread_delete(thread_t *thread);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H

@@ -19,6 +19,8 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+LDLIBS				=		-luuid
+
 MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c				\
