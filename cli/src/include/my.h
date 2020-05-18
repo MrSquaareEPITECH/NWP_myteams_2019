@@ -36,7 +36,6 @@ typedef struct client_s {
 	int fd_client;
     char buffer[1024];
 	struct sockaddr_in sin;
-	socklen_t len;
 } client_t;
 
 int get_command(client_t *cli);

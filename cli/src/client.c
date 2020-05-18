@@ -29,7 +29,7 @@ int set_client(client_t *cli)
         perror("Connect: ");
         return (ERROR_FUNCTION);
     }
-    if (connect(cli->fd_client, (struct sockaddr*)&cli->sin, cli->len) < 0) {
+    if (connect(cli->fd_client, (struct sockaddr*)&cli->sin, sizeof(cli->sin)) < 0) {
         perror("Connect: ");
         return (ERROR_FUNCTION);
     }
@@ -44,7 +44,7 @@ int main_loop(client_t *cli, utilities_t *utils)
         utils->set_read = utils->a_read;
         utils->set_write = utils->a_write;
         if (select(FD_SETSIZE, &utils->set_read, NULL, NULL, &utils->tv) < 0) {
-            perror("select");
+            perror("select : ");
             return (ERROR_FUNCTION);
         }
         if (FD_ISSET(cli->fd_client, &utils->set_read))
