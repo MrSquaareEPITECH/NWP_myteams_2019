@@ -19,17 +19,31 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+CFLAGS				+=		-I /usr/include/libxml2
+
+LDLIBS				=		-lxml2 -luuid
+
 MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c				\
+							channel/channel_xml.c			\
 							comment/comment.c				\
+							comment/comment_xml.c			\
 							list/list.c						\
+							list/list_xml.c					\
 							message/message.c				\
+							message/message_xml.c			\
 							private/private.c				\
+							private/private_xml.c			\
 							subscriber/subscriber.c			\
+							subscriber/subscriber_xml.c		\
 							team/team.c						\
+							team/team_xml.c					\
 							thread/thread.c					\
+							thread/thread_xml.c				\
 							user/user.c						\
+							user/user_xml.c					\
+							util/xml.c						\
 
 TEST_SRC			=
 
