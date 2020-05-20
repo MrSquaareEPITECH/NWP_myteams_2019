@@ -32,7 +32,7 @@ void check_command(client_t *cli)
     if (strncasecmp(cli->buffer, "/help", 5) == 0)
         display_help();
     else if (strncasecmp(cli->buffer, "/create", 7) == 0)
-        handle_create();
+        handle_create(cli->buffer);
     else if (strncasecmp(cli->buffer, "/exists", 7) == 0)
         handle_exist();
     else if (strncasecmp(cli->buffer, "/information", 12) == 0)

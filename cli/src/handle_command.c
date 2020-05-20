@@ -7,9 +7,16 @@
 
 #include "my.h"
 
-void display_help()
+void handle_create(char *arg)
 {
-    for (int i = 0; i != 13; i++)
-        printf("%s", HELP[i]);
-    write(0, "\n", 2);
+    int args = count_args(arg);
+
+    if (args == 1)
+//      send create commant to the server
+    if (args == 2)
+//      send create a channel to the server
+    else if (args == 3)
+//      send create a channel to the server
+    else
+//      determine thread
 }
