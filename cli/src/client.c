@@ -11,33 +11,45 @@ int set_client(client_t *cli)
 {
 	cli->fd_client = socket(AF_INET, SOCK_STREAM, 0);
     if (cli->fd_client < 0) {
-        perror("Socket: ");
+        perror("Socket");
         return (ERROR_FUNCTION);
     }
-    cli->sin.sin_addr.s_addr = htonl(INADDR_ANY);
+    cli->sin.sin_addr.s_addr = inet_addr("127.0.0.1");
+    cli->sin.sin_family = PF_INET;
 	cli->sin.sin_port = htons(cli->port);
-    if (inet_pton(AF_INET, "127.0.0.1" , &cli->sin.sin_addr.s_addr) < 0) {
-        perror("Inet: ");
-        return (ERROR_FUNCTION);
-    }
     if (connect(cli->fd_client, (struct sockaddr*)&cli->sin, sizeof(cli->sin)) < 0) {
-        perror("Connect: ");
+        perror("Connect");
         return (ERROR_FUNCTION);
     }
     return (SUCCESS);
 }
 
-int main_loop(client_t *cli)
+void set_utilities(utilities_t *utils, client_t *client)
+{
+    FD_ZERO(&utils->a_read);
+    FD_ZERO(&utils->a_write);
+    FD_SET(client->fd_client, &utils->a_write);
+    FD_SET(client->fd_client, &utils->a_read);
+}
+
+int main_loop(client_t *cli, utilities_t *utils)
 {
     int ret = 0;
 
-    while (loop) {
+    while (1) {
         utils->set_read = utils->a_read;
         utils->set_write = utils->a_write;
-        if (select(FD_SETSIZE, &utils->set_read, NULL, NULL, &utils->tv) < 0) {
-            perror("select : ");
+        write(0, "> ", 3);
+        if (select(FD_SETSIZE, &utils->set_read, &utils->set_write, NULL, NULL) < 0) {
+            perror("select");
             return (ERROR_FUNCTION);
         }
+        cli->buffer = get_command();
+        if (cli->buffer == NULL)
+            return(ERROR_FUNCTION);
+        else
+            check_command(cli);
+//        if (FD_ISSET(cli->fd_client, &utils->set_read))
     }
     return (SUCCESS);
 }
@@ -45,11 +57,14 @@ int main_loop(client_t *cli)
 int connect_client(int port)
 {
     client_t *cli = malloc(sizeof(client_t));
+    utilities_t utils;
 
     cli->port = port;
     if (set_client(cli) != SUCCESS)
         return (ERROR_FUNCTION);
-    main_loop(cli);
+    set_utilities(&utils, cli);
+    if (main_loop(cli, &utils) == ERROR_FUNCTION)
+        return (ERROR_FUNCTION);
     return (SUCCESS);
 }
 

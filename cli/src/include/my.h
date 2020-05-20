@@ -38,14 +38,21 @@ static const char *HELP[] = {"./help : show help\n",
                         "./use ?[“team_uuid”] ?[“channel_uuid”] ?[“thread_uuid”] : use specify a context team/channel/thread\n",
                         "./create : based on what is being used create the sub resource (see below)\n",
                         "./list : based on what is being used list all the sub resources (see below)\n",
-                        "./info : based on what is being used list the current (see below)"};
+                        "./info : based on what is being used list the current (see below)\n"};
 
 typedef struct client_s {
     int port;
 	int fd_client;
-    char buffer[1024];
+    char *buffer;
 	struct sockaddr_in sin;
 } client_t;
+
+typedef struct utilities_s {
+    fd_set set_read;
+    fd_set a_read;
+    fd_set set_write;
+    fd_set a_write;
+} utilities_t;
 
 /*
 structure server
@@ -54,6 +61,8 @@ structure server
 -messageQ
 */
 
-int get_command(client_t *cli);
+void display_help();
+char *get_command(void);
+void check_command(client_t *cli);
 
 #endif /* !MY_H_ */
