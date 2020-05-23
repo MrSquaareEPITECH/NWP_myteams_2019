@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-comment_t *comment_create(const char *body)
+comment_t *comment_create(thread_t *thread, const char *body)
 {
     comment_t *comment = malloc(sizeof(comment_t));
 
@@ -19,6 +19,7 @@ comment_t *comment_create(const char *body)
     comment->timestamp = time(NULL);
     memset(comment->body, 0, sizeof(comment->body));
     strncpy(comment->body, body, MAX_BODY_LENGTH);
+    comment->thread = thread;
     return (comment);
 }
 

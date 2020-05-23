@@ -11,6 +11,13 @@
 #include "def/length.h"
 #include "list/list.h"
 
+enum USE {
+    USE_CHANNEL,
+    USE_SERVER,
+    USE_TEAM,
+    USE_THREAD
+};
+
 typedef struct user_s user_t;
 
 struct user_s {
@@ -18,6 +25,9 @@ struct user_s {
     char name[MAX_NAME_LENGTH + 1];
 
     list_t *privates;
+
+    enum USE use;
+    void *obj;
 };
 
 user_t *user_create(const char *name);

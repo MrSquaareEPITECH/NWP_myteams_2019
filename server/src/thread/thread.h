@@ -8,6 +8,8 @@
 #ifndef NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H
 #define NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H
 
+typedef struct channel_s channel_t;
+
 #include <time.h>
 
 #include "def/length.h"
@@ -21,10 +23,12 @@ struct thread_s {
     char name[MAX_NAME_LENGTH + 1];
     char body[MAX_BODY_LENGTH + 1];
 
+    channel_t *parent;
     list_t *comments;
 };
 
-thread_t *thread_create(const char *name, const char *body);
+thread_t *thread_create(channel_t *parent, const char *name, const char *body);
+bool thread_get_id(thread_t *thread, char *uuid);
 void thread_delete(thread_t *thread);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H

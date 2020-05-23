@@ -35,6 +35,11 @@ team_t *team_create(const char *name, const char *description)
     return (team);
 }
 
+bool team_get_id(team_t *team, char *uuid)
+{
+    return (strcmp(team->uuid, uuid) == 0);
+}
+
 void team_delete(team_t *team)
 {
     if (team == NULL)

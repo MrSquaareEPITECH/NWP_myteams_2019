@@ -32,6 +32,8 @@ struct list_s {
 list_t *list_create(void);
 void *list_get(list_t *list, void *prop, compare_t compare);
 int list_push(list_t *list, void *obj);
+void *list_pop(list_t *list);
+int list_remove(list_t *list, void *obj);
 void list_delete(list_t *list, delete_t delete);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_LIST_LIST_H

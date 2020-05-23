@@ -23,6 +23,7 @@ struct team_s {
 };
 
 team_t *team_create(const char *name, const char *description);
+bool team_get_id(team_t *team, char *uuid);
 void team_delete(team_t *team);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_TEAM_TEAM_H

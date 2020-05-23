@@ -1,0 +1,24 @@
+# Binaries
+*.out
+unit_tests
+
+# Objects
+*.o
+
+# Libraries
+*.a
+*.so
+
+# Tests
+*.gcda
+*.gcno
+
+# Resources
+res/
+
+# Jetbrains
+compile_commands.json
+.idea/
+
+# Visual Studio Code
+.vscode/
