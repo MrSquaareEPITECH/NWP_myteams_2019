@@ -40,7 +40,7 @@ static channel_t *get_channel(client_t *client, team_t *team, char **argv)
         list_get(team->channels, channel_uuid, (compare_t)(channel_get_id));
     char *error = NULL;
 
-    if (team == NULL) {
+    if (channel == NULL) {
         asprintf(&error, RESPONSE_THREAD_USE_KO, "Channel doesn't exist");
         list_push(client->queue, error);
     }
@@ -56,7 +56,7 @@ static thread_t *get_thread(client_t *client, channel_t *channel, char **argv)
     char *error = NULL;
 
     if (thread == NULL) {
-        asprintf(&error, RESPONSE_THREAD_USE_KO, "Channel doesn't exist");
+        asprintf(&error, RESPONSE_THREAD_USE_KO, "Thread doesn't exist");
         list_push(client->queue, error);
     }
     free(thread_uuid);

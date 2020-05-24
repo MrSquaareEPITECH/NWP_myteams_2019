@@ -21,6 +21,11 @@ subscriber_t *subscriber_create(const char *uuid)
     return (subscriber);
 }
 
+bool subscriber_get_id(subscriber_t *subscriber, char *uuid)
+{
+    return (strcmp(subscriber->uuid, uuid) == 0);
+}
+
 void subscriber_delete(subscriber_t *subscriber)
 {
     if (subscriber == NULL)

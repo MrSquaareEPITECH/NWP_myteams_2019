@@ -34,6 +34,11 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
+    if (argc < 2) {
+        asprintf(&error, RESPONSE_USER_LOGIN_KO, "Missing argument");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
     return (CODE_SUCCESS);
 }
 

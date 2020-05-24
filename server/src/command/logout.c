@@ -64,7 +64,6 @@ int logout_command(server_t *server, client_t *client, int argc, char **argv)
 
     user_t *user = client->user;
 
-    user_delete(user);
     if (reply(client, user) == CODE_ERROR)
         return (CODE_ERROR);
     if (broadcast(server, user) == CODE_ERROR)
@@ -72,5 +71,6 @@ int logout_command(server_t *server, client_t *client, int argc, char **argv)
     list_remove(server->users, user);
     client->state = CLIENT_CONNECTED;
     client->user = NULL;
+    user_delete(user);
     return (CODE_SUCCESS);
 }
