@@ -7,9 +7,17 @@
 
 #include "my.h"
 
-void get_info_server(client_t *cli)
+int get_info_server(client_t *cli)
 {
     char *str = NULL;
+    int ret = 0;
 
-    recv(cli->port, str, SIZE_OF_BUFFER, MSG_DONTWAIT);
+    str = malloc(sizeof(char) * (SIZE_OF_BUFFER + 1));
+    if (str == NULL)
+        return (ERROR_FUNCTION);
+    ret = recv(cli->port, str, SIZE_OF_BUFFER, MSG_DONTWAIT);
+    if (ret == EAGAIN || ret == EWOULDBLOCK)
+        return (SUCCESS);
+    //check retour receive pour fin de lecture serveur
+    return (SUCCESS);
 }
