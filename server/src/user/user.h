@@ -11,12 +11,7 @@
 #include "def/length.h"
 #include "list/list.h"
 
-enum USE {
-    USE_CHANNEL,
-    USE_SERVER,
-    USE_TEAM,
-    USE_THREAD
-};
+enum USE { USE_CHANNEL, USE_SERVER, USE_TEAM, USE_THREAD };
 
 typedef struct user_s user_t;
 

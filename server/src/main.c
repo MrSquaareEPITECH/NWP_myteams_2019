@@ -7,9 +7,8 @@
 
 #include <stdio.h>
 
-#include "server/server.h"
-
 #include "def/code.h"
+#include "server/server.h"
 
 int main(void)
 {

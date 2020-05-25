@@ -80,7 +80,8 @@ user_t *get_user_id(server_t *server, const char *arg)
 user_t *get_user_name(server_t *server, const char *arg)
 {
     char *user_uuid = strtrim(arg, "\"");
-    user_t *item = list_get(server->users, user_uuid, (compare_t)(user_get_name));
+    user_t *item =
+        list_get(server->users, user_uuid, (compare_t)(user_get_name));
 
     free(user_uuid);
     return (item);

@@ -11,6 +11,7 @@
 #include "client/client.h"
 #include "server/server.h"
 
-int subscribed_command(server_t *server, client_t *client, int argc, char **argv);
+int subscribed_command(
+    server_t *server, client_t *client, int argc, char **argv);
 
 #endif // SERVER_SRC_COMMAND_SUBSCRIBED_H

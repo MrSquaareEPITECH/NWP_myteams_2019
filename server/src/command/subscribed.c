@@ -31,7 +31,8 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     return (CODE_SUCCESS);
 }
 
-int subscribed_command(server_t *server, client_t *client, int argc, char **argv)
+int subscribed_command(
+    server_t *server, client_t *client, int argc, char **argv)
 {
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);

@@ -11,10 +11,10 @@
 #include <string.h>
 
 #include "command/list_internal.h"
-#include "team/team.h"
 #include "def/code.h"
 #include "def/data.h"
 #include "def/response.h"
+#include "team/team.h"
 
 static int reply(client_t *client, server_t *server)
 {
@@ -34,8 +34,7 @@ static int reply(client_t *client, server_t *server)
         if (list_push(client->queue, data) == CODE_ERROR)
             return (CODE_ERROR);
     }
-    if (list_push(client->queue, strdup(RESPONSE_TEAM_LIST_END)) ==
-        CODE_ERROR)
+    if (list_push(client->queue, strdup(RESPONSE_TEAM_LIST_END)) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_ERROR);
 }

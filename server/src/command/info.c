@@ -32,7 +32,6 @@ static int info_validation(
     return (CODE_SUCCESS);
 }
 
-
 int info_command(server_t *server, client_t *client, int argc, char **argv)
 {
     if (info_validation(server, client, argc, argv) == CODE_ERROR)

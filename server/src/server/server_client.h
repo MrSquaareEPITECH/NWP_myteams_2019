@@ -12,7 +12,8 @@
 #include "server.h"
 
 int server_client_add(server_t *server, client_t *client);
-int server_client_receive(server_t *server, client_t *client, int *argc, char ***argv);
+int server_client_receive(
+    server_t *server, client_t *client, int *argc, char ***argv);
 int server_client_send(server_t *server, client_t *client, const char *message);
 int server_client_remove(server_t *server, client_t *client);
 int server_client_execute(server_t *server, client_t *client);

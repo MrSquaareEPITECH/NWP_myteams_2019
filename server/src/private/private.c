@@ -14,20 +14,20 @@
 
 private_t *private_create(const char *uuid)
 {
-    private_t *private = malloc(sizeof(private_t));
+    private_t *priv = malloc(sizeof(private_t));
 
-    if (private == NULL)
+    if (priv == NULL)
         return (NULL);
-    memset(private->uuid, 0, sizeof(private->uuid));
-    strncpy(private->uuid, uuid, UUID_LENGTH);
-    private->messages = list_create();
-    return (private);
+    memset(priv->uuid, 0, sizeof(priv->uuid));
+    strncpy(priv->uuid, uuid, UUID_LENGTH);
+    priv->messages = list_create();
+    return (priv);
 }
 
-void private_delete(private_t *private)
+void private_delete(private_t *priv)
 {
-    if (private == NULL)
+    if (priv == NULL)
         return;
-    list_delete(private->messages, delete_c(message_delete));
-    free(private);
+    list_delete(priv->messages, delete_c(message_delete));
+    free(priv);
 }

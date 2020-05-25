@@ -13,7 +13,12 @@
 #include "list/list.h"
 #include "user/user.h"
 
-enum client_state { CLIENT_UNKNOWN, CLIENT_CONNECTED, CLIENT_LOGGED, CLIENT_DISCONNECTED };
+enum client_state {
+    CLIENT_UNKNOWN,
+    CLIENT_CONNECTED,
+    CLIENT_LOGGED,
+    CLIENT_DISCONNECTED
+};
 
 typedef struct client_s client_t;
 

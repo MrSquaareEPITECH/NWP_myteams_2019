@@ -30,11 +30,13 @@ int use_channel(server_t *server, client_t *client, int argc, char **argv)
 {
     (void)(argc);
 
-    team_t *team = get_error_team(client, RESPONSE_CHANNEL_USE_KO, server, argv[1]);
+    team_t *team =
+        get_error_team(client, RESPONSE_CHANNEL_USE_KO, server, argv[1]);
     channel_t *channel = NULL;
 
     if (team)
-        channel = get_error_channel(client, RESPONSE_CHANNEL_USE_KO, team, argv[2]);
+        channel =
+            get_error_channel(client, RESPONSE_CHANNEL_USE_KO, team, argv[2]);
     if (channel == NULL)
         return (CODE_ERROR);
     client->user->use = USE_CHANNEL;
