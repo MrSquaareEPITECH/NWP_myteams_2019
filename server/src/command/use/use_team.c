@@ -8,27 +8,12 @@
 #define _GNU_SOURCE
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <stringext.h>
 
+#include "command/get_error_util.h"
 #include "command/use_internal.h"
 #include "def/code.h"
 #include "def/response.h"
 #include "team/team.h"
-
-static team_t *get_team(client_t *client, server_t *server, char **argv)
-{
-    char *team_uuid = strtrim(argv[1], "\"");
-    team_t *team = list_get(server->teams, team_uuid, (compare_t)(team_get_id));
-    char *error = NULL;
-
-    if (team == NULL) {
-        asprintf(&error, RESPONSE_TEAM_USE_KO, "Team doesn't exist");
-        list_push(client->queue, error);
-    }
-    free(team_uuid);
-    return (team);
-}
 
 static int reply(client_t *client)
 {
@@ -44,7 +29,8 @@ int use_team(server_t *server, client_t *client, int argc, char **argv)
 {
     (void)(argc);
 
-    team_t *team = get_team(client, server, argv);
+    team_t *team =
+        get_error_team(client, RESPONSE_TEAM_USE_KO, server, argv[1]);
 
     if (team == NULL)
         return (CODE_ERROR);

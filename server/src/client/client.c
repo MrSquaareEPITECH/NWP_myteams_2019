@@ -8,6 +8,7 @@
 #include "client.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 client_t *client_create(void)
 {
@@ -20,6 +21,11 @@ client_t *client_create(void)
     client->state = CLIENT_UNKNOWN;
     client->user = NULL;
     return (client);
+}
+
+bool client_get_id(client_t *client, char *uuid)
+{
+    return (client->user && strcmp(client->user->uuid, uuid) == 0);
 }
 
 void client_delete(client_t *client)

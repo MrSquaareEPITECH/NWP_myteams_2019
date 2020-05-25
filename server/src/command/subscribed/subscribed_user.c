@@ -10,28 +10,12 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "command/get_util.h"
 #include "command/subscribed_internal.h"
 #include "def/code.h"
 #include "def/data.h"
 #include "def/response.h"
-#include "subscriber/subscriber.h"
 #include "team/team.h"
-
-static list_t *get_teams(server_t *server, client_t *client)
-{
-    list_t *teams = list_create();
-
-    for (node_t *node = server->teams->begin; node; node = node->next) {
-        team_t *team = (team_t *)(node->obj);
-        subscriber_t *subscriber = list_get(team->subscribers,
-            client->user->uuid, (compare_t)(subscriber_get_id));
-
-        if (subscriber == NULL)
-            continue;
-        list_push(teams, team);
-    }
-    return (teams);
-}
 
 static int reply(client_t *client, list_t *teams)
 {

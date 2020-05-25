@@ -53,6 +53,8 @@ PROJ_SRC			=		channel/channel.c						\
                             command/use/use_team.c					\
                             command/use/use_thread.c				\
 							command/create.c						\
+							command/get_util.c						\
+							command/get_error_util.c				\
 							command/help.c							\
 							command/info.c							\
 							command/list.c							\

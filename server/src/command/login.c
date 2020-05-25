@@ -18,6 +18,7 @@
 #include "def/data.h"
 #include "def/event.h"
 #include "def/response.h"
+#include "get_util.h"
 #include "server/server_util.h"
 #include "user/user.h"
 
@@ -78,9 +79,13 @@ int login_command(server_t *server, client_t *client, int argc, char **argv)
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
-    user_t *user = create(argv);
+    user_t *user = get_user_name(server, argv[1]);
 
-    list_push(server->users, user);
+    if (user == NULL) {
+        user = create(argv);
+        list_push(server->users, user);
+    }
+
     client->state = CLIENT_LOGGED;
     client->user = user;
     if (reply(client, user) == CODE_ERROR)

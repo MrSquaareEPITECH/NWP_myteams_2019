@@ -10,13 +10,12 @@
 #include "user.h"
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <stringext.h>
 
 #include "client/client_util.h"
 #include "def/code.h"
 #include "def/data.h"
 #include "def/response.h"
+#include "get_error_util.h"
 #include "user/user.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
@@ -39,20 +38,6 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     return (CODE_SUCCESS);
 }
 
-static user_t *get_user(client_t *client, server_t *server, char **argv)
-{
-    char *user_uuid = strtrim(argv[1], "\"");
-    user_t *user = list_get(server->users, user_uuid, (compare_t)(user_get_id));
-    char *error = NULL;
-
-    if (user == NULL) {
-        asprintf(&error, RESPONSE_USER_INFO_KO, "User doesn't exist");
-        list_push(client->queue, error);
-    }
-    free(user_uuid);
-    return (user);
-}
-
 static int reply(client_t *client, user_t *user)
 {
     char *response = NULL;
@@ -70,7 +55,8 @@ int user_command(server_t *server, client_t *client, int argc, char **argv)
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
-    user_t *user = get_user(client, server, argv);
+    user_t *user =
+        get_error_user(client, RESPONSE_USER_INFO_KO, server, argv[1]);
 
     if (user == NULL)
         return (CODE_ERROR);

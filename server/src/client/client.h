@@ -28,6 +28,7 @@ struct client_s {
 };
 
 client_t *client_create(void);
+bool client_get_id(client_t *client, char *uuid);
 void client_delete(client_t *client);
 
 #endif // SERVER_SRC_CLIENT_CLIENT_H
