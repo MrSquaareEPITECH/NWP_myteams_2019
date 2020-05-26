@@ -52,7 +52,7 @@ Version 2.0
 <users>
     <user id="%USER_ID%" name="%USER_NAME%">
         <privates>
-            <private id="%CONVERSATION_ID"/>
+            <private id="%CONVERSATION_ID" user="%USER_ID%"/>
         </privates>
     </user>
 </users>
