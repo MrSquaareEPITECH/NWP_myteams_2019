@@ -87,6 +87,35 @@ Version: 2.0
 
 ## RESPONSES
 
+### Generic codes
+- 0: OK
+- 100: Error
+- 101: Not logged
+- 102: Missing arguments
+- 103: Wrong argument
+- 104: Doesn't exist
+
+### Global
+- Create
+    - `GLOBAL CREATE KO ["<message>"]`: Error
+- Help
+    - Success
+    ```text
+    GLOBAL HELP OK ["<message>"]
+    GLOBAL HELP START
+    "<name>" "<help>"
+    ...
+    "<name>" "<help>"
+    GLOBAL HELP END
+    ```
+    - `GLOBAL HELP KO ["<message>"]`: Error
+- Info
+    - `GLOBAL INFO KO ["<message>"]`: Error
+- List
+    - `GLOBAL LIST KO ["<message>"]`: Error
+- List
+    - `GLOBAL SUBSCRIBED KO ["<message>"]`: Error
+
 ### Channel
 - Create
     - Success
