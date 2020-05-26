@@ -20,7 +20,6 @@ private_t *private_create(const char *uuid)
         return (NULL);
     memset(priv->uuid, 0, sizeof(priv->uuid));
     strncpy(priv->uuid, uuid, UUID_LENGTH);
-    priv->messages = list_create();
     return (priv);
 }
 
@@ -28,6 +27,5 @@ void private_delete(private_t *priv)
 {
     if (priv == NULL)
         return;
-    list_delete(priv->messages, delete_c(message_delete));
     free(priv);
 }

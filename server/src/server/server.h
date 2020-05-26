@@ -22,6 +22,7 @@ struct server_s {
     list_t *clients;
 
     list_t *teams;
+    list_t *conversations;
     list_t *users;
 };
 

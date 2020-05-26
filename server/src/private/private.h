@@ -15,8 +15,6 @@ typedef struct private_s private_t;
 
 struct private_s {
     char uuid[UUID_LENGTH + 1];
-
-    list_t *messages;
 };
 
 private_t *private_create(const char *uuid);

@@ -69,6 +69,7 @@ PROJ_SRC			=		channel/channel.c						\
 							command/user.c							\
 							command/users.c							\
 							comment/comment.c						\
+							conversation/conversation.c				\
 							helper/command.c						\
 							list/list.c								\
 							message/message.c						\
