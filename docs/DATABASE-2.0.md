@@ -1,5 +1,5 @@
 # my_teams DATABASE
-Version 1.1
+Version 2.0
 
 ## Teams
 ```xml
@@ -32,11 +32,11 @@ Version 1.1
 ```xml
 <conversations>
     <conversation id="%CONVERSATION_ID%">
-        <attendees>
-            <attendee id="%USER_ID%"/>
+        <subscribers>
+            <subscriber id="%USER_ID%"/>
             <!-- ... -->
-            <attendee id="%USER_ID%"/>
-        </attendees>
+            <subscriber id="%USER_ID%"/>
+        </subscribers>
         <messages>
             <message timestamp="%TIMESTAMP%" user="%USER_ID%">"%BODY%"</message>
             <!-- ... -->

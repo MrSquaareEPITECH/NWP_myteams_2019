@@ -1,5 +1,5 @@
 # my_teams RFC
-Version: 2.0
+Version: 2.1
 
 #### Note
 - Every line ends with a line break
