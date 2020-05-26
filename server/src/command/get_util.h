@@ -10,7 +10,9 @@
 
 #include "channel/channel.h"
 #include "client/client.h"
+#include "conversation/conversation.h"
 #include "list/list.h"
+#include "private/private.h"
 #include "server/server.h"
 #include "subscriber/subscriber.h"
 #include "team/team.h"
@@ -19,6 +21,8 @@
 
 client_t *get_client(server_t *server, const char *arg);
 channel_t *get_channel(team_t *team, const char *arg);
+conversation_t *get_conversion(server_t *server, const char *arg);
+private_t *get_private(user_t *user, const char *arg);
 team_t *get_team(server_t *server, const char *arg);
 list_t *get_teams(server_t *server, client_t *client);
 thread_t *get_thread(channel_t *channel, const char *arg);

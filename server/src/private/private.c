@@ -12,7 +12,7 @@
 
 #include "message/message.h"
 
-private_t *private_create(const char *uuid)
+private_t *private_create(const char *uuid, const char *user)
 {
     private_t *priv = malloc(sizeof(private_t));
 
@@ -20,7 +20,14 @@ private_t *private_create(const char *uuid)
         return (NULL);
     memset(priv->uuid, 0, sizeof(priv->uuid));
     strncpy(priv->uuid, uuid, UUID_LENGTH);
+    memset(priv->user, 0, sizeof(priv->user));
+    strncpy(priv->user, user, UUID_LENGTH);
     return (priv);
+}
+
+bool private_get_user(private_t *priv, const char *user)
+{
+    return (strcmp(priv->user, user) == 0);
 }
 
 void private_delete(private_t *priv)

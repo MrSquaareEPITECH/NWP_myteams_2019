@@ -10,6 +10,8 @@
 
 #include "channel/channel.h"
 #include "client/client.h"
+#include "conversation/conversation.h"
+#include "private/private.h"
 #include "server/server.h"
 #include "team/team.h"
 #include "thread/thread.h"
@@ -19,6 +21,10 @@ client_t *get_error_client(
     client_t *client, const char *response, server_t *server, const char *arg);
 channel_t *get_error_channel(
     client_t *client, const char *response, team_t *team, const char *arg);
+conversation_t *get_error_conversation(
+    client_t *client, const char *response, server_t *server, const char *arg);
+private_t *get_error_private(
+    client_t *client, const char *response, user_t *user, const char *arg);
 team_t *get_error_team(
     client_t *client, const char *response, server_t *server, const char *arg);
 thread_t *get_error_thread(client_t *client, const char *response,

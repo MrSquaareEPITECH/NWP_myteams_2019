@@ -33,6 +33,26 @@ channel_t *get_channel(team_t *team, const char *arg)
     return (item);
 }
 
+conversation_t *get_conversion(server_t *server, const char *arg)
+{
+    char *conversation_uuid = strtrim(arg, "\"");
+    conversation_t *item = list_get(server->conversations, conversation_uuid,
+        (compare_t)(conversation_get_id));
+
+    free(conversation_uuid);
+    return (item);
+}
+
+private_t *get_private(user_t *user, const char *arg)
+{
+    char *user_uuid = strtrim(arg, "\"");
+    private_t *item =
+        list_get(user->privates, user_uuid, (compare_t)(private_get_user));
+
+    free(user_uuid);
+    return (item);
+}
+
 team_t *get_team(server_t *server, const char *arg)
 {
     char *team_uuid = strtrim(arg, "\"");

@@ -39,6 +39,32 @@ channel_t *get_error_channel(
     return (item);
 }
 
+conversation_t *get_error_conversation(
+    client_t *client, const char *response, server_t *server, const char *arg)
+{
+    conversation_t *item = get_conversion(server, arg);
+    char *error = NULL;
+
+    if (item == NULL) {
+        asprintf(&error, response, "Conversation doesn't exist");
+        list_push(client->queue, error);
+    }
+    return (item);
+}
+
+private_t *get_error_private(
+    client_t *client, const char *response, user_t *user, const char *arg)
+{
+    private_t *item = get_private(user, arg);
+    char *error = NULL;
+
+    if (item == NULL) {
+        asprintf(&error, response, "Private doesn't exist");
+        list_push(client->queue, error);
+    }
+    return (item);
+}
+
 team_t *get_error_team(
     client_t *client, const char *response, server_t *server, const char *arg)
 {
