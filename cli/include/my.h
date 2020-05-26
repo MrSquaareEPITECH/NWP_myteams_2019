@@ -47,9 +47,9 @@ static const char * const HELP[] = {"./help : show help\n",
 
 typedef struct client_s {
     int port;
-	int fd_client;
+    int fd_client;
     char *buffer;
-	struct sockaddr_in sin;
+    struct sockaddr_in sin;
 } client_t;
 
 typedef struct utilities_s {
@@ -66,6 +66,9 @@ structure server
 -messageQ
 */
 
+/* str_to_word_array */
+char **str_split(char *str, char chr);
+
 /* read.c */
 char *get_command(void);
 void check_command(client_t *cli);
@@ -73,6 +76,8 @@ void check_command(client_t *cli);
 /* sort_command.c */
 void display_help();
 int count_args(char *str);
+int count_lines(char *str);
+char *take_word(char *str, int i);
 
 /* handle_command.c */
 void handle_user(client_t *cli);

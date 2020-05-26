@@ -9,15 +9,16 @@
 
 int set_client(client_t *cli)
 {
-	cli->fd_client = socket(AF_INET, SOCK_STREAM, 0);
+    cli->fd_client = socket(AF_INET, SOCK_STREAM, 0);
     if (cli->fd_client < 0) {
         perror("Socket");
         return (ERROR_FUNCTION);
     }
     cli->sin.sin_addr.s_addr = inet_addr("127.0.0.1");
     cli->sin.sin_family = PF_INET;
-	cli->sin.sin_port = htons(cli->port);
-    if (connect(cli->fd_client, (struct sockaddr*)&cli->sin, sizeof(cli->sin)) < 0) {
+    cli->sin.sin_port = htons(cli->port);
+    if (connect(cli->fd_client, (struct sockaddr *)&cli->sin,
+        sizeof(cli->sin)) < 0) {
         perror("Connect");
         return (ERROR_FUNCTION);
     }
@@ -38,13 +39,14 @@ int main_loop(client_t *cli, utilities_t *utils)
         utils->set_read = utils->a_read;
         utils->set_write = utils->a_write;
         write(0, "> ", 3);
-        if (select(FD_SETSIZE, &utils->set_read, &utils->set_write, NULL, NULL) < 0) {
+        if (select(FD_SETSIZE, &utils->set_read, &utils->set_write,
+            NULL, NULL) < 0) {
             perror("select");
             return (ERROR_FUNCTION);
         }
         cli->buffer = get_command();
         if (cli->buffer == NULL)
-            return(ERROR_FUNCTION);
+            return (ERROR_FUNCTION);
         else
             check_command(cli);
         get_info_server(cli);
