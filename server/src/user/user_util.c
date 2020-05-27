@@ -15,7 +15,7 @@
 
 char *user_to_data(user_t *user)
 {
-    char *data = strfmt(DATA_USER, user->uuid, user->name);
+    char *data = strfmt(DATA_USER, user->uuid, user->name, user->status);
 
     return (data);
 }

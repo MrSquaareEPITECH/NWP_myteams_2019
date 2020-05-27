@@ -12,7 +12,8 @@
 
 char *comment_to_data(comment_t *comment)
 {
-    char *data = strfmt(DATA_COMMENT, comment->timestamp, comment->body);
+    char *data =
+        strfmt(DATA_COMMENT, comment->user, comment->timestamp, comment->body);
 
     return (data);
 }

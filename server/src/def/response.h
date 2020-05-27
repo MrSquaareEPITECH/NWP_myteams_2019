@@ -12,6 +12,7 @@ typedef const char* const c_string;
 
 #define g_string static c_string
 
+g_string RESPONSE_GLOBAL_COMMAND_KO = "GLOBAL COMMAND KO \"%s\"\n";
 g_string RESPONSE_GLOBAL_CREATE_KO = "GLOBAL CREATE KO \"%s\"\n";
 g_string RESPONSE_GLOBAL_HELP_OK = "GLOBAL HELP OK \"%s\"\n";
 g_string RESPONSE_GLOBAL_HELP_KO = "GLOBAL HELP KO \"%s\"\n";

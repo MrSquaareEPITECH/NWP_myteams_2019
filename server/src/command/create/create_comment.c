@@ -35,10 +35,10 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     return (CODE_SUCCESS);
 }
 
-static comment_t *create(thread_t *thread, char **argv)
+static comment_t *create(thread_t *thread, const char *user, char **argv)
 {
     char *body = strtrim(argv[1], "\"");
-    comment_t *comment = comment_create(thread, body);
+    comment_t *comment = comment_create(thread, user, body);
 
     free(body);
     return (comment);
@@ -73,7 +73,7 @@ int create_comment(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
 
     thread_t *thread = (thread_t *)(client->user->obj);
-    comment_t *comment = create(thread, argv);
+    comment_t *comment = create(thread, client->user->uuid, argv);
 
     if (comment == NULL)
         return (CODE_ERROR);

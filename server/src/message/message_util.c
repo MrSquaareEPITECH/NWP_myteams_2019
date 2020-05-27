@@ -12,7 +12,8 @@
 
 char *message_to_data(message_t *message)
 {
-    char *data = strfmt(DATA_MESSAGE, message->timestamp, message->body);
+    char *data =
+        strfmt(DATA_MESSAGE, message->user, message->timestamp, message->body);
 
     return (data);
 }

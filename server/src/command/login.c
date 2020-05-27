@@ -80,7 +80,7 @@ int login_command(server_t *server, client_t *client, int argc, char **argv)
         user = create(argv);
         list_push(server->users, user);
     }
-
+    user->status = 1;
     client->state = CLIENT_LOGGED;
     client->user = user;
     if (reply(client, user) == CODE_ERROR)

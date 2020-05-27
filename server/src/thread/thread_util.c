@@ -12,8 +12,8 @@
 
 char *thread_to_data(thread_t *thread)
 {
-    char *data = strfmt(DATA_THREAD, thread->uuid, thread->timestamp,
-        thread->name, thread->body);
+    char *data = strfmt(DATA_THREAD, thread->uuid, thread->user,
+        thread->timestamp, thread->name, thread->body);
 
     return (data);
 }

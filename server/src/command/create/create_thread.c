@@ -34,11 +34,11 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     return (CODE_SUCCESS);
 }
 
-static thread_t *create(channel_t *channel, char **argv)
+static thread_t *create(channel_t *channel, const char *user, char **argv)
 {
     char *name = strtrim(argv[1], "\"");
     char *description = strtrim(argv[2], "\"");
-    thread_t *thread = thread_create(channel, name, description);
+    thread_t *thread = thread_create(channel, user, name, description);
 
     free(description);
     free(name);
@@ -73,7 +73,7 @@ int create_thread(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
 
     channel_t *channel = (channel_t *)(client->user->obj);
-    thread_t *thread = create(channel, argv);
+    thread_t *thread = create(channel, client->user->uuid, argv);
 
     if (thread == NULL)
         return (CODE_ERROR);

@@ -36,10 +36,10 @@ exchange_t *create_exchange(server_t *server, user_t *user1, user_t *user2)
     return (exchange);
 }
 
-message_t *create_message(char **argv)
+message_t *create_message(const char *user, char **argv)
 {
     char *body = strtrim(argv[2], " \t\"");
-    message_t *message = message_create(body);
+    message_t *message = message_create(user, body);
 
     free(body);
     return (message);

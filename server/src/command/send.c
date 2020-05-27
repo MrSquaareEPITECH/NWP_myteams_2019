@@ -84,7 +84,7 @@ int send_command(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
 
     exchange_t *exchange = get_or_create_exchange(server, client->user, ruser);
-    message_t *message = create_message(argv);
+    message_t *message = create_message(client->user->uuid, argv);
     client_t *rclient = server_get_client(server, ruser->uuid);
 
     if (list_push(exchange->messages, message) == CODE_ERROR)

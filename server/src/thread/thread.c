@@ -13,7 +13,8 @@
 
 #include "comment/comment.h"
 
-thread_t *thread_create(channel_t *parent, const char *name, const char *body)
+thread_t *thread_create(
+    channel_t *parent, const char *user, const char *name, const char *body)
 {
     thread_t *thread = malloc(sizeof(thread_t));
 
@@ -25,6 +26,8 @@ thread_t *thread_create(channel_t *parent, const char *name, const char *body)
     memset(thread->uuid, 0, sizeof(thread->uuid));
     uuid_generate(uuid);
     uuid_unparse(uuid, thread->uuid);
+    memset(thread->user, 0, sizeof(thread->user));
+    strncpy(thread->user, user, UUID_LENGTH);
     thread->timestamp = time(NULL);
     memset(thread->name, 0, sizeof(thread->name));
     strncpy(thread->name, name, MAX_NAME_LENGTH);

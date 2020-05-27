@@ -17,13 +17,14 @@ typedef struct thread_s thread_t;
 typedef struct comment_s comment_t;
 
 struct comment_s {
+    char user[UUID_LENGTH + 1];
     time_t timestamp;
     char body[MAX_BODY_LENGTH + 1];
 
     thread_t *parent;
 };
 
-comment_t *comment_create(thread_t *thread, const char *body);
+comment_t *comment_create(thread_t *thread, const char *user, const char *body);
 void comment_delete(comment_t *comment);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_COMMENT_COMMENT_H

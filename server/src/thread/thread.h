@@ -19,6 +19,7 @@ typedef struct thread_s thread_t;
 
 struct thread_s {
     char uuid[UUID_LENGTH + 1];
+    char user[UUID_LENGTH + 1];
     time_t timestamp;
     char name[MAX_NAME_LENGTH + 1];
     char body[MAX_BODY_LENGTH + 1];
@@ -27,7 +28,8 @@ struct thread_s {
     list_t *comments;
 };
 
-thread_t *thread_create(channel_t *parent, const char *name, const char *body);
+thread_t *thread_create(
+    channel_t *parent, const char *user, const char *name, const char *body);
 bool thread_get_id(thread_t *thread, char *uuid);
 void thread_delete(thread_t *thread);
 

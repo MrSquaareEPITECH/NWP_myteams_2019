@@ -15,6 +15,6 @@
 
 exchange_t *get_exchange(server_t *server, user_t *user1, user_t *user2);
 exchange_t *create_exchange(server_t *server, user_t *user1, user_t *user2);
-message_t *create_message(char **argv);
+message_t *create_message(const char *user, char **argv);
 
 #endif // SERVER_SRC_COMMAND_SEND_INTERNAL_H
