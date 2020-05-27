@@ -27,23 +27,18 @@ Version 2.0
 </teams>
 ```
 
-## Messages
+## Exchanges
 
 ```xml
-<conversations>
-    <conversation id="%CONVERSATION_ID%">
-        <subscribers>
-            <subscriber id="%USER_ID%"/>
-            <!-- ... -->
-            <subscriber id="%USER_ID%"/>
-        </subscribers>
+<exchanges>
+    <exchange id="%EXCHANGE_ID%">
         <messages>
             <message timestamp="%TIMESTAMP%" user="%USER_ID%">"%BODY%"</message>
             <!-- ... -->
             <message timestamp="%TIMESTAMP%" user="%USER_ID%">"%BODY%"</message>
         </messages>
-    </conversation>
-</conversations>
+    </exchange>
+</exchanges>
 ```
 
 ## Users
@@ -52,7 +47,7 @@ Version 2.0
 <users>
     <user id="%USER_ID%" name="%USER_NAME%">
         <privates>
-            <private id="%CONVERSATION_ID" user="%USER_ID%"/>
+            <private uuid="%USER_ID" exchange="%EXCHANGE_ID%"/>
         </privates>
     </user>
 </users>

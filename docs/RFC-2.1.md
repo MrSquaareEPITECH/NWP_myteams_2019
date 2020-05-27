@@ -149,14 +149,18 @@ Version: 2.1
     ```text
     COMMENT LIST OK ["<message>"]
     COMMENT LIST START
-    "<timestamp>" "<body>"
+    "<thread_uuid>" "<user_uuid>" "<timestamp>" "<body>"
     ...
-    "<timestamp>" "<body>"
+    "<thread_uuid>" "<user_uuid>" "<timestamp>" "<body>"
     COMMENT LIST END
     ```
     - `COMMENT LIST KO ["<message>"]`: Error
 - Send
-    - `COMMENT SEND OK ["<message>"]`: Success
+    - Success
+    ```text
+    COMMENT SEND OK ["<message>"]
+    "<thread_uuid>" "<user_uuid>" "<timestamp>" "<body>"
+    ```
     - `COMMENT SEND KO ["<message>"]`: Error
 
 ### Message
@@ -165,14 +169,18 @@ Version: 2.1
     ```text
     MESSAGE LIST OK ["<message>"]
     MESSAGE LIST START
-    "<timestamp>" "<body>"
+    "<user_uuid>" "<timestamp>" "<body>"
     ...
-    "<timestamp>" "<body>"
+    "<user_uuid>" "<timestamp>" "<body>"
     MESSAGE LIST END
     ```
     - `MESSAGE LIST KO ["<message>"]`: Error
 - Send
-    - `MESSAGE SEND OK ["<message>"]`: Success
+    - Success
+    ```text
+    MESSAGE SEND OK ["<message>"]
+    "<user_uuid>" "<timestamp>" "<body>"
+    ```
     - `MESSAGE SEND KO ["<message>"]`: Error
 
 ### Team
@@ -206,9 +214,9 @@ Version: 2.1
     ```text
     TEAM SUBSCRIBERS OK ["<message>"]
     TEAM SUBSCRIBERS START
-    "<name>"
+    "<uuid>"
     ...
-    "<name>"
+    "<uuid>"
     TEAM SUBSCRIBERS END
     ```
     - `TEAM SUBSCRIBERS KO ["<message>"]`: Error
@@ -218,14 +226,14 @@ Version: 2.1
     - Success
     ```text
     THREAD CREATE OK ["<message>"]
-    "<uuid>" "<timestamp>" "<name>" "<body>"
+    "<uuid>" "<user_uuid>" "<timestamp>" "<name>" "<body>"
     ```
     - `THREAD CREATE KO ["<message>"]`: Error
 - Information
     - Success
     ```text
     THREAD INFO OK ["<message>"]
-    "<uuid>" "<timestamp>" "<name>" "<body>"
+    "<uuid>" "<user_uuid>" "<timestamp>" "<name>" "<body>"
     ```
     - `TEAM INFO KO ["<message>"]`: Error
 - List
@@ -233,9 +241,9 @@ Version: 2.1
     ```text
     THREAD LIST OK ["<message>"]
     THREAD LIST START
-    "<uuid>" "<timestamp>" "<name>" "<body>"
+    "<uuid>" "<user_uuid>" "<timestamp>" "<name>" "<body>"
     ...
-    "<uuid>" "<timestamp>" "<name>" "<body>"
+    "<uuid>" "<user_uuid>" "<timestamp>" "<name>" "<body>"
     THREAD LIST END
     ```
     - `THREAD LIST KO ["<message>"]`: Error
@@ -245,7 +253,7 @@ Version: 2.1
     - Success
     ```text
     USER INFO OK ["<message>"]
-    "<uuid>" "<name>"
+    "<uuid>" "<name>" "status"
     ```
     - `USER INFO KO ["<message>"]`: Error
 - List
@@ -253,17 +261,24 @@ Version: 2.1
     ```text
     USER LIST OK ["<message>"]
     USER LIST START
-    "<name>" "<status>"
+    "<uuid>" "<name>" "status"
     ...
-    "<name>" "<status>"
+    "<uuid>" "<name>" "status"
     USER LIST END
     ```
     - `USER LIST KO ["<message>"]`: Error
 - Login
-    - `USER LOGIN OK ["<message>"]`: Success
+    - Success
+    ```text
+    USER LOGIN OK ["<message>"]
+    "<uuid>" "<name>" "status"
+    ```
     - `USER LOGIN KO ["<message>"]`: Error
 - Logout
-    - `USER LOGOUT OK ["<message>"]`: Success
+    ```text
+    USER LOGOUT OK ["<message>"]
+    "<uuid>" "<name>" "status"
+    ```
     - `USER LOGOUT KO ["<message>"]`: Error
 - Subscribe
     - Success
@@ -277,9 +292,9 @@ Version: 2.1
     ```text
     USER SUBSCRIPTIONS OK ["<message>"]
     USER SUBSCRIPTIONS START
-    "<uuid>" "<name>" "<description>"
+    "<uuid>" "<team_uuid>"
     ...
-    "<uuid>" "<name>" "<description>"
+    "<uuid>" "<team_uuid>"
     USER SUBSCRIPTIONS END
     ```
     - `USER SUBSCRIPTIONS KO ["<message>"]`: Error
@@ -295,26 +310,48 @@ Version: 2.1
 
 ### Channel
 - Create
-    - `CHANNEL CREATED "<uuid>" "<name>" "<description>"`
+    ```text
+    CHANNEL CREATED
+    "<uuid>" "<name>" "<description>"
+    ```
 
 ### Comment
 - Send
+    ```text
+    COMMENT SENT
+    "<team_uuid>" "<thread_uuid>" "<user_uuid>" "<timestamp>" "<body>"
+    ```
     - `COMMENT SENT "<user_uuid>" "<team_uuid>" "<uuid>" "<body>"`
 
 ### Message
 - Send
-    - `MESSAGE SENT "<user_uuid>" "<body>"`
+    ```text
+    MESSAGE SENT
+    "<user_uuid>" "<timestamp>" "<body>"
+    ```
 
 ### Team
 - Create
-    - `TEAM CREATED "<uuid>" "<name>" "<body>"`
+    ```text
+    TEAM CREATED
+    "<uuid>" "<name>" "<description>"
+    ```
 
 ### Team
 - Create
-    - `THREAD CREATED "<user_uuid>" "<uuid>" "<timestamp>" "<name>" "<description>"`
+    ```text
+    THREAD CREATED
+    "<uuid>" "<user_uuid>" "<timestamp>" "<name>" "<description>"
+    ```
 
 ### User
 - Login
-    - `USER LOGGEDIN "<uuid>" "<name>"`
+    ```text
+    USER LOGGEDIN
+    "<uuid>" "<name>" "<status>"
+    ```
 - Logout
-    - `USER LOGGEDOUT "<uuid>" "<name>"`
+    ```text
+    USER LOGGEDOUT
+    "<uuid>" "<name>" "<status>"
+    ```
