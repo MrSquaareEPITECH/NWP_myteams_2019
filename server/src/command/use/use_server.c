@@ -5,19 +5,15 @@
 ** use_server.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
-
 #include "command/use_internal.h"
 #include "def/code.h"
 #include "def/response.h"
+#include "util/string.h"
 
 static int reply(client_t *client)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_SERVER_USE_OK, "Success");
 
-    asprintf(&response, RESPONSE_SERVER_USE_OK, "Success");
     if (list_push(client->queue, response) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);

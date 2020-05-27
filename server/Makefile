@@ -32,8 +32,11 @@ LDLIBS				+=		-luuid
 MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c						\
+							channel/channel_util.c					\
 							client/client.c							\
 							client/client_util.c					\
+							command/command.c						\
+							command/command_util.c					\
 							command/create/create_channel.c			\
 							command/create/create_comment.c			\
 							command/create/create_team.c			\
@@ -46,15 +49,14 @@ PROJ_SRC			=		channel/channel.c						\
 							command/list/list_comment.c				\
 							command/list/list_team.c				\
 							command/list/list_thread.c				\
+							command/send/send_internal.c			\
 							command/subscribed/subscribed_team.c	\
 							command/subscribed/subscribed_user.c	\
 							command/use/use_channel.c				\
-                            command/use/use_server.c				\
-                            command/use/use_team.c					\
-                            command/use/use_thread.c				\
+							command/use/use_server.c				\
+							command/use/use_team.c					\
+							command/use/use_thread.c				\
 							command/create.c						\
-							command/get_util.c						\
-							command/get_error_util.c				\
 							command/help.c							\
 							command/info.c							\
 							command/list.c							\
@@ -69,20 +71,28 @@ PROJ_SRC			=		channel/channel.c						\
 							command/user.c							\
 							command/users.c							\
 							comment/comment.c						\
-							conversation/conversation.c				\
-							helper/command.c						\
+							comment/comment_util.c					\
+							exchange/exchange.c						\
 							list/list.c								\
+							list/list_node.c						\
 							message/message.c						\
+							message/message_util.c					\
 							private/private.c						\
 							server/server.c							\
 							server/server_client.c					\
 							server/server_client_io.c				\
 							server/server_internal.c				\
 							server/server_util.c					\
+							server/server_util2.c					\
 							subscriber/subscriber.c					\
 							team/team.c								\
+							team/team_util.c						\
 							thread/thread.c							\
+							thread/thread_util.c					\
 							user/user.c								\
+							user/user_util.c						\
+							util/get_or_error.c						\
+							util/string.c							\
 
 TEST_SRC			=
 

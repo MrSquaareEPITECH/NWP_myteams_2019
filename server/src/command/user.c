@@ -5,18 +5,15 @@
 ** user.c
 */
 
-#define _GNU_SOURCE
-
 #include "user.h"
-
-#include <stdio.h>
 
 #include "client/client_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
-#include "get_error_util.h"
 #include "user/user.h"
+#include "user/user_util.h"
+#include "util/get_or_error.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -26,12 +23,12 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (client->state != CLIENT_LOGGED) {
-        asprintf(&error, RESPONSE_USER_INFO_KO, "Not logged");
+        error = strfmt(RESPONSE_USER_INFO_KO, "Not logged");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
     if (argc < 2) {
-        asprintf(&error, RESPONSE_USER_INFO_KO, "Missing argument");
+        error = strfmt(RESPONSE_USER_INFO_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -40,11 +37,9 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
 
 static int reply(client_t *client, user_t *user)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_USER_INFO_OK, "Success");
+    char *data = user_to_data(user);
 
-    asprintf(&response, RESPONSE_USER_INFO_OK, "Success");
-    asprintf(&data, DATA_USER, user->uuid, user->name);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
@@ -56,10 +51,11 @@ int user_command(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
 
     user_t *user =
-        get_error_user(client, RESPONSE_USER_INFO_KO, server, argv[1]);
+        get_or_error_user_id(client, RESPONSE_USER_INFO_KO, server, argv[1]);
 
     if (user == NULL)
         return (CODE_ERROR);
-    reply(client, user);
+    if (reply(client, user) == CODE_ERROR)
+        return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

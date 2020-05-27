@@ -5,15 +5,12 @@
 ** list.c
 */
 
-#define _GNU_SOURCE
-
 #include "list.h"
-
-#include <stdio.h>
 
 #include "def/code.h"
 #include "def/response.h"
 #include "list_internal.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -24,7 +21,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (client->state != CLIENT_LOGGED) {
-        asprintf(&error, RESPONSE_GLOBAL_LIST_KO, "Not logged");
+        error = strfmt(RESPONSE_GLOBAL_LIST_KO, "Not logged");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }

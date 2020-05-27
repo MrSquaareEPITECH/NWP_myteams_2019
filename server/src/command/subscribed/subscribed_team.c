@@ -5,55 +5,43 @@
 ** subscribed_team.c
 */
 
-#define _GNU_SOURCE
+#include <stdlib.h>
 
-#include <stdio.h>
-#include <string.h>
-
-#include "command/get_error_util.h"
-#include "command/get_util.h"
+#include "client/client_util.h"
 #include "command/subscribed_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
+#include "server/server_util.h"
 #include "team/team.h"
 #include "user/user.h"
+#include "user/user_util.h"
+#include "util/get_or_error.h"
+#include "util/string.h"
 
 static int reply(client_t *client, list_t *users)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_TEAM_SUBSCRIBERS_OK, "Success");
+    reply_list_t options = {response, RESPONSE_TEAM_SUBSCRIBERS_START,
+        RESPONSE_TEAM_SUBSCRIBERS_END};
 
-    asprintf(&response, RESPONSE_TEAM_SUBSCRIBERS_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
-        return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_TEAM_SUBSCRIBERS_START)) ==
+    if (client_reply_list(client, &options, users, (to_data_t)(user_to_data)) ==
         CODE_ERROR)
         return (CODE_ERROR);
-    for (node_t *node = users->begin; node; node = node->next) {
-        char *data = NULL;
-        user_t *user = (user_t *)(node->obj);
-
-        asprintf(&data, DATA_USER, user->uuid, user->name);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_TEAM_SUBSCRIBERS_END)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int subscribed_team(server_t *server, client_t *client, int argc, char **argv)
 {
     (void)(argc);
 
-    team_t *team =
-        get_error_team(client, RESPONSE_TEAM_SUBSCRIBERS_KO, server, argv[1]);
+    team_t *team = get_or_error_team(
+        client, RESPONSE_TEAM_SUBSCRIBERS_KO, server, argv[1]);
 
     if (team == NULL)
         return (CODE_ERROR);
 
-    list_t *users = get_users(server, team);
+    list_t *users = server_get_team_users(server, team);
 
     if (reply(client, users) == CODE_ERROR)
         return (CODE_ERROR);

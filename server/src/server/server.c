@@ -10,8 +10,8 @@
 #include <stdlib.h>
 
 #include "client/client.h"
-#include "conversation/conversation.h"
 #include "def/code.h"
+#include "exchange/exchange.h"
 #include "server_internal.h"
 #include "team/team.h"
 #include "user/user.h"
@@ -26,7 +26,7 @@ server_t *server_create(uint16_t port)
     server->sock = socket_create(INADDR_ANY, PF_INET, port);
     server->clients = list_create();
     server->teams = list_create();
-    server->conversations = list_create();
+    server->exchanges = list_create();
     server->users = list_create();
     return (server);
 }
@@ -64,7 +64,7 @@ void server_delete(server_t *server)
     socket_delete(server->sock);
     list_delete(server->clients, delete_c(client_delete));
     list_delete(server->teams, delete_c(team_delete));
-    list_delete(server->conversations, delete_c(conversation_delete));
+    list_delete(server->exchanges, delete_c(exchange_delete));
     list_delete(server->users, delete_c(user_delete));
     free(server);
 }

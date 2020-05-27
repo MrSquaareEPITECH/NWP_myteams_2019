@@ -11,8 +11,8 @@
 #include <stdlib.h>
 
 #include "client/client.h"
+#include "command/command.h"
 #include "def/code.h"
-#include "helper/command.h"
 
 int server_client_add(server_t *server, client_t *client)
 {

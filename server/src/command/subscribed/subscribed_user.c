@@ -5,40 +5,28 @@
 ** subscribed_user.c
 */
 
-#define _GNU_SOURCE
+#include <stdlib.h>
 
-#include <stdio.h>
-#include <string.h>
-
-#include "command/get_util.h"
+#include "client/client_util.h"
 #include "command/subscribed_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
+#include "server/server_util.h"
 #include "team/team.h"
+#include "team/team_util.h"
+#include "util/string.h"
 
 static int reply(client_t *client, list_t *teams)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_USER_SUBSCRIPTIONS_OK, "Success");
+    reply_list_t options = {response, RESPONSE_USER_SUBSCRIPTIONS_START,
+        RESPONSE_USER_SUBSCRIPTIONS_END};
 
-    asprintf(&response, RESPONSE_USER_SUBSCRIPTIONS_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
-        return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_USER_SUBSCRIPTIONS_START)) ==
+    if (client_reply_list(client, &options, teams, (to_data_t)(team_to_data)) ==
         CODE_ERROR)
         return (CODE_ERROR);
-    for (node_t *node = teams->begin; node; node = node->next) {
-        char *data = NULL;
-        team_t *team = (team_t *)(node->obj);
-
-        asprintf(&data, DATA_TEAM, team->uuid, team->name, team->description);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_USER_SUBSCRIPTIONS_END)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int subscribed_user(server_t *server, client_t *client, int argc, char **argv)
@@ -46,7 +34,7 @@ int subscribed_user(server_t *server, client_t *client, int argc, char **argv)
     (void)(argv);
     (void)(argc);
 
-    list_t *teams = get_teams(server, client);
+    list_t *teams = server_get_user_teams(server, client->user);
 
     if (reply(client, teams) == CODE_ERROR)
         return (CODE_ERROR);

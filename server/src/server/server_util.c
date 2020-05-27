@@ -7,22 +7,52 @@
 
 #include "server_util.h"
 
-#include <string.h>
+#include <stdlib.h>
+#include <stringext.h>
 
-#include "client/client.h"
-#include "def/code.h"
-
-int server_broadcast(server_t *server, const char *event, const char *data)
+client_t *server_get_client(server_t *server, const char *uuid)
 {
-    for (node_t *node = server->clients->begin; node; node = node->next) {
-        client_t *client = node->obj;
+    char *id = strtrim(uuid, "\"");
+    client_t *client =
+        list_get(server->clients, id, (compare_t)(client_get_id));
 
-        if (client->state != CLIENT_LOGGED)
-            continue;
-        if (list_push(client->queue, strdup(event)) == CODE_ERROR)
-            return (CODE_ERROR);
-        if (list_push(client->queue, strdup(data)) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    return (CODE_SUCCESS);
+    free(id);
+    return (client);
+}
+
+exchange_t *server_get_exchange(server_t *server, const char *uuid)
+{
+    char *id = strtrim(uuid, "\"");
+    exchange_t *exchange =
+        list_get(server->exchanges, id, (compare_t)(exchange_get_id));
+
+    free(id);
+    return (exchange);
+}
+
+team_t *server_get_team(server_t *server, const char *uuid)
+{
+    char *id = strtrim(uuid, "\"");
+    team_t *team = list_get(server->teams, id, (compare_t)(team_get_id));
+
+    free(id);
+    return (team);
+}
+
+user_t *server_get_user_id(server_t *server, const char *uuid)
+{
+    char *id = strtrim(uuid, "\"");
+    user_t *user = list_get(server->users, id, (compare_t)(user_get_id));
+
+    free(id);
+    return (user);
+}
+
+user_t *server_get_user_name(server_t *server, const char *name)
+{
+    char *n = strtrim(name, "\"");
+    user_t *user = list_get(server->users, n, (compare_t)(user_get_name));
+
+    free(n);
+    return (user);
 }

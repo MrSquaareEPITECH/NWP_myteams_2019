@@ -15,11 +15,11 @@ typedef struct private_s private_t;
 
 struct private_s {
     char uuid[UUID_LENGTH + 1];
-    char user[UUID_LENGTH + 1];
+    char exchange[UUID_LENGTH + 1];
 };
 
 private_t *private_create(const char *uuid, const char *user);
-bool private_get_user(private_t *priv, const char *user);
+bool private_get_id(private_t *priv, const char *uuid);
 void private_delete(private_t *priv);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_PRIVATE_PRIVATE_H

@@ -2,44 +2,31 @@
 ** EPITECH PROJECT, 2020
 ** server
 ** File description:
-** list_thread.c
+** list_channel.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
 #include "channel/channel.h"
+#include "client/client_util.h"
 #include "command/list_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
 #include "thread/thread.h"
+#include "thread/thread_util.h"
+#include "util/string.h"
 
 static int reply(client_t *client, channel_t *channel)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_THREAD_LIST_OK, "Success");
+    reply_list_t options = {
+        response, RESPONSE_THREAD_LIST_START, RESPONSE_THREAD_LIST_END};
 
-    asprintf(&response, RESPONSE_THREAD_LIST_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
+    if (client_reply_list(client, &options, channel->threads,
+            (to_data_t)(thread_to_data)) == CODE_ERROR)
         return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_THREAD_LIST_START)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    for (node_t *node = channel->threads->begin; node; node = node->next) {
-        char *data = NULL;
-        thread_t *thread = (thread_t *)(node->obj);
-
-        asprintf(&data, DATA_THREAD, thread->uuid, thread->timestamp,
-            thread->name, thread->body);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_THREAD_LIST_END)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int list_thread(server_t *server, client_t *client, int argc, char **argv)
@@ -50,6 +37,7 @@ int list_thread(server_t *server, client_t *client, int argc, char **argv)
 
     channel_t *channel = (channel_t *)(client->user->obj);
 
-    reply(client, channel);
+    if (reply(client, channel) == CODE_ERROR)
+        return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

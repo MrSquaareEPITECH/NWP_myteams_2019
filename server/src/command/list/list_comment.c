@@ -5,40 +5,28 @@
 ** list_comment.c
 */
 
-#define _GNU_SOURCE
+#include <stdlib.h>
 
-#include <stdio.h>
-#include <string.h>
-
+#include "client/client_util.h"
 #include "command/list_internal.h"
 #include "comment/comment.h"
+#include "comment/comment_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
 #include "thread/thread.h"
+#include "util/string.h"
 
 static int reply(client_t *client, thread_t *thread)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_COMMENT_LIST_OK, "Success");
+    reply_list_t options = {
+        response, RESPONSE_COMMENT_LIST_START, RESPONSE_COMMENT_LIST_END};
 
-    asprintf(&response, RESPONSE_COMMENT_LIST_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
+    if (client_reply_list(client, &options, thread->comments,
+            (to_data_t)(comment_to_data)) == CODE_ERROR)
         return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_COMMENT_LIST_START)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    for (node_t *node = thread->comments->begin; node; node = node->next) {
-        char *data = NULL;
-        comment_t *comment = (comment_t *)(node->obj);
-
-        asprintf(&data, DATA_COMMENT, comment->timestamp, comment->body);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_COMMENT_LIST_END)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int list_comment(server_t *server, client_t *client, int argc, char **argv)
@@ -49,6 +37,7 @@ int list_comment(server_t *server, client_t *client, int argc, char **argv)
 
     thread_t *thread = (thread_t *)(client->user->obj);
 
-    reply(client, thread);
+    if (reply(client, thread) == CODE_ERROR)
+        return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

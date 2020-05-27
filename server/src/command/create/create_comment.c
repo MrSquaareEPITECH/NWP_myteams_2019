@@ -5,21 +5,20 @@
 ** create_comment.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <stringext.h>
 
+#include "channel/channel.h"
 #include "client/client_util.h"
 #include "command/create_internal.h"
 #include "comment/comment.h"
+#include "comment/comment_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/event.h"
 #include "def/response.h"
 #include "server/server_util.h"
 #include "thread/thread.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -29,7 +28,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (argc < 2) {
-        asprintf(&error, RESPONSE_COMMENT_CREATE_KO, "Missing argument");
+        error = strfmt(RESPONSE_COMMENT_CREATE_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -47,11 +46,9 @@ static comment_t *create(thread_t *thread, char **argv)
 
 static int reply(client_t *client, comment_t *comment)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_COMMENT_CREATE_OK, "Success");
+    char *data = comment_to_data(comment);
 
-    asprintf(&response, RESPONSE_COMMENT_CREATE_OK, "Success");
-    asprintf(&data, DATA_COMMENT, comment->timestamp, comment->body);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
@@ -59,11 +56,14 @@ static int reply(client_t *client, comment_t *comment)
 
 static int broadcast(server_t *server, comment_t *comment)
 {
-    char *data = NULL;
+    list_t *clients =
+        server_get_team_clients(server, comment->parent->parent->parent);
+    char *data = comment_to_data(comment);
 
-    asprintf(&data, DATA_COMMENT, comment->timestamp, comment->body);
-    if (server_broadcast(server, EVENT_COMMENT_CREATED, data) == CODE_ERROR)
+    if (server_broadcast(clients, EVENT_COMMENT_CREATED, data) == CODE_ERROR)
         return (CODE_ERROR);
+    list_clear(clients);
+    free(data);
     return (CODE_SUCCESS);
 }
 

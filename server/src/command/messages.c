@@ -5,20 +5,20 @@
 ** messages.c
 */
 
-#define _GNU_SOURCE
-
 #include "messages.h"
 
-#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#include "conversation/conversation.h"
+#include "client/client_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
-#include "get_error_util.h"
+#include "exchange/exchange.h"
 #include "message/message.h"
+#include "message/message_util.h"
 #include "private/private.h"
+#include "util/get_or_error.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -28,41 +28,29 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (client->state != CLIENT_LOGGED) {
-        asprintf(&error, RESPONSE_MESSAGE_LIST_KO, "Not logged");
+        error = strfmt(RESPONSE_MESSAGE_LIST_KO, "Not logged");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
     if (argc < 2) {
-        asprintf(&error, RESPONSE_MESSAGE_LIST_KO, "Missing argument");
+        error = strfmt(RESPONSE_MESSAGE_LIST_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
     return (CODE_SUCCESS);
 }
 
-static int reply(client_t *client, conversation_t *conversation)
+static int reply(client_t *client, exchange_t *exchange)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_MESSAGE_LIST_OK, "Success");
+    reply_list_t options = {
+        response, RESPONSE_MESSAGE_LIST_START, RESPONSE_MESSAGE_LIST_END};
 
-    asprintf(&response, RESPONSE_MESSAGE_LIST_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
+    if (client_reply_list(client, &options, exchange->messages,
+            (to_data_t)(message_to_data)) == CODE_ERROR)
         return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_MESSAGE_LIST_START)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    for (node_t *node = conversation->messages->begin; node;
-         node = node->next) {
-        char *data = NULL;
-        message_t *message = (message_t *)(node->obj);
-
-        asprintf(&data, DATA_MESSAGE, message->timestamp, message->body);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_MESSAGE_LIST_END)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int messages_command(server_t *server, client_t *client, int argc, char **argv)
@@ -70,18 +58,20 @@ int messages_command(server_t *server, client_t *client, int argc, char **argv)
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
-    private_t *priv = get_error_private(
-        client, RESPONSE_MESSAGE_SEND_KO, client->user, argv[1]);
+    user_t *user =
+        get_or_error_user_id(client, RESPONSE_MESSAGE_LIST_KO, server, argv[1]);
+    private_t *priv = NULL;
+    exchange_t *exchange = NULL;
 
-    if (priv == NULL)
+    if (user)
+        priv = get_or_error_private(
+            client, RESPONSE_MESSAGE_LIST_KO, user, client->user->uuid);
+    if (priv)
+        exchange = get_or_error_exchange(
+            client, RESPONSE_MESSAGE_LIST_KO, server, priv->exchange);
+    if (exchange == NULL)
         return (CODE_ERROR);
-
-    conversation_t *conversation = get_error_conversation(
-        client, RESPONSE_MESSAGE_SEND_KO, server, priv->uuid);
-
-    if (conversation == NULL)
-        return (CODE_ERROR);
-    if (reply(client, conversation) == CODE_ERROR)
+    if (reply(client, exchange) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

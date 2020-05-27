@@ -19,7 +19,7 @@ comment_t *comment_create(thread_t *thread, const char *body)
     comment->timestamp = time(NULL);
     memset(comment->body, 0, sizeof(comment->body));
     strncpy(comment->body, body, MAX_BODY_LENGTH);
-    comment->thread = thread;
+    comment->parent = thread;
     return (comment);
 }
 

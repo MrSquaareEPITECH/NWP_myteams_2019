@@ -5,20 +5,18 @@
 ** create_team.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <stringext.h>
 
 #include "client/client_util.h"
 #include "command/create_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/event.h"
 #include "def/response.h"
 #include "server/server_util.h"
 #include "team/team.h"
+#include "team/team_util.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -28,7 +26,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (argc < 3) {
-        asprintf(&error, RESPONSE_TEAM_CREATE_KO, "Missing argument");
+        error = strfmt(RESPONSE_TEAM_CREATE_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -48,11 +46,9 @@ static team_t *create(char **argv)
 
 static int reply(client_t *client, team_t *team)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_TEAM_CREATE_OK, "Success");
+    char *data = team_to_data(team);
 
-    asprintf(&response, RESPONSE_TEAM_CREATE_OK, "Success");
-    asprintf(&data, DATA_TEAM, team->uuid, team->name, team->description);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
@@ -60,10 +56,10 @@ static int reply(client_t *client, team_t *team)
 
 static int broadcast(server_t *server, team_t *team)
 {
-    char *data = NULL;
+    char *data = team_to_data(team);
 
-    asprintf(&data, DATA_TEAM, team->uuid, team->name, team->description);
-    if (server_broadcast(server, EVENT_TEAM_CREATED, data) == CODE_ERROR)
+    if (server_broadcast(server->clients, EVENT_TEAM_CREATED, data) ==
+        CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

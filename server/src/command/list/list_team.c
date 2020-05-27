@@ -5,38 +5,27 @@
 ** list_team.c
 */
 
-#define _GNU_SOURCE
+#include <stdlib.h>
 
-#include <stdio.h>
-#include <string.h>
-
+#include "client/client_util.h"
 #include "command/list_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
 #include "team/team.h"
+#include "team/team_util.h"
+#include "util/string.h"
 
 static int reply(client_t *client, server_t *server)
 {
-    char *response = NULL;
+    char *response = strfmt(RESPONSE_TEAM_LIST_OK, "Success");
+    reply_list_t options = {
+        response, RESPONSE_TEAM_LIST_START, RESPONSE_TEAM_LIST_END};
 
-    asprintf(&response, RESPONSE_TEAM_LIST_OK, "Success");
-    if (list_push(client->queue, response) == CODE_ERROR)
+    if (client_reply_list(client, &options, server->teams,
+            (to_data_t)(team_to_data)) == CODE_ERROR)
         return (CODE_ERROR);
-    if (list_push(client->queue, strdup(RESPONSE_TEAM_LIST_START)) ==
-        CODE_ERROR)
-        return (CODE_ERROR);
-    for (node_t *node = server->teams->begin; node; node = node->next) {
-        char *data = NULL;
-        team_t *team = (team_t *)(node->obj);
-
-        asprintf(&data, DATA_TEAM, team->uuid, team->name, team->description);
-        if (list_push(client->queue, data) == CODE_ERROR)
-            return (CODE_ERROR);
-    }
-    if (list_push(client->queue, strdup(RESPONSE_TEAM_LIST_END)) == CODE_ERROR)
-        return (CODE_ERROR);
-    return (CODE_ERROR);
+    free(response);
+    return (CODE_SUCCESS);
 }
 
 int list_team(server_t *server, client_t *client, int argc, char **argv)
@@ -45,6 +34,7 @@ int list_team(server_t *server, client_t *client, int argc, char **argv)
     (void)(argc);
     (void)(argv);
 
-    reply(client, server);
+    if (reply(client, server) == CODE_ERROR)
+        return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

@@ -5,24 +5,19 @@
 ** info_team.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
-
 #include "client/client_util.h"
 #include "command/info_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
 #include "team/team.h"
+#include "team/team_util.h"
+#include "util/string.h"
 
 static int reply(client_t *client, team_t *team)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_TEAM_INFO_OK, "Success");
+    char *data = team_to_data(team);
 
-    asprintf(&response, RESPONSE_TEAM_INFO_OK, "Success");
-    asprintf(&data, DATA_TEAM, team->uuid, team->name, team->description);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);

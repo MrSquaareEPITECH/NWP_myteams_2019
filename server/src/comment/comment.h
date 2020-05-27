@@ -20,7 +20,7 @@ struct comment_s {
     time_t timestamp;
     char body[MAX_BODY_LENGTH + 1];
 
-    thread_t *thread;
+    thread_t *parent;
 };
 
 comment_t *comment_create(thread_t *thread, const char *body);

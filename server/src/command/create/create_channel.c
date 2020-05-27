@@ -5,21 +5,19 @@
 ** create_channel.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <stringext.h>
 
 #include "channel/channel.h"
+#include "channel/channel_util.h"
 #include "client/client_util.h"
 #include "command/create_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/event.h"
 #include "def/response.h"
 #include "server/server_util.h"
 #include "team/team.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -29,7 +27,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (argc < 3) {
-        asprintf(&error, RESPONSE_CHANNEL_CREATE_KO, "Missing argument");
+        error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -49,12 +47,9 @@ static channel_t *create(team_t *team, char **argv)
 
 static int reply(client_t *client, channel_t *channel)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_CHANNEL_CREATE_OK, "Success");
+    char *data = channel_to_data(channel);
 
-    asprintf(&response, RESPONSE_CHANNEL_CREATE_OK, "Success");
-    asprintf(&data, DATA_CHANNEL, channel->uuid, channel->name,
-        channel->description);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
@@ -62,12 +57,13 @@ static int reply(client_t *client, channel_t *channel)
 
 static int broadcast(server_t *server, channel_t *channel)
 {
-    char *data = NULL;
+    list_t *clients = server_get_team_clients(server, channel->parent);
+    char *data = channel_to_data(channel);
 
-    asprintf(&data, DATA_CHANNEL, channel->uuid, channel->name,
-        channel->description);
-    if (server_broadcast(server, EVENT_CHANNEL_CREATED, data) == CODE_ERROR)
+    if (server_broadcast(clients, EVENT_CHANNEL_CREATED, data) == CODE_ERROR)
         return (CODE_ERROR);
+    list_clear(clients);
+    free(data);
     return (CODE_SUCCESS);
 }
 

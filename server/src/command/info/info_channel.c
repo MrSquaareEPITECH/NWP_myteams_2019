@@ -5,25 +5,19 @@
 ** info_channel.c
 */
 
-#define _GNU_SOURCE
-
-#include <stdio.h>
-
 #include "channel/channel.h"
+#include "channel/channel_util.h"
 #include "client/client_util.h"
 #include "command/info_internal.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
+#include "util/string.h"
 
 static int reply(client_t *client, channel_t *channel)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_CHANNEL_INFO_OK, "Success");
+    char *data = channel_to_data(channel);
 
-    asprintf(&response, RESPONSE_CHANNEL_INFO_OK, "Success");
-    asprintf(&data, DATA_CHANNEL, channel->uuid, channel->name,
-        channel->description);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);

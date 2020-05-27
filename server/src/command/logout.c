@@ -5,19 +5,16 @@
 ** logout.c
 */
 
-#define _GNU_SOURCE
-
 #include "logout.h"
-
-#include <stdio.h>
 
 #include "client/client_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/event.h"
 #include "def/response.h"
 #include "server/server_util.h"
 #include "user/user.h"
+#include "user/user_util.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -28,7 +25,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (client->state != CLIENT_LOGGED) {
-        asprintf(&error, RESPONSE_USER_LOGOUT_KO, "Not logged");
+        error = strfmt(RESPONSE_USER_LOGOUT_KO, "Not logged");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -37,11 +34,9 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
 
 static int reply(client_t *client, user_t *user)
 {
-    char *response = NULL;
-    char *data = NULL;
+    char *response = strfmt(RESPONSE_USER_LOGOUT_OK, "Success");
+    char *data = user_to_data(user);
 
-    asprintf(&response, RESPONSE_USER_LOGOUT_OK, "Success");
-    asprintf(&data, DATA_USER, user->uuid, user->name);
     if (client_reply(client, response, data) == CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
@@ -49,10 +44,10 @@ static int reply(client_t *client, user_t *user)
 
 static int broadcast(server_t *server, user_t *user)
 {
-    char *data = NULL;
+    char *data = user_to_data(user);
 
-    asprintf(&data, DATA_USER, user->uuid, user->name);
-    if (server_broadcast(server, EVENT_USER_LOGGEDOUT, data) == CODE_ERROR)
+    if (server_broadcast(server->clients, EVENT_USER_LOGGEDOUT, data) ==
+        CODE_ERROR)
         return (CODE_ERROR);
     return (CODE_SUCCESS);
 }

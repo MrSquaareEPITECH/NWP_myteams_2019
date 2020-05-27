@@ -5,15 +5,12 @@
 ** create.c
 */
 
-#define _GNU_SOURCE
-
 #include "create.h"
-
-#include <stdio.h>
 
 #include "create_internal.h"
 #include "def/code.h"
 #include "def/response.h"
+#include "util/string.h"
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -24,7 +21,7 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     char *error = NULL;
 
     if (client->state != CLIENT_LOGGED) {
-        asprintf(&error, RESPONSE_GLOBAL_CREATE_KO, "Not logged");
+        error = strfmt(RESPONSE_GLOBAL_CREATE_KO, "Not logged");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
