@@ -20,4 +20,3 @@ int get_info_server(client_t *cli)
         parse_msg(cli, str);
     return (SUCCESS);
 }
-//check retour receive pour fin de lecture serveur

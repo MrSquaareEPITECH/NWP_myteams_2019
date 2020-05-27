@@ -7,13 +7,11 @@
 
 #include "my.h"
 
-int comment_check(char **tab)
+int comment_check(char **tab, char *status)
 {
-    char *word = take_word(tab[0], 7);
-
-    if (strncasecmp(word, "SEND", 4) == 0)
-        //appel fonction loggin_client.h send
-    if (strncasecmp(word, "LIST", 4) == 0)
-        //appel fonction loggin_client.h list
+    if (strncasecmp(tab[1], "SEND", 4) == 0)
+        printf("%s %s %s %s : %s\n", tab[0], tab[1], tab[2], tab[3], status);
+    if (strncasecmp(tab[1], "LIST", 4) == 0)
+        //appel fonction loggin_client.h list argu manquant
     return (0);
 }

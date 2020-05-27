@@ -8,6 +8,8 @@
 #ifndef MY_H_
 #define MY_H_
 
+#include "logging_client.h"
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -68,6 +70,7 @@ structure server
 
 /* str_to_word_array */
 char **str_split(char *str, char chr);
+char **replace_char_double_array(char **tab, char c);
 
 /* read.c */
 char *get_command(void);
@@ -78,6 +81,7 @@ void display_help();
 int count_args(char *str);
 int count_lines(char *str);
 char *take_word(char *str, int i);
+char *replace_char_array(char *str, char c);
 
 /* handle_command.c */
 void handle_user(client_t *cli);
@@ -88,5 +92,14 @@ void handle_subscribe(client_t *cli, bool i);
 
 /* server.c */
 int get_info_server(client_t *cli);
+
+/* command folder */
+int user_check(char **tab, char *status);
+int team_check(char **tab, char *status);
+int thread_check(char **tab, char *status);
+int channel_check(char **tab, char *status);
+int comment_check(char **tab, char *status);
+int message_check(char **tab, char *status);
+char *check_status(char *word);
 
 #endif /* !MY_H_ */

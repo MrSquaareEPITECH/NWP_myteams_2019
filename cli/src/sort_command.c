@@ -53,3 +53,12 @@ char *take_word(char *str, int i)
     word[i] = '\0';
     return (word);
 }
+
+char *replace_char_array(char *str, char c)
+{
+    for (int i = 0 ; str[i] != '\0' ; i++) {
+        if (str[i] == c)
+            str[i] = ' ';
+    }
+    return (str);
+}

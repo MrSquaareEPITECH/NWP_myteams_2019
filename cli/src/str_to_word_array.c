@@ -68,3 +68,14 @@ char **str_split(char *str, char chr)
     list[size] = NULL;
     return (list);
 }
+
+char **replace_char_double_array(char **tab, char c)
+{
+    for (int i = 0 ; tab[i] != NULL ; i++) {
+        for (int j = 0 ; tab[i][j] != '\0' ; j++) {
+            if (tab[i][j] == ' ')
+                tab[i][j] = '\0';
+        }
+    }
+    return (tab);
+}
