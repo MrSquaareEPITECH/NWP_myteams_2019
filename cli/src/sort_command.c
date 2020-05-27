@@ -47,7 +47,7 @@ char *take_word(char *str, int i)
         i++;
     for (; str[i] != '\0' ; i++) {
         word[i] = str[i];
-        if(str[i] == ' ')
+        if (str[i] == ' ')
             break;
     }
     word[i] = '\0';
