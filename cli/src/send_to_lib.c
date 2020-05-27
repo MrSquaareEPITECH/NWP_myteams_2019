@@ -11,6 +11,8 @@ void check_responses(char **tab)
 {
     char *status = check_status(tab[2]);
 
+    if (strncasecmp(tab[0], "GLOBAL", 6) == 0)
+        printf("%s %s %s %s : %s\n", tab[0], tab[1], tab[2], tab[3], status);
     if (strncasecmp(tab[0], "CHANNEL", 7) == 0)
         channel_check(tab, status);
     if (strncasecmp(tab[0], "COMMENT", 7) == 0)
