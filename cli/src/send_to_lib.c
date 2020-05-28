@@ -38,7 +38,7 @@ void handle_event(char **tab)
     if (strcasecmp(tab[0], "TEAM") == 0)
         client_event_team_created(tab[2], tab[3], tab[4]);
     if (strcasecmp(tab[0], "THREAD") == 0)
-        client_event_thread_created(tab[2], tab[3], tab[4], tab[5], tab[6]);
+        client_event_thread_created(tab[2], tab[3], atoi(tab[4]), tab[5], tab[6]);
     if (strcasecmp(tab[0], "USER") == 0) {
         if (strcasecmp(tab[1], "LOGGEDIN") == 0)
             client_event_loggedin(tab[2], tab[3]);
@@ -47,7 +47,7 @@ void handle_event(char **tab)
     }
 }
 
-void parse_msg(client_t *cli, char *str)
+void parse_msg(char *str)
 {
     char **tab = NULL;
 

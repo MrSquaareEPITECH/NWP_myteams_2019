@@ -50,7 +50,6 @@ int main_loop(client_t *cli, utilities_t *utils)
         else
             check_command(cli);
         get_info_server(cli);
-//        if (FD_ISSET(cli->fd_client, &utils->set_read))
     }
     return (SUCCESS);
 }

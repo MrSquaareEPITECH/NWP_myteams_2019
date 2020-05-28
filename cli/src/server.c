@@ -17,6 +17,6 @@ int get_info_server(client_t *cli)
         return (ERROR_FUNCTION);
     ret = recv(cli->port, str, SIZE_OF_BUFFER, MSG_DONTWAIT);
     if (ret == EAGAIN || ret == EWOULDBLOCK)
-        parse_msg(cli, str);
+        parse_msg(str);
     return (SUCCESS);
 }

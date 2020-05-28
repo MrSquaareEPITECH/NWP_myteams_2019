@@ -6,8 +6,6 @@
 */
 
 #include "my.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 int my_strlen(char *str)
 {
@@ -73,7 +71,7 @@ char **replace_char_double_array(char **tab, char c)
 {
     for (int i = 0 ; tab[i] != NULL ; i++) {
         for (int j = 0 ; tab[i][j] != '\0' ; j++) {
-            if (tab[i][j] == ' ')
+            if (tab[i][j] == c)
                 tab[i][j] = '\0';
         }
     }

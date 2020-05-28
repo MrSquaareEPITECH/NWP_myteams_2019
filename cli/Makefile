@@ -21,21 +21,21 @@ RM					=		rm -rf
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		src/read.c								\
-							src/handle_command.c					\
-							src/sort_command.c						\
-							src/server.c							\
-							src/main.c								\
-							src/handle_command.c					\
-							src/send_to_lib.c						\
-							src/str_to_word_array.c					\
-							src/command/channel.c					\
-							src/command/comment.c					\
-							src/command/message.c					\
-							src/command/team.c						\
-							src/command/thread.c					\
-							src/command/user.c						\
-							src/command/utils_cmd.c					\
+PROJ_SRC			=		read.c								\
+							handle_command.c					\
+							sort_command.c						\
+							server.c							\
+							main.c								\
+							handle_command.c					\
+							send_to_lib.c						\
+							str_to_word_array.c					\
+							command/channel.c					\
+							command/comment.c					\
+							command/message.c					\
+							command/team.c						\
+							command/thread.c					\
+							command/user.c						\
+							command/utils_cmd.c					\
 
 TEST_SRC			=
 

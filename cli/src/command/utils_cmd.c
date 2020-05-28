@@ -11,7 +11,7 @@ char *check_status(char *word)
 {
     char *status = NULL;
 
-    if (strncasecmp(word, "OK") == 0) {
+    if (strcasecmp(word, "OK") == 0) {
         status = malloc(sizeof(char) * 8);
         if (status == NULL)
             return (NULL);
