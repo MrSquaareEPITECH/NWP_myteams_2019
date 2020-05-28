@@ -8,6 +8,8 @@
 #ifndef NWP_MYTEAMS_2019_SERVER_SRC_SUBSCRIBER_SUBSCRIBER_H
 #define NWP_MYTEAMS_2019_SERVER_SRC_SUBSCRIBER_SUBSCRIBER_H
 
+#include <stdbool.h>
+
 #include "def/length.h"
 
 typedef struct subscriber_s subscriber_t;

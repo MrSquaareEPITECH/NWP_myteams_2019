@@ -27,7 +27,10 @@ user_t *user_create(const char *name)
     uuid_unparse(uuid, user->uuid);
     memset(user->name, 0, sizeof(user->name));
     strncpy(user->name, name, MAX_NAME_LENGTH);
+    user->status = 0;
     user->privates = list_create();
+    user->use = USE_SERVER;
+    user->obj = NULL;
     return (user);
 }
 

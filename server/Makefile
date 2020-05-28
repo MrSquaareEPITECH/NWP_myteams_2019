@@ -25,7 +25,9 @@ MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c				\
 							comment/comment.c				\
+							exchange/exchange.c				\
 							list/list.c						\
+							list/list_node.c				\
 							message/message.c				\
 							private/private.c				\
 							subscriber/subscriber.c			\

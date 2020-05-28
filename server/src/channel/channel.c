@@ -13,7 +13,8 @@
 
 #include "thread/thread.h"
 
-channel_t *channel_create(const char *name, const char *description)
+channel_t *channel_create(
+    team_t *parent, const char *name, const char *description)
 {
     channel_t *channel = malloc(sizeof(channel_t));
 
@@ -29,6 +30,7 @@ channel_t *channel_create(const char *name, const char *description)
     strncpy(channel->name, name, MAX_NAME_LENGTH);
     memset(channel->description, 0, sizeof(channel->description));
     strncpy(channel->description, description, MAX_DESCRIPTION_LENGTH);
+    channel->parent = parent;
     channel->threads = list_create();
     return (channel);
 }
