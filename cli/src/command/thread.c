@@ -6,6 +6,7 @@
 */
 
 #include "my.h"
+#include "logging_client.h"
 
 int thread_check(char **tab, char *status)
 {

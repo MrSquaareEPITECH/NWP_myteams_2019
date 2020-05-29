@@ -19,14 +19,18 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+LIB_LOGGING_DIR		=		"`realpath ../lib/logging`"
+
+CFLAGS				+=		-I $(LIB_LOGGING_DIR)
+
+LDLIBS				=		-L $(LIB_LOGGING_DIR) -lmyteams
+
 MAIN_SRC			=		main.c
 
 PROJ_SRC			=		read.c								\
 							handle_command.c					\
 							sort_command.c						\
 							server.c							\
-							main.c								\
-							handle_command.c					\
 							send_to_lib.c						\
 							str_to_word_array.c					\
 							command/channel.c					\

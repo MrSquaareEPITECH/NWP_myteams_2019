@@ -102,4 +102,7 @@ int comment_check(char **tab, char *status);
 int message_check(char **tab, char *status);
 char *check_status(char *word);
 
+/* send_to_lib.c */
+void parse_msg(char *str);
+
 #endif /* !MY_H_ */

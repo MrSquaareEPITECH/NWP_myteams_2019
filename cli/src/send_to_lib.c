@@ -5,6 +5,7 @@
 ** send_to_lib
 */
 
+#include "logging_client.h"
 #include "my.h"
 
 void check_responses(char **tab)
