@@ -1,0 +1,11 @@
+/*
+** EPITECH PROJECT, 2020
+** server
+** File description:
+** subscriber_xml.h
+*/
+
+#ifndef SERVER_SRC_SUBSCRIBER_SUBSCRIBER_XML_H
+#define SERVER_SRC_SUBSCRIBER_SUBSCRIBER_XML_H
+
+#endif // SERVER_SRC_SUBSCRIBER_SUBSCRIBER_XML_H
