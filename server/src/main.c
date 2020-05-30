@@ -5,16 +5,20 @@
 ** main.c
 */
 
-#include "pcre/pcre.h"
-#include "xml/xml.h"
+#include <stdlib.h>
 
-#include <string.h>
+#include "xml/xml_attribute.h"
+#include "xml/xml_element.h"
+#include "xml/xml_file.h"
 
 int main(void)
 {
-    char *doc = "<team uuid=\"10-25211-12255-1522\" name=\"Salut à tous\">\n    <user id=\"tttttttt\">Hahahaha</user>\n    <user id=\"tttttttt\">Hehehehe</user>\n</team>";
-    char *format = xml_format(doc);
-    xml_element_t *element = xml_element_create(format);
+    char *xml = xml_from_file("teams.xml");
+    xml_element_t *element = xml_element_parse(xml);
+    xml_element_t *team = xml_element_get(element->children, "team");
+    char *id = xml_attributes_get(team->attributes, "id");
 
+    xml_element_delete(element);
+    free(xml);
     return (0);
 }

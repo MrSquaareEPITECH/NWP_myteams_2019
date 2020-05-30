@@ -51,7 +51,9 @@ PROJ_SRC			=		channel/channel.c				\
 							thread/thread_xml.c				\
 							user/user.c						\
 							user/user_xml.c					\
-							xml/xml.c						\
+							xml/xml_attribute.c				\
+							xml/xml_element.c				\
+							xml/xml_file.c					\
 							xml/xml_internal.c				\
 
 TEST_SRC			=
