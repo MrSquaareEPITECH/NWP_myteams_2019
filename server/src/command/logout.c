@@ -7,6 +7,8 @@
 
 #include "logout.h"
 
+#include <logging_server.h>
+
 #include "client/client_util.h"
 #include "def/code.h"
 #include "def/event.h"
@@ -66,5 +68,6 @@ int logout_command(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     client->state = CLIENT_CONNECTED;
     client->user = NULL;
+    server_event_user_logged_out(user->uuid);
     return (CODE_SUCCESS);
 }

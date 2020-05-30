@@ -7,8 +7,6 @@
 
 #include "server_internal.h"
 
-#include <stdio.h>
-
 #include "def/code.h"
 #include "server_client.h"
 
@@ -16,8 +14,6 @@ int server_accept(server_t *server)
 {
     if (!select_is_set(server->sel, server->sock, SELECT_READ))
         return (CODE_SUCCESS);
-
-    printf("server_accept\n"); // TODO: Debug
 
     client_t *client = client_create();
 
@@ -35,9 +31,6 @@ int server_clear(server_t *server)
 
         if (client->state != CLIENT_DISCONNECTED)
             continue;
-
-        printf("server_clear\n"); // TODO: Debug
-
         if (server_client_remove(server, client) == CODE_ERROR)
             return (CODE_ERROR);
     }

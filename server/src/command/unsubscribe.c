@@ -7,6 +7,7 @@
 
 #include "unsubscribe.h"
 
+#include <logging_server.h>
 #include <stdlib.h>
 
 #include "client/client_util.h"
@@ -67,5 +68,6 @@ int unsubscribe_command(
         return (CODE_ERROR);
     list_remove(team->subscribers, subscriber);
     subscriber_delete(subscriber);
+    server_event_user_leave_a_team(team->uuid, client->user->uuid);
     return (CODE_SUCCESS);
 }

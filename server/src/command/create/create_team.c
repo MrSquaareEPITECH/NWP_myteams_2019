@@ -5,6 +5,7 @@
 ** create_team.c
 */
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <stringext.h>
 
@@ -79,5 +80,6 @@ int create_team(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     if (broadcast(server, team) == CODE_ERROR)
         return (CODE_ERROR);
+    server_event_team_created(team->uuid, team->name, client->user->uuid);
     return (CODE_SUCCESS);
 }

@@ -5,6 +5,7 @@
 ** create_channel.c
 */
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <stringext.h>
 
@@ -83,5 +84,6 @@ int create_channel(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     if (broadcast(server, channel) == CODE_ERROR)
         return (CODE_ERROR);
+    server_event_channel_created(team->uuid, channel->uuid, channel->name);
     return (CODE_SUCCESS);
 }

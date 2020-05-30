@@ -5,6 +5,7 @@
 ** create_comment.c
 */
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <stringext.h>
 
@@ -83,5 +84,6 @@ int create_comment(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     if (broadcast(server, comment) == CODE_ERROR)
         return (CODE_ERROR);
+    server_event_thread_new_message(thread->uuid, comment->user, comment->body);
     return (CODE_SUCCESS);
 }

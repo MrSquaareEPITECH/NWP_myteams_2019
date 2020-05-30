@@ -7,6 +7,7 @@
 
 #include "send.h"
 
+#include <logging_server.h>
 #include <string.h>
 
 #include "client/client_util.h"
@@ -86,12 +87,14 @@ int send_command(server_t *server, client_t *client, int argc, char **argv)
     exchange_t *exchange = get_or_create_exchange(server, client->user, ruser);
     message_t *message = create_message(client->user->uuid, argv);
     client_t *rclient = server_get_client(server, ruser->uuid);
-
     if (list_push(exchange->messages, message) == CODE_ERROR)
         return (CODE_ERROR);
     if (reply(client, message) == CODE_ERROR)
         return (CODE_ERROR);
     if (rclient && (broadcast(rclient, message) == CODE_ERROR))
         return (CODE_ERROR);
+
+    server_event_private_message_sended(
+        client->user->uuid, ruser->uuid, message->body);
     return (CODE_SUCCESS);
 }

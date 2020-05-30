@@ -7,6 +7,8 @@
 
 #include "subscribe.h"
 
+#include <logging_server.h>
+
 #include "client/client_util.h"
 #include "def/code.h"
 #include "def/data.h"
@@ -62,6 +64,8 @@ int subscribe_command(server_t *server, client_t *client, int argc, char **argv)
 
     if (list_push(team->subscribers, subscriber) == CODE_ERROR)
         return (CODE_ERROR);
-    reply(client, team);
+    if (reply(client, team) == CODE_ERROR)
+        return (CODE_ERROR);
+    server_event_user_join_a_team(team->uuid, client->user->uuid);
     return (CODE_SUCCESS);
 }

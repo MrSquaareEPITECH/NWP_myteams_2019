@@ -5,6 +5,7 @@
 ** create_thread.c
 */
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <stringext.h>
 
@@ -83,5 +84,7 @@ int create_thread(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     if (broadcast(server, thread) == CODE_ERROR)
         return (CODE_ERROR);
+    server_event_thread_created(
+        channel->uuid, thread->uuid, thread->user, thread->body);
     return (CODE_SUCCESS);
 }

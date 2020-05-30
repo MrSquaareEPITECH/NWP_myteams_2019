@@ -15,6 +15,7 @@ OBJ_DIR				=		obj
 SRC_DIR				=		src
 TEST_DIR			=		tests
 
+LIB_LOGGING_DIR		=		../lib/logging
 LIB_SOCKET_DIR		=		../lib/socket
 LIB_STDEXT_DIR		=		../lib/stdext
 
@@ -22,9 +23,11 @@ AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+CFLAGS				+=		-I $(LIB_LOGGING_DIR)
 CFLAGS				+=		-I $(LIB_SOCKET_DIR)/include
 CFLAGS				+=		-I $(LIB_STDEXT_DIR)/include
 
+LDFLAGS				+=		-L $(LIB_LOGGING_DIR) -lmyteams
 LDFLAGS				+=		-L $(LIB_SOCKET_DIR) -lsocket
 LDFLAGS				+=		-L $(LIB_STDEXT_DIR) -lstdext
 LDLIBS				+=		-lpcre -luuid

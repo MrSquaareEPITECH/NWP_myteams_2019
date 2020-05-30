@@ -7,6 +7,7 @@
 
 #include "login.h"
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <stringext.h>
 
@@ -79,6 +80,7 @@ int login_command(server_t *server, client_t *client, int argc, char **argv)
     if (user == NULL) {
         user = create(argv);
         list_push(server->users, user);
+        server_event_user_created(user->uuid, user->name);
     }
     user->status = 1;
     client->state = CLIENT_LOGGED;
@@ -87,5 +89,6 @@ int login_command(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
     if (broadcast(server, user) == CODE_ERROR)
         return (CODE_ERROR);
+    server_event_user_logged_in(user->uuid);
     return (CODE_SUCCESS);
 }

@@ -7,6 +7,7 @@
 
 #include "user_xml.h"
 
+#include <logging_server.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -30,6 +31,7 @@ user_t *user_xml_import(xml_element_t *element)
     user->privates = list_xml_import(privates, (import_t)(private_xml_import));
     user->use = USE_SERVER;
     user->obj = NULL;
+    server_event_user_loaded(user->uuid, user->name);
     return (user);
 }
 
