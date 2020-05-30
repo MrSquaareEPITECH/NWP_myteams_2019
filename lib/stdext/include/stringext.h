@@ -12,10 +12,16 @@
 char *strchrn(const char *str, char chr);
 char *strrchrn(const char *str, char chr);
 
+// strjoin
+char *strjoin(const char **arr, const char *delim);
+
 // strpbrk
 char *strrpbrk(const char *str, const char *accept);
 char *strpbrkn(const char *str, const char *reject);
 char *strrpbrkn(const char *str, const char *reject);
+
+// strrem
+char *strrem(char *str, const char *list);
 
 // strrev
 char *strrev(char *str);

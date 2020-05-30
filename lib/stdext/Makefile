@@ -28,6 +28,7 @@ PROJ_SRC			=		array/arrdup.c						\
 							array/arrlen.c						\
 							memory/memdup.c						\
 							string/strchrn.c					\
+							string/strjoin.c					\
 							string/strrchrn.c					\
 							string/strrpbrk.c					\
 							string/strpbrkn.c					\
@@ -37,6 +38,7 @@ PROJ_SRC			=		array/arrdup.c						\
 							string/strltrim.c					\
 							string/strsplit.c					\
 							string/strsplitj.c					\
+							string/strrem.c						\
 							string/strrev.c						\
 							string/strrstr.c					\
 							string/strstrn.c					\
@@ -47,6 +49,7 @@ TEST_SRC			=		array/test_arrlen.c					\
 							array/test_arrfree.c				\
 							memory/test_memdup.c				\
 							string/test_strchrn.c				\
+							string/test_strjoin.c				\
 							string/test_strrchrn.c				\
 							string/test_strrpbrk.c				\
 							string/test_strpbrkn.c				\
@@ -56,6 +59,7 @@ TEST_SRC			=		array/test_arrlen.c					\
 							string/test_strltrim.c				\
 							string/test_strsplit.c				\
 							string/test_strsplitj.c				\
+							string/test_strrem.c				\
 							string/test_strrev.c				\
 							string/test_strrstr.c				\
 							string/test_strstrn.c				\
