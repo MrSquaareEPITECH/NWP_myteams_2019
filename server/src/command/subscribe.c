@@ -8,16 +8,30 @@
 #include "subscribe.h"
 
 #include <logging_server.h>
+#include <stdlib.h>
 
 #include "client/client_util.h"
 #include "def/code.h"
-#include "def/data.h"
 #include "def/response.h"
+#include "server/server_util.h"
 #include "subscriber/subscriber.h"
 #include "team/team.h"
 #include "team/team_util.h"
 #include "util/get_or_error.h"
 #include "util/string.h"
+
+static int validate_team(client_t *client, team_t *team)
+{
+    char *error = NULL;
+
+    if (list_get(team->subscribers, client->user->uuid,
+            (compare_t)(subscriber_get_id))) {
+        error = strfmt(RESPONSE_USER_SUBSCRIBE_KO, "Already subscribed");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
+    return (CODE_SUCCESS);
+}
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
@@ -49,6 +63,20 @@ static int reply(client_t *client, team_t *team)
     return (CODE_SUCCESS);
 }
 
+static int broadcast(server_t *server, team_t *team)
+{
+    list_t *clients = server_get_team_clients(server, team);
+    char *response = strfmt(RESPONSE_USER_SUBSCRIBE_OK, "Success");
+    char *data = team_to_data(team);
+
+    if (server_broadcast(clients, response, data) == CODE_ERROR)
+        return (CODE_ERROR);
+    list_clear(clients);
+    free(data);
+    free(response);
+    return (CODE_SUCCESS);
+}
+
 int subscribe_command(server_t *server, client_t *client, int argc, char **argv)
 {
     if (validate(server, client, argc, argv) == CODE_ERROR)
@@ -57,7 +85,7 @@ int subscribe_command(server_t *server, client_t *client, int argc, char **argv)
     team_t *team =
         get_or_error_team(client, RESPONSE_USER_SUBSCRIBE_KO, server, argv[1]);
 
-    if (team == NULL)
+    if ((team == NULL) || (validate_team(client, team) == CODE_ERROR))
         return (CODE_ERROR);
 
     subscriber_t *subscriber = subscriber_create(client->user->uuid);
@@ -65,6 +93,8 @@ int subscribe_command(server_t *server, client_t *client, int argc, char **argv)
     if (list_push(team->subscribers, subscriber) == CODE_ERROR)
         return (CODE_ERROR);
     if (reply(client, team) == CODE_ERROR)
+        return (CODE_ERROR);
+    if (broadcast(server, team) == CODE_ERROR)
         return (CODE_ERROR);
     server_event_user_join_a_team(team->uuid, client->user->uuid);
     return (CODE_SUCCESS);

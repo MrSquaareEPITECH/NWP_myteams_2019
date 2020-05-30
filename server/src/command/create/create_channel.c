@@ -17,6 +17,7 @@
 #include "def/event.h"
 #include "def/response.h"
 #include "server/server_util.h"
+#include "subscriber/subscriber.h"
 #include "team/team.h"
 #include "util/string.h"
 
@@ -26,9 +27,16 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     (void)(argv);
 
     char *error = NULL;
+    team_t *team = (team_t *)(client->user->obj);
 
     if (argc < 3) {
         error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Missing argument");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
+    if (list_get(team->subscribers, client->user->uuid,
+            (compare_t)(subscriber_get_id)) == NULL) {
+        error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Unauthorized");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }

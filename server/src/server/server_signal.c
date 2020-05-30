@@ -8,7 +8,6 @@
 #include "server_signal.h"
 
 #include <memory.h>
-
 #include <stdio.h>
 
 #include "def/code.h"
