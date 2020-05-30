@@ -24,7 +24,8 @@ list_t *list_xml_import(xml_element_t *element, import_t import)
     return (list);
 }
 
-list_t *list_xml_import_p(xml_element_t *element, import_p_t import, void *parent)
+list_t *list_xml_import_p(
+    xml_element_t *element, import_p_t import, void *parent)
 {
     list_t *list = list_create();
 
