@@ -33,7 +33,7 @@ MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c						\
 							channel/channel_util.c					\
-							channel/channel_xml.c			\
+							channel/channel_xml.c					\
 							client/client.c							\
 							client/client_util.c					\
 							command/command.c						\
@@ -73,47 +73,51 @@ PROJ_SRC			=		channel/channel.c						\
 							command/users.c							\
 							comment/comment.c						\
 							comment/comment_util.c					\
-							comment/comment_xml.c			\
+							comment/comment_xml.c					\
 							exchange/exchange.c						\
-							exchange/exchange_xml.c			\
+							exchange/exchange_xml.c					\
 							list/list.c								\
 							list/list_node.c						\
-							list/list_xml.c					\
+							list/list_xml.c							\
 							message/message.c						\
 							message/message_util.c					\
-							message/message_xml.c			\
-							pcre/pcre.c						\
-							pcre/pcre_internal.c			\
+							message/message_xml.c					\
+							pcre/pcre.c								\
+							pcre/pcre_internal.c					\
 							private/private.c						\
-							private/private_xml.c			\
+							private/private_xml.c					\
 							server/server.c							\
 							server/server_client.c					\
 							server/server_client_io.c				\
 							server/server_internal.c				\
+							server/server_load.c					\
+							server/server_save.c					\
+							server/server_signal.c					\
 							server/server_util.c					\
 							server/server_util2.c					\
 							subscriber/subscriber.c					\
-							subscriber/subscriber_xml.c		\
+							subscriber/subscriber_xml.c				\
 							team/team.c								\
 							team/team_util.c						\
+							team/team_xml.c							\
 							thread/thread.c							\
 							thread/thread_util.c					\
-							thread/thread_xml.c				\
+							thread/thread_xml.c						\
 							user/user.c								\
 							user/user_util.c						\
-							user/user_xml.c					\
+							user/user_xml.c							\
 							util/get_or_error.c						\
 							util/string.c							\
-							xml/xml_attribute.c				\
-							xml/xml_element.c				\
-							xml/xml_file.c					\
-							xml/xml_memory.c				\
-							xml/xml_internal.c				\
+							xml/xml_attribute.c						\
+							xml/xml_element.c						\
+							xml/xml_file.c							\
+							xml/xml_memory.c						\
+							xml/xml_internal.c						\
 
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra # TODO: -Werror
+CFLAGS				+=		-W -Wall -Wextra -Werror
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 

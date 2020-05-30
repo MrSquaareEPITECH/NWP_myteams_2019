@@ -16,6 +16,7 @@
 typedef struct server_s server_t;
 
 struct server_s {
+    timeval_t *timeval;
     socket_t *sock;
     select_t *sel;
 
