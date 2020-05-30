@@ -70,8 +70,8 @@ int connect_client(int port)
 
 int main(int ac, char **av)
 {
-    if (ac == 3)
-        if (connect_client(atoi(av[2])) != SUCCESS)
+    if (ac == 2)
+        if (connect_client(atoi(av[1])) != SUCCESS)
             return (ERROR);
     return (0);
 }

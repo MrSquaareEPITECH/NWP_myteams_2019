@@ -48,9 +48,10 @@ void handle_login(client_t *cli)
 {
     int args = count_args(cli->buffer);
 
-    if (args == 1)
-        send(cli->port, cli->buffer, SIZE_OF_BUFFER, 0);
-    else
+    if (args == 1) {
+        if (send(cli->port, cli->buffer, sizeof(cli->buffer), 0) == -1)
+            perror("send");
+    } else
         write(cli->fd_client, "/login error\n", 14);
 }
 
