@@ -20,6 +20,7 @@ struct exchange_s {
 };
 
 exchange_t *exchange_create(void);
+bool exchange_get_id(exchange_t *exchange, const char *uuid);
 void exchange_delete(exchange_t *exchange);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_EXCHANGE_EXCHANGE_H

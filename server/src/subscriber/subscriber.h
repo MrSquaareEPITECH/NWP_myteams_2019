@@ -19,6 +19,7 @@ struct subscriber_s {
 };
 
 subscriber_t *subscriber_create(const char *uuid);
+bool subscriber_get_id(subscriber_t *subscriber, char *uuid);
 void subscriber_delete(subscriber_t *subscriber);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_SUBSCRIBER_SUBSCRIBER_H

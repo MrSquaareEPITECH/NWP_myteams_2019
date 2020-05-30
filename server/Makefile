@@ -15,43 +15,95 @@ OBJ_DIR				=		obj
 SRC_DIR				=		src
 TEST_DIR			=		tests
 
+LIB_SOCKET_DIR		=		../lib/socket
 LIB_STDEXT_DIR		=		../lib/stdext
 
 AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
+CFLAGS				+=		-I $(LIB_SOCKET_DIR)/include
 CFLAGS				+=		-I $(LIB_STDEXT_DIR)/include
 
+LDFLAGS				+=		-L $(LIB_SOCKET_DIR) -lsocket
 LDFLAGS				+=		-L $(LIB_STDEXT_DIR) -lstdext
-LDLIBS				=		-lpcre -luuid
+LDLIBS				+=		-lpcre -luuid
 
 MAIN_SRC			=		main.c
 
-PROJ_SRC			=		channel/channel.c				\
+PROJ_SRC			=		channel/channel.c						\
+							channel/channel_util.c					\
 							channel/channel_xml.c			\
-							comment/comment.c				\
+							client/client.c							\
+							client/client_util.c					\
+							command/command.c						\
+							command/command_util.c					\
+							command/create/create_channel.c			\
+							command/create/create_comment.c			\
+							command/create/create_team.c			\
+							command/create/create_thread.c			\
+							command/info/info_channel.c				\
+							command/info/info_team.c				\
+							command/info/info_thread.c				\
+							command/info/info_user.c				\
+							command/list/list_channel.c				\
+							command/list/list_comment.c				\
+							command/list/list_team.c				\
+							command/list/list_thread.c				\
+							command/send/send_internal.c			\
+							command/subscribed/subscribed_team.c	\
+							command/subscribed/subscribed_user.c	\
+							command/use/use_channel.c				\
+							command/use/use_server.c				\
+							command/use/use_team.c					\
+							command/use/use_thread.c				\
+							command/create.c						\
+							command/help.c							\
+							command/info.c							\
+							command/list.c							\
+							command/login.c							\
+							command/logout.c						\
+							command/messages.c						\
+							command/send.c							\
+							command/subscribe.c						\
+							command/subscribed.c					\
+							command/unsubscribe.c					\
+							command/use.c							\
+							command/user.c							\
+							command/users.c							\
+							comment/comment.c						\
+							comment/comment_util.c					\
 							comment/comment_xml.c			\
-							exchange/exchange.c				\
+							exchange/exchange.c						\
 							exchange/exchange_xml.c			\
-							list/list.c						\
-							list/list_node.c				\
+							list/list.c								\
+							list/list_node.c						\
 							list/list_xml.c					\
-							message/message.c				\
+							message/message.c						\
+							message/message_util.c					\
 							message/message_xml.c			\
 							pcre/pcre.c						\
 							pcre/pcre_internal.c			\
-							private/private.c				\
+							private/private.c						\
 							private/private_xml.c			\
-							subscriber/subscriber.c			\
+							server/server.c							\
+							server/server_client.c					\
+							server/server_client_io.c				\
+							server/server_internal.c				\
+							server/server_util.c					\
+							server/server_util2.c					\
+							subscriber/subscriber.c					\
 							subscriber/subscriber_xml.c		\
-							team/team.c						\
-							team/team_xml.c					\
-							thread/thread.c					\
+							team/team.c								\
+							team/team_util.c						\
+							thread/thread.c							\
+							thread/thread_util.c					\
 							thread/thread_xml.c				\
-							user/user.c						\
+							user/user.c								\
+							user/user_util.c						\
 							user/user_xml.c					\
-							util/string.c					\
+							util/get_or_error.c						\
+							util/string.c							\
 							xml/xml_attribute.c				\
 							xml/xml_element.c				\
 							xml/xml_file.c					\
@@ -95,7 +147,7 @@ $(OBJ_DIR)/%.o:		$(TEST_DIR)/%.c
 					&& echo "$< $(GREEN_COLOR)successfully compiled$(NO_COLOR)" \
 					|| { echo "$< $(RED_COLOR)couldn't be compiled$(NO_COLOR)"; exit 1; }
 
-$(NAME):			lib_stdext $(MAIN_OBJ) $(PROJ_OBJ)
+$(NAME):			lib_socket lib_stdext $(MAIN_OBJ) $(PROJ_OBJ)
 					$(CC) $(MAIN_OBJ) $(PROJ_OBJ) -o $(NAME) $(LDFLAGS) $(LDLIBS) \
 					&& echo "$(GREEN_B_COLOR)$(NAME) successfully created$(NO_COLOR)" \
 					|| { echo "$(RED_B_COLOR)$(NAME) couldn't be created$(NO_COLOR)"; exit 1; }
@@ -152,6 +204,18 @@ tests_sh:			re
 						|| { echo "$(RED_B_COLOR)Functional tests did not pass successfully$(NO_COLOR)"; exit 1; } \
 					fi
 
+lib_socket:
+					cd $(LIB_SOCKET_DIR) && $(MAKE) lib_st
+
+lib_socket_clean:
+					cd $(LIB_SOCKET_DIR) && $(MAKE) lib_st_clean
+
+lib_socket_fclean:
+					cd $(LIB_SOCKET_DIR) && $(MAKE) lib_st_fclean
+
+lib_socket_re:
+					cd $(LIB_SOCKET_DIR) && $(MAKE) lib_st_re
+
 lib_stdext:
 					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st
 
@@ -164,16 +228,17 @@ lib_stdext_fclean:
 lib_stdext_re:
 					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st_re
 
-full:				lib_stdext all
+full:				lib_socket lib_stdext all
 
-full_clean:			lib_stdext_clean clean tests_clean
+full_clean:			lib_socket_clean lib_stdext_clean clean tests_clean
 
-full_fclean:		lib_stdext_fclean fclean tests_fclean
+full_fclean:		lib_socket_fclean lib_stdext_fclean fclean tests_fclean
 
-full_re:			lib_stdext_re full_fclean full
+full_re:			lib_socket_re lib_stdext_re full_fclean full
 
 .PHONY:				all clean fclean re													\
 					debug debug_re														\
 					tests_run tests_clean tests_fclean tests_re tests_sh				\
+					lib_socket lib_socket_clean lib_socket_fclean lib_socket_re			\
 					lib_stdext lib_stdext_clean lib_stdext_fclean lib_stdext_re			\
 					full full_clean full_fclean full_re									\

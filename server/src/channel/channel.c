@@ -35,6 +35,11 @@ channel_t *channel_create(
     return (channel);
 }
 
+bool channel_get_id(channel_t *channel, char *uuid)
+{
+    return (strcmp(channel->uuid, uuid) == 0);
+}
+
 void channel_delete(channel_t *channel)
 {
     if (channel == NULL)

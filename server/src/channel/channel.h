@@ -26,6 +26,7 @@ struct channel_s {
 
 channel_t *channel_create(
     team_t *parent, const char *name, const char *description);
+bool channel_get_id(channel_t *channel, char *uuid);
 void channel_delete(channel_t *channel);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_CHANNEL_CHANNEL_H

@@ -30,6 +30,7 @@ struct thread_s {
 
 thread_t *thread_create(
     channel_t *parent, const char *user, const char *name, const char *body);
+bool thread_get_id(thread_t *thread, char *uuid);
 void thread_delete(thread_t *thread);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_THREAD_THREAD_H

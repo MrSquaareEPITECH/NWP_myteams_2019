@@ -27,6 +27,8 @@ struct user_s {
 };
 
 user_t *user_create(const char *name);
+bool user_get_id(user_t *user, char *uuid);
+bool user_get_name(user_t *user, char *name);
 void user_delete(user_t *user);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_USER_USER_H

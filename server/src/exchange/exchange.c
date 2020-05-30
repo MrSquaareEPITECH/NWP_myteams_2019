@@ -30,6 +30,11 @@ exchange_t *exchange_create(void)
     return (exchange);
 }
 
+bool exchange_get_id(exchange_t *exchange, const char *uuid)
+{
+    return (strcmp(exchange->uuid, uuid) == 0);
+}
+
 void exchange_delete(exchange_t *exchange)
 {
     if (exchange == NULL)

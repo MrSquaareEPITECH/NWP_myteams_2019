@@ -25,6 +25,11 @@ private_t *private_create(const char *uuid, const char *exchange)
     return (priv);
 }
 
+bool private_get_id(private_t *priv, const char *uuid)
+{
+    return (strcmp(priv->uuid, uuid) == 0);
+}
+
 void private_delete(private_t *priv)
 {
     if (priv == NULL)

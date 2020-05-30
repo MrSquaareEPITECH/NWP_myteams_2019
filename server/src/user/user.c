@@ -34,6 +34,16 @@ user_t *user_create(const char *name)
     return (user);
 }
 
+bool user_get_id(user_t *user, char *uuid)
+{
+    return (strcmp(user->uuid, uuid) == 0);
+}
+
+bool user_get_name(user_t *user, char *name)
+{
+    return (strcmp(user->name, name) == 0);
+}
+
 void user_delete(user_t *user)
 {
     if (user == NULL)
