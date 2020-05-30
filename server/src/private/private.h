@@ -18,7 +18,7 @@ struct private_s {
     char exchange[UUID_LENGTH + 1];
 };
 
-private_t *private_create(const char *uuid, const char *user);
+private_t *private_create(const char *uuid, const char *exchange);
 void private_delete(private_t *priv);
 
 #endif // NWP_MYTEAMS_2019_SERVER_SRC_PRIVATE_PRIVATE_H

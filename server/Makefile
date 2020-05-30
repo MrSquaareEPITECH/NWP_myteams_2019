@@ -15,30 +15,53 @@ OBJ_DIR				=		obj
 SRC_DIR				=		src
 TEST_DIR			=		tests
 
+LIB_STDEXT_DIR		=		../lib/stdext
+
 AR					=		ar rcs
 CC					=		gcc
 RM					=		rm -rf
 
-LDLIBS				=		-luuid
+CFLAGS				+=		-I $(LIB_STDEXT_DIR)/include
+
+LDFLAGS				+=		-L $(LIB_STDEXT_DIR) -lstdext
+LDLIBS				=		-lpcre -luuid
 
 MAIN_SRC			=		main.c
 
 PROJ_SRC			=		channel/channel.c				\
+							channel/channel_xml.c			\
 							comment/comment.c				\
+							comment/comment_xml.c			\
 							exchange/exchange.c				\
+							exchange/exchange_xml.c			\
 							list/list.c						\
 							list/list_node.c				\
+							list/list_xml.c					\
 							message/message.c				\
+							message/message_xml.c			\
+							pcre/pcre.c						\
+							pcre/pcre_internal.c			\
 							private/private.c				\
+							private/private_xml.c			\
 							subscriber/subscriber.c			\
+							subscriber/subscriber_xml.c		\
 							team/team.c						\
+							team/team_xml.c					\
 							thread/thread.c					\
+							thread/thread_xml.c				\
 							user/user.c						\
+							user/user_xml.c					\
+							util/string.c					\
+							xml/xml_attribute.c				\
+							xml/xml_element.c				\
+							xml/xml_file.c					\
+							xml/xml_memory.c				\
+							xml/xml_internal.c				\
 
 TEST_SRC			=
 
 CFLAGS				+=		-I $(INCL_DIR)
-CFLAGS				+=		-W -Wall -Wextra -Werror
+CFLAGS				+=		-W -Wall -Wextra # TODO: -Werror
 
 MAIN_OBJ			=		$(MAIN_SRC:%.c=$(OBJ_DIR)/%.o)
 
@@ -72,7 +95,7 @@ $(OBJ_DIR)/%.o:		$(TEST_DIR)/%.c
 					&& echo "$< $(GREEN_COLOR)successfully compiled$(NO_COLOR)" \
 					|| { echo "$< $(RED_COLOR)couldn't be compiled$(NO_COLOR)"; exit 1; }
 
-$(NAME):			$(MAIN_OBJ) $(PROJ_OBJ)
+$(NAME):			lib_stdext $(MAIN_OBJ) $(PROJ_OBJ)
 					$(CC) $(MAIN_OBJ) $(PROJ_OBJ) -o $(NAME) $(LDFLAGS) $(LDLIBS) \
 					&& echo "$(GREEN_B_COLOR)$(NAME) successfully created$(NO_COLOR)" \
 					|| { echo "$(RED_B_COLOR)$(NAME) couldn't be created$(NO_COLOR)"; exit 1; }
@@ -129,15 +152,28 @@ tests_sh:			re
 						|| { echo "$(RED_B_COLOR)Functional tests did not pass successfully$(NO_COLOR)"; exit 1; } \
 					fi
 
-full:				all
+lib_stdext:
+					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st
 
-full_clean:			clean tests_clean
+lib_stdext_clean:
+					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st_clean
 
-full_fclean:		fclean tests_fclean
+lib_stdext_fclean:
+					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st_fclean
 
-full_re:			full_fclean full
+lib_stdext_re:
+					cd $(LIB_STDEXT_DIR) && $(MAKE) lib_st_re
+
+full:				lib_stdext all
+
+full_clean:			lib_stdext_clean clean tests_clean
+
+full_fclean:		lib_stdext_fclean fclean tests_fclean
+
+full_re:			lib_stdext_re full_fclean full
 
 .PHONY:				all clean fclean re													\
 					debug debug_re														\
 					tests_run tests_clean tests_fclean tests_re tests_sh				\
+					lib_stdext lib_stdext_clean lib_stdext_fclean lib_stdext_re			\
 					full full_clean full_fclean full_re									\
