@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 #ifndef SOCK_SIZE
-#define SOCK_SIZE (512)
+#define SOCK_SIZE (1)
 #endif // SOCK_SIZE
 
 #define SOCK_AUTO (0)

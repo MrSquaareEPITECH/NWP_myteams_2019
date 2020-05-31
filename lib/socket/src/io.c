@@ -54,7 +54,7 @@ int socket_receivew(socket_t *sock, char **buf, condition_t cond, int flags)
         (*buf)[len] = 0;
         if (flags & SOCK_AT_START)
             flags = 0;
-    } while (!cond(rbytes, tmp) && (rbytes > 0));
+    } while (!cond(rbytes, *buf) && (rbytes > 0));
     return (rbytes);
 }
 
