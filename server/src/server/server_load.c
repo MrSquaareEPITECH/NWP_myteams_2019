@@ -16,7 +16,7 @@
 #include "xml/xml_element.h"
 #include "xml/xml_file.h"
 
-static list_t *server_load_teams()
+static list_t *server_load_teams(void)
 {
     list_t *list = NULL;
     char *xml = xml_from_file("teams.xml");
@@ -31,7 +31,7 @@ static list_t *server_load_teams()
     return (list);
 }
 
-static list_t *server_load_exchanges()
+static list_t *server_load_exchanges(void)
 {
     list_t *list = NULL;
     char *xml = xml_from_file("exchanges.xml");
@@ -46,7 +46,7 @@ static list_t *server_load_exchanges()
     return (list);
 }
 
-static list_t *server_load_users()
+static list_t *server_load_users(void)
 {
     list_t *list = NULL;
     char *xml = xml_from_file("users.xml");

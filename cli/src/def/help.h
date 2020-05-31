@@ -8,7 +8,7 @@
 #ifndef CLI_SRC_DEF_HELP_H
 #define CLI_SRC_DEF_HELP_H
 
-typedef const char* const c_string;
+typedef const char *const c_string;
 
 #define g_string static c_string
 

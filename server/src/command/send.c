@@ -81,8 +81,7 @@ int send_command(server_t *server, client_t *client, int argc, char **argv)
     user_t *ruser = get_or_error_user_id(
         client, RESPONSE_MESSAGE_SEND_KOID, server, argv[1]);
 
-    if (ruser == NULL)
-        return (CODE_ERROR);
+    if (ruser == NULL) return (CODE_ERROR);
 
     exchange_t *exchange = get_or_create_exchange(server, client->user, ruser);
     message_t *message = create_message(client->user->uuid, argv);
@@ -90,8 +89,7 @@ int send_command(server_t *server, client_t *client, int argc, char **argv)
 
     if (list_push(exchange->messages, message) == CODE_ERROR)
         return (CODE_ERROR);
-    if (reply(client, message) == CODE_ERROR)
-        return (CODE_ERROR);
+    if (reply(client, message) == CODE_ERROR) return (CODE_ERROR);
     if (rclient && (broadcast(rclient, message) == CODE_ERROR))
         return (CODE_ERROR);
     server_event_private_message_sended(

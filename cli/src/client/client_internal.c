@@ -17,11 +17,6 @@
 #include "def/help.h"
 #include "response/response.h"
 
-void client_help()
-{
-    printf("%s", HELP);
-}
-
 int client_input(client_t *client)
 {
     if (!select_is_set(client->sel, &client->input, SELECT_READ))

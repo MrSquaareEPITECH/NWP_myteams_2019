@@ -9,20 +9,7 @@
 
 #include <memory.h>
 
-int pcre_match_all_count(pcre_t *pcre, const char *str, int len)
-{
-    size_t count = 0;
-    size_t size = (pcre->cap + 1) * 3;
-    int *matches = malloc(sizeof(int) * size);
-    int rc = pcre_exec(pcre->regex, pcre->extra, str, len, 0, 0, matches, size);
-
-    for (; rc >= 0; ++count) {
-        rc = pcre_exec(
-            pcre->regex, pcre->extra, str, len, matches[1], 0, matches, size);
-    }
-    free(matches);
-    return (count);
-}
+#include "pcre_internal.h"
 
 int *pcre_match(pcre_t *pcre, const char *str, int len)
 {
@@ -43,10 +30,8 @@ int *pcre_match_all(pcre_t *pcre, const char *str, int len)
     size_t subsize = (pcre->cap + 1) * 3;
     size_t submax = (pcre->cap + 1) * 2;
     size_t count = pcre_match_all_count(pcre, str, len);
-    size_t size = subsize * count;
-    size_t max = submax * count;
     int *submatches = malloc(sizeof(int) * subsize);
-    int *matches = malloc(sizeof(int) * (size + 2));
+    int *matches = malloc(sizeof(int) * (subsize * count + 2));
     int rc = pcre_exec(
         pcre->regex, pcre->extra, str, len, 0, 0, submatches, subsize);
 
@@ -59,8 +44,8 @@ int *pcre_match_all(pcre_t *pcre, const char *str, int len)
             submatches, subsize);
     }
     free(submatches);
-    matches[max] = -1;
-    matches[max + 1] = -1;
+    matches[submax * count] = -1;
+    matches[submax * count + 1] = -1;
     return (matches);
 }
 
