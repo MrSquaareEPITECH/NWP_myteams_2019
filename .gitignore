@@ -8,6 +8,7 @@ myteams_server
 # Libraries
 *.a
 *.so
+!libmyteams.so
 
 # Tests
 *.gcda
