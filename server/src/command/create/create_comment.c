@@ -19,6 +19,7 @@
 #include "def/response.h"
 #include "server/server_util.h"
 #include "subscriber/subscriber.h"
+#include "team/team_util.h"
 #include "thread/thread.h"
 #include "util/string.h"
 
@@ -28,16 +29,15 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
     (void)(argv);
 
     char *error = NULL;
-    team_t *team = (team_t *)(client->user->obj);
+    thread_t *thread = (thread_t *)(client->user->obj);
 
     if (argc < 2) {
         error = strfmt(RESPONSE_COMMENT_CREATE_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
-    if (list_get(team->subscribers, client->user->uuid,
-            (compare_t)(subscriber_get_id)) == NULL) {
-        error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Unauthorized");
+    if (!team_get_subscriber(thread->parent->parent, client->user->uuid)) {
+        error = strfmt(RESPONSE_COMMENT_CREATE_KO, "Unauthorized");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -68,10 +68,12 @@ static int broadcast(server_t *server, comment_t *comment)
     list_t *clients =
         server_get_team_clients(server, comment->parent->parent->parent);
     char *data = comment_to_data(comment);
+    char *rdata = strfmt("%s %s", comment->parent->parent->parent->uuid, data);
 
-    if (server_broadcast(clients, EVENT_COMMENT_CREATED, data) == CODE_ERROR)
+    if (server_broadcast(clients, EVENT_COMMENT_CREATED, rdata) == CODE_ERROR)
         return (CODE_ERROR);
     list_clear(clients);
+    free(rdata);
     free(data);
     return (CODE_SUCCESS);
 }

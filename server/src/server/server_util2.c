@@ -5,13 +5,24 @@
 ** server_util2.c
 */
 
+#include <stdlib.h>
 #include <string.h>
+#include <stringext.h>
 
 #include "client/client.h"
 #include "client/client_util.h"
 #include "def/code.h"
 #include "server_util.h"
 #include "subscriber/subscriber.h"
+
+team_t *server_get_team_name(server_t *server, const char *name)
+{
+    char *n = strtrim(name, "\"");
+    team_t *team = list_get(server->teams, n, (compare_t)(team_get_name));
+
+    free(n);
+    return (team);
+}
 
 list_t *server_get_team_clients(server_t *server, team_t *team)
 {

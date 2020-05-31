@@ -43,6 +43,11 @@ bool thread_get_id(thread_t *thread, char *uuid)
     return (strcmp(thread->uuid, uuid) == 0);
 }
 
+bool thread_get_name(thread_t *thread, char *name)
+{
+    return (strcmp(thread->name, name) == 0);
+}
+
 void thread_delete(thread_t *thread)
 {
     if (thread == NULL)

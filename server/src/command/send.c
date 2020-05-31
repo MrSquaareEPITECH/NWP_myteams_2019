@@ -78,8 +78,8 @@ int send_command(server_t *server, client_t *client, int argc, char **argv)
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
-    user_t *ruser =
-        get_or_error_user_id(client, RESPONSE_MESSAGE_LIST_KO, server, argv[1]);
+    user_t *ruser = get_or_error_user_id(
+        client, RESPONSE_MESSAGE_SEND_KOID, server, argv[1]);
 
     if (ruser == NULL)
         return (CODE_ERROR);

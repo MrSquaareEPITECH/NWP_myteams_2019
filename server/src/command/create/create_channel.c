@@ -19,13 +19,11 @@
 #include "server/server_util.h"
 #include "subscriber/subscriber.h"
 #include "team/team.h"
+#include "team/team_util.h"
 #include "util/string.h"
 
-static int validate(server_t *server, client_t *client, int argc, char **argv)
+static int validate(client_t *client, int argc, char **argv)
 {
-    (void)(server);
-    (void)(argv);
-
     char *error = NULL;
     team_t *team = (team_t *)(client->user->obj);
 
@@ -34,8 +32,12 @@ static int validate(server_t *server, client_t *client, int argc, char **argv)
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
-    if (list_get(team->subscribers, client->user->uuid,
-            (compare_t)(subscriber_get_id)) == NULL) {
+    if (team_get_channel_name(team, argv[1])) {
+        error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Already exists");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
+    if (team_get_subscriber(team, client->user->uuid) == NULL) {
         error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Unauthorized");
         list_push(client->queue, error);
         return (CODE_ERROR);
@@ -78,7 +80,7 @@ static int broadcast(server_t *server, channel_t *channel)
 
 int create_channel(server_t *server, client_t *client, int argc, char **argv)
 {
-    if (validate(server, client, argc, argv) == CODE_ERROR)
+    if (validate(client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
     team_t *team = (team_t *)(client->user->obj);

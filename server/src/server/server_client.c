@@ -38,7 +38,7 @@ int server_client_execute(server_t *server, client_t *client)
 
     if (server_client_receive(server, client, &argc, &argv) == CODE_ERROR)
         return (CODE_ERROR);
-    if (argc <= 0)
+    if (argc < 1)
         return (CODE_ERROR);
 
     const command_t *command = command_get(argv[0]);

@@ -51,7 +51,7 @@ int user_command(server_t *server, client_t *client, int argc, char **argv)
         return (CODE_ERROR);
 
     user_t *user =
-        get_or_error_user_id(client, RESPONSE_USER_INFO_KO, server, argv[1]);
+        get_or_error_user_id(client, RESPONSE_USER_INFO_KOID, server, argv[1]);
 
     if (user == NULL)
         return (CODE_ERROR);

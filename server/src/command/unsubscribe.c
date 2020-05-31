@@ -44,21 +44,25 @@ static int reply(client_t *client, team_t *team)
 {
     char *response = strfmt(RESPONSE_USER_UNSUBSCRIBE_OK, "Success");
     char *data = team_to_data(team);
+    char *rdata = strfmt("%s %s", client->user->uuid, data);
 
-    if (client_reply(client, response, data) == CODE_ERROR)
+    if (client_reply(client, response, rdata) == CODE_ERROR)
         return (CODE_ERROR);
+    free(data);
     return (CODE_SUCCESS);
 }
 
-static int broadcast(server_t *server, team_t *team)
+static int broadcast(server_t *server, client_t *client, team_t *team)
 {
     list_t *clients = server_get_team_clients(server, team);
     char *response = strfmt(RESPONSE_USER_UNSUBSCRIBE_OK, "Success");
     char *data = team_to_data(team);
+    char *rdata = strfmt("%s %s", client->user->uuid, data);
 
-    if (server_broadcast(clients, response, data) == CODE_ERROR)
+    if (server_broadcast(clients, response, rdata) == CODE_ERROR)
         return (CODE_ERROR);
     list_clear(clients);
+    free(rdata);
     free(data);
     free(response);
     return (CODE_SUCCESS);
@@ -71,18 +75,18 @@ int unsubscribe_command(
         return (CODE_ERROR);
 
     team_t *team = get_or_error_team(
-        client, RESPONSE_USER_UNSUBSCRIBE_KO, server, argv[1]);
+        client, RESPONSE_USER_UNSUBSCRIBE_KOID, server, argv[1]);
     subscriber_t *subscriber = NULL;
 
     if (team)
         subscriber = get_or_error_subscriber(
-            client, RESPONSE_USER_UNSUBSCRIBE_KO, team, client->user->uuid);
+            client, RESPONSE_USER_UNSUBSCRIBE_KOID, team, client->user->uuid);
     if (subscriber == NULL)
         return (CODE_ERROR);
     if (reply(client, team) == CODE_ERROR)
         return (CODE_ERROR);
     list_remove(team->subscribers, subscriber);
-    if (broadcast(server, team) == CODE_ERROR)
+    if (broadcast(server, client, team) == CODE_ERROR)
         return (CODE_ERROR);
     subscriber_delete(subscriber);
     server_event_user_leave_a_team(team->uuid, client->user->uuid);
