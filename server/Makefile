@@ -15,7 +15,7 @@ OBJ_DIR				=		obj
 SRC_DIR				=		src
 TEST_DIR			=		tests
 
-LIB_LOGGING_DIR		=		../lib/logging
+LIB_LOGGING_DIR		=		../libs/myteams
 LIB_SOCKET_DIR		=		../lib/socket
 LIB_STDEXT_DIR		=		../lib/stdext
 
