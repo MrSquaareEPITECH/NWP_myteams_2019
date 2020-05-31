@@ -1,6 +1,5 @@
 # Binaries
-myteams_cli
-myteams_server
+*.out
 
 # Objects
 *.o
@@ -8,7 +7,6 @@ myteams_server
 # Libraries
 *.a
 *.so
-!libmyteams.so
 
 # Tests
 *.gcda
