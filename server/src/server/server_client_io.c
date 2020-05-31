@@ -17,7 +17,8 @@
 
 static int has_breakline(int rbytes, const char *buf)
 {
-    if (memchr(buf, '\n', rbytes))
+    (void)(rbytes);
+    if (strchr(buf, '\n'))
         return (1);
     return (0);
 }
