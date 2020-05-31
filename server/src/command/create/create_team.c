@@ -21,13 +21,15 @@
 
 static int validate(server_t *server, client_t *client, int argc, char **argv)
 {
-    (void)(server);
-    (void)(argv);
-
     char *error = NULL;
 
     if (argc < 3) {
         error = strfmt(RESPONSE_TEAM_CREATE_KO, "Missing argument");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
+    if (server_get_team_name(server, argv[1])) {
+        error = strfmt(RESPONSE_TEAM_CREATE_KO, "Already exists");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }

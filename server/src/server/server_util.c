@@ -30,7 +30,7 @@ exchange_t *server_get_exchange(server_t *server, const char *uuid)
     return (exchange);
 }
 
-team_t *server_get_team(server_t *server, const char *uuid)
+team_t *server_get_team_id(server_t *server, const char *uuid)
 {
     char *id = strtrim(uuid, "\"");
     team_t *team = list_get(server->teams, id, (compare_t)(team_get_id));

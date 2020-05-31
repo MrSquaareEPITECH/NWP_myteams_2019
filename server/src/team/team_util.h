@@ -13,7 +13,8 @@
 #include "team.h"
 
 char *team_to_data(team_t *team);
-channel_t *team_get_channel(team_t *team, const char *uuid);
+channel_t *team_get_channel_id(team_t *team, const char *uuid);
+channel_t *team_get_channel_name(team_t *team, const char *name);
 subscriber_t *team_get_subscriber(team_t *team, const char *uuid);
 
 #endif // SERVER_SRC_TEAM_TEAM_UTIL_H

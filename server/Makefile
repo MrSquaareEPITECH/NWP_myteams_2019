@@ -110,6 +110,7 @@ PROJ_SRC			=		channel/channel.c						\
 							user/user_util.c						\
 							user/user_xml.c							\
 							util/get_or_error.c						\
+							util/get_or_error2.c					\
 							util/string.c							\
 							xml/xml_attribute.c						\
 							xml/xml_element.c						\

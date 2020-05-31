@@ -26,7 +26,7 @@ int use_team(server_t *server, client_t *client, int argc, char **argv)
     (void)(argc);
 
     team_t *team =
-        get_or_error_team(client, RESPONSE_TEAM_USE_KO, server, argv[1]);
+        get_or_error_team(client, RESPONSE_TEAM_USE_KOID, server, argv[1]);
 
     if (team == NULL)
         return (CODE_ERROR);
