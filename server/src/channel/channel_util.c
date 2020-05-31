@@ -21,12 +21,22 @@ char *channel_to_data(channel_t *channel)
     return (data);
 }
 
-thread_t *channel_get_thread(channel_t *channel, const char *uuid)
+thread_t *channel_get_thread_id(channel_t *channel, const char *uuid)
 {
     char *id = strtrim(uuid, "\"");
     thread_t *thread =
         list_get(channel->threads, id, (compare_t)(thread_get_id));
 
     free(id);
+    return (thread);
+}
+
+thread_t *channel_get_thread_name(channel_t *channel, const char *name)
+{
+    char *n = strtrim(name, "\"");
+    thread_t *thread =
+        list_get(channel->threads, n, (compare_t)(thread_get_name));
+
+    free(n);
     return (thread);
 }

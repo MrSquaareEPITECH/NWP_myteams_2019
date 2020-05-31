@@ -19,13 +19,23 @@ char *team_to_data(team_t *team)
     return (data);
 }
 
-channel_t *team_get_channel(team_t *team, const char *uuid)
+channel_t *team_get_channel_id(team_t *team, const char *uuid)
 {
     char *id = strtrim(uuid, "\"");
     channel_t *channel =
         list_get(team->channels, id, (compare_t)(channel_get_id));
 
     free(id);
+    return (channel);
+}
+
+channel_t *team_get_channel_name(team_t *team, const char *name)
+{
+    char *n = strtrim(name, "\"");
+    channel_t *channel =
+        list_get(team->channels, n, (compare_t)(channel_get_name));
+
+    free(n);
     return (channel);
 }
 

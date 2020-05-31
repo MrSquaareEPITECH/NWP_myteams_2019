@@ -40,6 +40,11 @@ bool team_get_id(team_t *team, char *uuid)
     return (strcmp(team->uuid, uuid) == 0);
 }
 
+bool team_get_name(team_t *team, char *name)
+{
+    return (strcmp(team->name, name) == 0);
+}
+
 void team_delete(team_t *team)
 {
     if (team == NULL)

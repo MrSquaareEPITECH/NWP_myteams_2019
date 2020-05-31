@@ -58,17 +58,17 @@ int messages_command(server_t *server, client_t *client, int argc, char **argv)
     if (validate(server, client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
-    user_t *user =
-        get_or_error_user_id(client, RESPONSE_MESSAGE_LIST_KO, server, argv[1]);
+    user_t *user = get_or_error_user_id(
+        client, RESPONSE_MESSAGE_LIST_KOID, server, argv[1]);
     private_t *priv = NULL;
     exchange_t *exchange = NULL;
 
     if (user)
         priv = get_or_error_private(
-            client, RESPONSE_MESSAGE_LIST_KO, user, client->user->uuid);
+            client, RESPONSE_MESSAGE_LIST_KOID, user, client->user->uuid);
     if (priv)
         exchange = get_or_error_exchange(
-            client, RESPONSE_MESSAGE_LIST_KO, server, priv->exchange);
+            client, RESPONSE_MESSAGE_LIST_KOID, server, priv->exchange);
     if (exchange == NULL)
         return (CODE_ERROR);
     if (reply(client, exchange) == CODE_ERROR)

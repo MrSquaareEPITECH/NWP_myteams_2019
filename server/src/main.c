@@ -24,7 +24,7 @@ void help(const char *binary)
         "\t"
         "port"
         "\t"
-        "is the port number on which the server socket listens.\n");
+        "is the port number on which the server socket listens\n");
 }
 
 int main(int argc, char **argv)

@@ -14,7 +14,7 @@ typedef const char* const c_string;
 
 g_string DATA_CHANNEL = "\"%s\" \"%s\" \"%s\"\n";
 g_string DATA_COMMAND = "\"%s\" \"%s\"\n";
-g_string DATA_COMMENT = "\"%s\" \"%ld\" \"%s\"\n";
+g_string DATA_COMMENT = "\"%s\" \"%s\" \"%ld\" \"%s\"\n";
 g_string DATA_MESSAGE = "\"%s\" \"%ld\" \"%s\"\n";
 g_string DATA_TEAM = "\"%s\" \"%s\" \"%s\"\n";
 g_string DATA_THREAD = "\"%s\" \"%s\" \"%ld\" \"%s\" \"%s\"\n";

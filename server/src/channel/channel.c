@@ -40,6 +40,11 @@ bool channel_get_id(channel_t *channel, char *uuid)
     return (strcmp(channel->uuid, uuid) == 0);
 }
 
+bool channel_get_name(channel_t *channel, char *name)
+{
+    return (strcmp(channel->name, name) == 0);
+}
+
 void channel_delete(channel_t *channel)
 {
     if (channel == NULL)

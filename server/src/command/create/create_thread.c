@@ -10,6 +10,7 @@
 #include <stringext.h>
 
 #include "channel/channel.h"
+#include "channel/channel_util.h"
 #include "client/client_util.h"
 #include "command/create_internal.h"
 #include "def/code.h"
@@ -17,26 +18,28 @@
 #include "def/response.h"
 #include "server/server_util.h"
 #include "subscriber/subscriber.h"
+#include "team/team_util.h"
 #include "thread/thread.h"
 #include "thread/thread_util.h"
 #include "util/string.h"
 
-static int validate(server_t *server, client_t *client, int argc, char **argv)
+static int validate(client_t *client, int argc, char **argv)
 {
-    (void)(server);
-    (void)(argv);
-
     char *error = NULL;
-    team_t *team = (team_t *)(client->user->obj);
+    channel_t *channel = (channel_t *)(client->user->obj);
 
     if (argc < 3) {
         error = strfmt(RESPONSE_THREAD_CREATE_KO, "Missing argument");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
-    if (list_get(team->subscribers, client->user->uuid,
-            (compare_t)(subscriber_get_id)) == NULL) {
-        error = strfmt(RESPONSE_CHANNEL_CREATE_KO, "Unauthorized");
+    if (channel_get_thread_name(channel, argv[1])) {
+        error = strfmt(RESPONSE_THREAD_CREATE_KO, "Already exists");
+        list_push(client->queue, error);
+        return (CODE_ERROR);
+    }
+    if (team_get_subscriber(channel->parent, client->user->uuid) == NULL) {
+        error = strfmt(RESPONSE_THREAD_CREATE_KO, "Unauthorized");
         list_push(client->queue, error);
         return (CODE_ERROR);
     }
@@ -78,7 +81,7 @@ static int broadcast(server_t *server, thread_t *thread)
 
 int create_thread(server_t *server, client_t *client, int argc, char **argv)
 {
-    if (validate(server, client, argc, argv) == CODE_ERROR)
+    if (validate(client, argc, argv) == CODE_ERROR)
         return (CODE_ERROR);
 
     channel_t *channel = (channel_t *)(client->user->obj);
