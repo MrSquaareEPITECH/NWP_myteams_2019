@@ -21,5 +21,3 @@ int pcre_match_all_count(pcre_t *pcre, const char *str, int len)
     free(matches);
     return (count);
 }
-
-void
