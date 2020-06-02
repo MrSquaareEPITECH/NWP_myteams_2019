@@ -59,8 +59,7 @@ int list_remove(list_t *list, void *obj)
     node_t *prev = list->begin;
     node_t *node = prev->next;
 
-    for (; node && (node->obj != obj); prev = prev->next, node = prev->next)
-        ;
+    for (; node && (node->obj != obj); prev = prev->next, node = prev->next) ;
     if (node == NULL)
         return (CODE_ERROR);
     if (list->end->obj == obj)

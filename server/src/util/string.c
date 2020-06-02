@@ -5,8 +5,6 @@
 ** message.c
 */
 
-#define _GNU_SOURCE
-
 #include "string.h"
 
 #include <stdarg.h>
