@@ -14,7 +14,7 @@ char *strstrn(const char *str, const char *needle)
     char *npos = (char *)(str);
 
     for (char *ptr = strstr(str, needle); (npos) && (npos == ptr);
-        npos = ptr + strlen(needle), ptr = strstr(npos, needle)) ;
+    npos = ptr + strlen(needle), ptr = strstr(npos, needle)) ;
     if (*npos == '\0')
         return (NULL);
     return (npos);
